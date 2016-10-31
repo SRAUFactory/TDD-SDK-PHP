@@ -4,6 +4,6 @@
 require 'autoload.php';
 use Tdd\CommandRunner;
 
-// @ToDo The class of CLI main execute
+// The class of CLI main execute
 CommandRunner::main();
 

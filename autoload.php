@@ -4,5 +4,5 @@
  * 
  * When this project classes use, you require this file.
  */
-require 'vender/autoload.php';
+require 'vendor/autoload.php';
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
-// @ToDo load & require autoload.php
+// load autoload.php
+require 'autoload.php';
 
 // @ToDo The class of CLI main execute
 

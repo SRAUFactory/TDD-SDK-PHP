@@ -5,9 +5,9 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Tdd" : "src",
-            "TddTest" : "tests"
+        "psr-4": {
+            "Tdd\\" : "src/",
+            "TddTest\\" : "tests/"
         }
     }
 }

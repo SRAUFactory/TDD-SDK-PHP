@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Tdd\\' => array($baseDir . '/src'),
+    'TddTest\\' => array($baseDir . '/tests'),
 );

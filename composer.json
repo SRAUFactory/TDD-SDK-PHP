@@ -1,0 +1,13 @@
+{
+    "repositories": [
+        {
+            "packagist": false
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Tdd" : "src",
+            "TddTest" : "tests"
+        }
+    }
+}

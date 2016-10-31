@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+// @ToDo load & require autoload.php
+
+// @ToDo The class of CLI main execute
+
+echo "TDD Command\n";
+

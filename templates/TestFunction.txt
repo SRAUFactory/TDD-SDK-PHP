@@ -1,0 +1,19 @@
+    /**
+     * Test for ###name###
+     * @dataProvider getProvidor###largeName######docs###
+     */ 
+    function test###largeName###(###params###) {
+        $actual = $this->target->###name###(###params###);
+        // @ToDo set the expected value
+        $this->assertNotEmpty($actual);
+    }
+
+    /**
+     * Test Providor for ###name###
+     * @return array The list of Test Parameters
+     */
+    function getProvidor###largeName###() {
+        // @ToDo set the test parameters
+        return [];
+    }
+

@@ -1,0 +1,32 @@
+<?php
+use ###className###;
+/**
+ * Test Case for ###className###
+ */
+class ###shortName###Test extends PHPUnit_Framework_TestCase {
+    /**
+     * The instance object to test class
+     * @var ###className###
+     */
+    protected $target;
+
+    /**
+     * @override
+     * @see 
+     */
+    public function setUp() {
+        parent::setUp();
+        $this->target = new ###shortName###();
+    }
+
+    /**
+     * @override
+     * @see
+     */
+    public function tearDown() {
+        unset($this->target);
+        parent::tearDown();
+    }
+
+###testFunctions###
+}

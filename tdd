@@ -2,7 +2,7 @@
 <?php
 // load autoload.php
 require 'autoload.php';
-use Tdd\CommandRunner;
+use Tdd\Runner\CommandRunner;
 
 // The class of CLI main execute
 CommandRunner::main();

@@ -1,5 +1,5 @@
 <?php
-namespace Tdd;
+namespace Tdd\Runner;
 class CommandRunner {
     /**
      * main function

@@ -70,7 +70,8 @@ class CommandRunner {
             case "source" :
             //    retrun new SourceCode();
             case "test" :
-            //    return new TestCase();
+                return new TestCase();
+                break;
             case "doc" :
             //    return new Document();
             default :

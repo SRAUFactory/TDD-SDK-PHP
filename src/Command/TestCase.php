@@ -36,7 +36,7 @@ class TestCase extends AbstractCommand {
 
          $values = [
              "className", $this->target->getName(),
-             "shortName", $class->getShortName(),
+             "shortName", $this->target->getShortName(),
              "testFunctions", $outputFunctions,
          ];
          $outputTestCase = $this->bindTemplate("TestCase", $values);

@@ -1,5 +1,7 @@
 <?php
 namespace Tdd\Command;
+use \ReflectionClass;
+use \ReflectionMethod;
 /**
  * The base class of TDD command.
  * To inherit this class when TDD command implement.
@@ -37,7 +39,7 @@ abstract class AbstractCommand {
      * @return string After bind on template value.
      */ 
     protected function bindTemplate($templateName, array $values) {
-        $bindValues = file_get_contents("template/{$templateName}.txt");
+        $bindValues = file_get_contents("../templates/{$templateName}.txt");
         foreach ($values as $key => $value) {
             $bindValues = str_replace("###{$key}###", $value, $bindValues);
         }

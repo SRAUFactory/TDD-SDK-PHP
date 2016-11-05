@@ -1,5 +1,7 @@
 <?php
+namespace TddTest\Command;
 use Tdd\Command\TestCase;
+use \PHPUnit_Framework_TestCase;
 /**
  * Test Case for Tdd\Command\TestCase
  */
@@ -16,7 +18,6 @@ class TestCaseTest extends PHPUnit_Framework_TestCase {
      */
     public function setUp() {
         parent::setUp();
-        $this->target = new TestCase();
     }
 
     /**
@@ -31,11 +32,12 @@ class TestCaseTest extends PHPUnit_Framework_TestCase {
     /**
      * Test for create
      * @dataProvider getProvidorCreate
+     * @param array $params 
      */ 
-    function testCreate() {
+    function testCreate(array $params) {
+        $this->target = new TestCase($params);
         $actual = $this->target->create();
-        // @ToDo set the expected value
-        $this->assertNotEmpty($actual);
+        $this->assertTrue($actual);
     }
 
     /**
@@ -43,7 +45,16 @@ class TestCaseTest extends PHPUnit_Framework_TestCase {
      * @return array The list of Test Parameters
      */
     function getProvidorCreate() {
-        // @ToDo set the test parameters
-        return [];
+        $testData = [[
+            "bootstrap" => "../autoload.php",
+            "classname" => "Tdd\Command\TestCase",
+            "output" => null,
+        ]];
+        $testDataList = [$testData];
+
+        $testData["output"] = "./Command/";
+        $testDataList = [$testData];
+
+        return $testDataList;
     }
 }

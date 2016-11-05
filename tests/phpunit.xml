@@ -1,0 +1,15 @@
+<phpunit bootstrap="../autoload.php">
+	<testsuites>
+		<testsuite name="tdd-sdk-php">
+            <directory>../tests/*</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-html" target="../../coverage-tdd-sdk-php" />
+	</logging>
+</phpunit>

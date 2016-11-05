@@ -12,7 +12,7 @@ class TestCase extends AbstractCommand {
          $outputFunctions = "";
          $methods = $this->target->getMethods();
          foreach ($methods as $method) {
-             if (!$this->isOutputMethod($method) {
+             if (!$this->isOutputMethod($method)) {
                  continue;
              }
  

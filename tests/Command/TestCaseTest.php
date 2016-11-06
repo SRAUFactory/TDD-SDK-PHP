@@ -48,13 +48,14 @@ class TestCaseTest extends PHPUnit_Framework_TestCase {
         $testData = [[
             "bootstrap" => "../autoload.php",
             "classname" => "Tdd\Command\TestCase",
-            "output" => null,
+            "output" => "./../templates",
         ]];
         $testDataList = [$testData];
 
-        $testData["output"] = "./Command/";
-        $testDataList = [$testData];
 
+        $testData[0]["classname"] = "Tdd\Runner\CommandRunner";
+        $testDataList[] = $testData;
+        
         return $testDataList;
     }
 }

@@ -31,13 +31,20 @@ class TestCase extends AbstractCommand {
                  "docs" => $outputDocs,
                  "params" =>  implode(", ", $outputParams),
              ];
-             $outputFunctions .= $this->bindTemplate("TestFunction", $paramValues);
+             $templateName = "TestFunction";
+         
+             if ($method->isStatic()) {
+                 $templateName = "TestStaticFunction";
+                 $paramValues["className"] = $this->target->getShortName();
+             }
+
+             $outputFunctions .= $this->bindTemplate($templateName, $paramValues);
          }
 
          $values = [
-             "className", $this->target->getName(),
-             "shortName", $this->target->getShortName(),
-             "testFunctions", $outputFunctions,
+             "className" => $this->target->getName(),
+             "shortName" => $this->target->getShortName(),
+             "testFunctions" => $outputFunctions,
          ];
          $outputTestCase = $this->bindTemplate("TestCase", $values);
          $this->outputFile($outputTestCase);

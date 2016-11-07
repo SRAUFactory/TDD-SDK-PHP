@@ -29,16 +29,21 @@ class TestCase extends AbstractCommand {
                  "name" => $method->name,
                  "largeName" => ucfirst($method->name),
                  "docs" => $outputDocs,
-                 "params" =>  implode(", ", $outputParams),
+                 "params" => implode(", ", $outputParams),
+                 "className" => $this->target->getShortName(),
              ];
-             $templateName = "TestFunction";
-         
-             if ($method->isStatic()) {
-                 $templateName = "TestStaticFunction";
-                 $paramValues["className"] = $this->target->getShortName();
+             $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
+
+             $outputProvider = "";
+             if (count($outputParams) > 0) {
+                 $outputProvider = $this->bindTemplate("TestProvider", $paramValues);
+                 preg_match('/(function )[a-zA-z0-9:punct:]*/', $outputProvider, $matches);
+                 $providerName = str_replace($matches[1], "", $matches[0]);
+                 $paramValues["docs"] = "@dataProvider {$providerName}" . $paramValues["docs"];
              }
 
              $outputFunctions .= $this->bindTemplate($templateName, $paramValues);
+             $outputFunctions .= $outputProvider;
          }
 
          $values = [

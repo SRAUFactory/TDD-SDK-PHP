@@ -1,5 +1,6 @@
 <?php
 namespace Tdd\Runner;
+use Tdd\Command\TestCase;
 use \Exception;
 /**
  * Run comannd batch
@@ -51,14 +52,18 @@ class CommandRunner {
              throw new Exception("Argument is missing.");
          }
 
-         $this->command = $argv[1];
-         $this->target  = $argv[2];
-
-         unset($argv[0]);
-         unset($argv[1]);
-         unset($argv[2]);
-
-         $this->options = $argv; 
+         foreach ($argv as $index => $arg) {
+             if (strlen($arg) > 2 && substr($arg, 0, 2) === '--') {
+                 $args = explode("=", substr($arg, 2));
+                 if (count($args) === 2) {
+                     $this->options[$args[0]] = $args[1];
+                 }
+             } elseif ($index === 1) {
+                 $this->target = $arg;
+             } elseif ($index === 2) {
+                 $this->command = $arg;
+             }
+         }
     }
 
     /**
@@ -67,13 +72,12 @@ class CommandRunner {
      */ 
     private function getCommandClass() {
         switch ($this->command) {
-            case "source" :
-            //    retrun new SourceCode();
             case "test" :
-                return new TestCase();
-                break;
+                return new TestCase($this->options);
+            case "source" :
+            //    retrun new SourceCode($this->options);
             case "doc" :
-            //    return new Document();
+            //    return new Document($this->options);
             default :
                 throw new Exception("No such command!!");
         }

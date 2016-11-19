@@ -1,9 +1,9 @@
 <?php
 namespace Tdd\Command;
 /**
- * Generate Test Case Class
+ * The class to generate Test Code
  */
-class TestCase extends AbstractCommand {
+class TestCode extends AbstractCommand {
     /**
      * @override
      * @return boolean true is success to create.

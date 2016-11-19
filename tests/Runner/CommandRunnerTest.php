@@ -63,23 +63,26 @@ class CommandRunnerTest extends PHPUnit_Framework_TestCase {
      * @return array The list of Test Parameters
      */
     function getProvidorRun() {
+        $bootstrap = "../autoload.php";
+        $className = "Tdd\Command\TestCode";
+        $output = "./../templates";
         $ArgumentException = new Exception("Argument is missing.");
         $NoSuchCommandException = new Exception("No such command!!");
         return [
             [
-                ["tdd", "create", "test", "--bootstrap=../autoload.php", "--classname=Tdd\Command\TestCase", "--output=./../templates"],
+                ["tdd", "create", "test",   "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
                 true,
             ],
             [
-                ["tdd", "create", "source", "--bootstrap=../autoload.php", "--classname=Tdd\Command\TestCase", "--output=./../templates"],
+                ["tdd", "create", "source", "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [
-                ["tdd", "create", "doc", "--bootstrap=../autoload.php", "--classname=Tdd\Command\TestCase", "--output=./../templates"],
+                ["tdd", "create", "doc",    "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [
-                ["tdd", "create", "help", "--bootstrap=../autoload.php", "--classname=Tdd\Command\TestCase", "--output=./../templates"],
+                ["tdd", "create", "help",   "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [[], $ArgumentException],

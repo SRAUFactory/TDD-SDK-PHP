@@ -1,6 +1,6 @@
 <?php
 namespace Tdd\Runner;
-use Tdd\Command\TestCase;
+use Tdd\Command\TestCode;
 use \Exception;
 /**
  * Run comannd batch
@@ -73,7 +73,7 @@ class CommandRunner {
     private function getCommandClass() {
         switch ($this->command) {
             case "test" :
-                return new TestCase($this->options);
+                return new TestCode($this->options);
             case "source" :
             //    retrun new SourceCode($this->options);
             case "doc" :

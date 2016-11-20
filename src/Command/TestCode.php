@@ -4,8 +4,20 @@ namespace Tdd\Command;
  * The class to generate Test Code
  */
 class TestCode extends AbstractCommand {
-    private $functions = ""; 
+    /**
+     * Output Test Functions Value
+     * @var string
+     */ 
+    private $functions = "";
+    /**
+     * Output Test Parameters
+     * @var array 
+     */ 
     private $params = [];
+    /**
+     * Output PHPDoc Value
+     * @var string
+     */ 
     private $docs = "";
 
     /**

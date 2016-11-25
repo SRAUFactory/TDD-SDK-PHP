@@ -23,9 +23,9 @@ class TestCodeTest extends TddTestBase {
      */
     function getProvidorCreate() {
         $testData = [[
-            "bootstrap" => "../autoload.php",
+            "bootstrap" => getenv(TEST_BOOTSTRAP),
             "classname" => "Tdd\Command\TestCode",
-            "output" => "./../templates",
+            "output" => getenv(TEST_OUTPUT_DIR),
         ]];
         $testDataList = [$testData];
 

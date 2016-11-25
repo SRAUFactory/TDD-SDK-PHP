@@ -43,9 +43,9 @@ class CommandRunnerTest extends TddTestBase {
      * @return array The list of Test Parameters
      */
     function getProvidorRun() {
-        $bootstrap = "../autoload.php";
+        $bootstrap = getenv(TEST_BOOTSTRAP);
         $className = "Tdd\Command\TestCode";
-        $output = "./../templates";
+        $output = getenv(TEST_OUTPUT_DIR);
         $ArgumentException = new Exception("Argument is missing.");
         $NoSuchCommandException = new Exception("No such command!!");
         return [

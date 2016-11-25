@@ -39,7 +39,7 @@ abstract class AbstractCommand {
      * @return string After bind on template value.
      */ 
     protected function bindTemplate($templateName, array $values) {
-        $bindValues = file_get_contents("../templates/{$templateName}.txt");
+        $bindValues = file_get_contents(dirname(__FILE__). "/../../templates/{$templateName}.txt");
         foreach ($values as $key => $value) {
             $bindValues = str_replace("###{$key}###", $value, $bindValues);
         }
@@ -75,9 +75,9 @@ abstract class AbstractCommand {
 
         $this->target = new ReflectionClass($params["classname"]);
 
-        $this->outputFileName = $params["output"]. "/". $this->target->getShortName() . "Test.php";
-        if (empty($params["output"])) {
-           $this->outputFileName = str_replace(".php", "Test.php", $this->target->getFileName());
+        $this->outputFileName = str_replace(".php", "Test.php", $this->target->getFileName());
+        if (!empty($params["output"])) {
+           $this->outputFileName = $params["output"]. "/". $this->target->getShortName() . "Test.php";
         }
     }
 }

@@ -20,10 +20,10 @@ abstract class AbstractCommand {
 
     /**
      * Constructor
-     * @param array $params
+     * @param array $options
      */ 
-    public function __construct(array $params) {
-        $this->parseParameters($params);
+    public function __construct(array $options) {
+        $this->parseOptions($options);
     }
 
     /**
@@ -66,18 +66,18 @@ abstract class AbstractCommand {
 
     /**
      * Parse parameter values
-     * @param array $params
+     * @param array $options
      */
-    private function parseParameters(array $params) {
-        if (!empty($params["bootstrap"])) {
-            require($params["bootstrap"]);
+    private function parseOptions(array $options) {
+        if (!empty($options["bootstrap"])) {
+            require($options["bootstrap"]);
         }
 
-        $this->target = new ReflectionClass($params["classname"]);
+        $this->target = new ReflectionClass($options["classname"]);
 
         $this->outputFileName = str_replace(".php", "Test.php", $this->target->getFileName());
-        if (!empty($params["output"])) {
-           $this->outputFileName = $params["output"]. "/". $this->target->getShortName() . "Test.php";
+        if (!empty($options["output"])) {
+           $this->outputFileName = $options["output"]. "/". $this->target->getShortName() . "Test.php";
         }
     }
 }

@@ -1,33 +1,12 @@
 <?php
+namespace TddTest\Runner;
 use Tdd\Runner\CommandRunner;
+use TddTest\TddTestBase;
+use \Exception;
 /**
  * Test Case for Tdd\Runner\CommandRunner
  */
-class CommandRunnerTest extends PHPUnit_Framework_TestCase {
-    /**
-     * The instance object to test class
-     * @var Tdd\Runner\CommandRunner
-     */
-    protected $target;
-
-    /**
-     * @override
-     * @see 
-     */
-    public function setUp() {
-        parent::setUp();
-        $this->target = new CommandRunner();
-    }
-
-    /**
-     * @override
-     * @see
-     */
-    public function tearDown() {
-        unset($this->target);
-        parent::tearDown();
-    }
-
+class CommandRunnerTest extends TddTestBase {
     /**
      * Test for main
      * @dataProvider getProvidorRun
@@ -51,6 +30,7 @@ class CommandRunnerTest extends PHPUnit_Framework_TestCase {
      */ 
     function testRun(array $argv, $excepted) {
         try {
+            $this->target = new CommandRunner();
             $actual = $this->target->run($argv);
             $this->assertSame($excepted, $actual);
         } catch(Exception $e) {

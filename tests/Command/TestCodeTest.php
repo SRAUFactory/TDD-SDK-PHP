@@ -1,34 +1,11 @@
 <?php
 namespace TddTest\Command;
 use Tdd\Command\TestCode;
-use \PHPUnit_Framework_TestCase;
+use TddTest\TddTestBase;
 /**
  * Test Case for Tdd\Command\TestCode
  */
-class TestCodeTest extends PHPUnit_Framework_TestCase {
-    /**
-     * The instance object to test class
-     * @var Tdd\Command\TestCode
-     */
-    protected $target;
-
-    /**
-     * @override
-     * @see 
-     */
-    public function setUp() {
-        parent::setUp();
-    }
-
-    /**
-     * @override
-     * @see
-     */
-    public function tearDown() {
-        unset($this->target);
-        parent::tearDown();
-    }
-
+class TestCodeTest extends TddTestBase {
     /**
      * Test for create
      * @dataProvider getProvidorCreate

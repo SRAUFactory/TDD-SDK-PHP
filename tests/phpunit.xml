@@ -1,6 +1,6 @@
 <phpunit bootstrap="../autoload.php">
     <php>
-        <env name="TEST_OUTPUT_DIR" value="./../templates" />
+        <env name="TEST_OUTPUT_DIR" value="./../output" />
         <env name="TEST_BOOTSTRAP"  value="../autoload.php" />
     </php>
 	<testsuites>

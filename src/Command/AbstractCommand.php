@@ -73,7 +73,8 @@ abstract class AbstractCommand {
             require($options["bootstrap"]);
         }
 
-        $this->target = new ReflectionClass($options["classname"]);
+        $className = str_replace("/", "\\", $options['classname']);
+        $this->target = new ReflectionClass($className);
 
         $this->outputFileName = str_replace(".php", "Test.php", $this->target->getFileName());
         if (!empty($options["output"])) {

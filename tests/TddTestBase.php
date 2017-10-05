@@ -1,11 +1,11 @@
 <?php
 namespace TddTest;
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 /**
  * The test base class on TDD.
  * To inherit this class when TDD test class implement.
  */ 
-class TddTestBase extends PHPUnit_Framework_TestCase {
+class TddTestBase extends TestCase {
     /**
      * The instance object to test class
      */

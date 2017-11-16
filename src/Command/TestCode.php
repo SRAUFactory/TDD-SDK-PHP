@@ -44,20 +44,15 @@ class TestCode extends AbstractCommand {
         $paramValues = [
             "name" => $method->name,
             "largeName" => ucfirst($method->name),
-             "docs" => $this->docs,
-             "params" => implode(", ", $this->params),
-             "className" => $this->target->getShortName(),
-         ];
-        $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
+            "docs" => $this->docs,
+            "params" => implode(", ", $this->params),
+            "className" => $this->target->getShortName(),
+        ];
 
-        $outputProvider = "";
-        if (count($this->params) > 0) {
-            $outputProvider = $this->bindTemplate("TestProvider", $paramValues);
-            preg_match('/(function )[a-zA-z0-9:punct:]*/', $outputProvider, $matches);
-            $providerName = str_replace($matches[1], "", $matches[0]);
-            $paramValues["docs"] = "@dataProvider {$providerName}" . $paramValues["docs"];
-         }    
-         $this->functions .= $this->bindTemplate($templateName, $paramValues). $outputProvider;
+        $outputProvider = (count($this->params) > 0)? $this->bindTemplate("TestProvider", $paramValues) : "";
+        if (!empty($outputProvider)) $paramValues["docs"] = $this->addDataProvider2Docs($paramValues["docs"], $outputProvider);
+        $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
+        $this->functions .= $this->bindTemplate($templateName, $paramValues). $outputProvider;
     }
 
     /**
@@ -69,5 +64,17 @@ class TestCode extends AbstractCommand {
         $name = "$". $parameter->name;
         $this->docs .= "\n     * @param string {$name} any param";
         $this->params[] = $name;
+    }
+
+    /**
+     * Add data provider to docs
+     * @param string $docs Docs
+     * @param string $dataProvider Adding data provider
+     * @return string Added docs
+     */
+    private function addDataProvider2Docs($docs, $dataProvider) {
+        preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
+        $providerName = str_replace($matches[1], "", $matches[0]);
+        return "@dataProvider {$providerName}{$docs}";
     }
 }

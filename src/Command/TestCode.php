@@ -25,14 +25,11 @@ class TestCode extends AbstractCommand {
      * @return boolean true is success to create.
      */ 
     public function create() {
-         $methods = $this->target->getMethods();
-         array_walk($methods, [$this, 'setFunctions']);
-         $values = [
-             "className" => $this->target->getName(),
-             "shortName" => $this->target->getShortName(),
-             "testFunctions" => $this->functions,
-         ];
-         $this->outputFile($this->bindTemplate("TestCase", $values));
+         array_walk($this->target->getMethods(), [$this, 'setFunctions']);
+         $className = $this->target->getName();
+         $shortName = $this->target->getShortName();
+         $testFunctions = $this->functions;
+         $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions")));
          return true;
     }
 
@@ -42,19 +39,15 @@ class TestCode extends AbstractCommand {
      * @param int $index The index of Method List
      */ 
     private function setFunctions($method, $index) {
-         if (!$this->isOutputMethod($method)) {
-             return;
-         }   
-         
-         $parameters = $method->getParameters();
-         array_walk($parameters, [$this, 'setParameters']); 
+         if (!$this->isOutputMethod($method)) return;
+         array_walk($method->getParameters(), [$this, 'setParameters']); 
          $paramValues = [
              "name" => $method->name,
              "largeName" => ucfirst($method->name),
              "docs" => $this->docs,
              "params" => implode(", ", $this->params),
              "className" => $this->target->getShortName(),
-         ];  
+         ];
          $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
          
          $outputProvider = "";

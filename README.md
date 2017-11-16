@@ -12,7 +12,7 @@ You can be used just by installing PHP and this tool.
 ## How to use
 ### Initalize
 ```
-$php composer.phar install
+$ php composer.phar install
 ```
 
 ### Execution with CLI (Command Line Interface)

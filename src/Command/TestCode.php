@@ -41,18 +41,23 @@ class TestCode extends AbstractCommand {
     private function setFunctions($method, $index) {
         if (!$this->isOutputMethod($method)) return;
         array_walk($method->getParameters(), [$this, 'setParameters']); 
-        $paramValues = [
-            "name" => $method->name,
-            "largeName" => ucfirst($method->name),
-            "docs" => $this->docs,
-            "params" => implode(", ", $this->params),
-            "className" => $this->target->getShortName(),
-        ];
-
-        $outputProvider = (count($this->params) > 0)? $this->bindTemplate("TestProvider", $paramValues) : "";
-        if (!empty($outputProvider)) $paramValues["docs"] = $this->addDataProvider2Docs($paramValues["docs"], $outputProvider);
+        $args = $this->getArgs4BindTemplateByMethodName($method->name);
+        $outputProvider = (count($this->params) > 0)? $this->bindTemplate("TestProvider", $args) : "";
+        if (!empty($outputProvider)) $args["docs"] = $this->addDataProvider2Docs($args["docs"], $outputProvider);
         $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
-        $this->functions .= $this->bindTemplate($templateName, $paramValues). $outputProvider;
+        $this->functions .= $this->bindTemplate($templateName, $args). $outputProvider;
+    }
+
+    /**
+     * Get arguments for bindTemplate by method name
+     * @param string $name Method Name
+     * @return array arguments
+     */
+    function getArgs4BindTemplateByMethodName($name) {
+        $largeName = ucfirst($name);
+        $params = implode(", ", $this->params);
+        $className = $this->target->getShortName();
+        return compact("name", "largeName", "params", "className") + ["docs" => $this->docs];
     }
 
     /**

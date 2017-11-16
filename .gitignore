@@ -1,3 +1,4 @@
 *.swp
 templates/*Test.php
 vendor
+composer.lock

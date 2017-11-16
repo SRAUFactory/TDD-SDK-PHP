@@ -1,7 +1,10 @@
 {
-    "repositories": [
+    "name": "SRAUFactory/TDD-SDK-PHP",
+    "description": "TDD SDK for PHP",
+    "license": "Mozilla Public License 2.0",
+    "authors": [
         {
-            "packagist": false
+            "name": "SRAU Factory"
         }
     ],
     "autoload": {
@@ -9,5 +12,8 @@
             "Tdd\\" : "src/",
             "TddTest\\" : "tests/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.1.*"
     }
 }

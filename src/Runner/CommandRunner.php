@@ -2,7 +2,7 @@
 namespace Tdd\Runner;
 use \InvalidArgumentException;
 /**
- * Run comannd batch
+ * Run command batch
  * When you execute for CLI, this class use.
  */
 class CommandRunner {
@@ -36,11 +36,11 @@ class CommandRunner {
 
     /**
      * run command
-     * @param array $argv
+     * @param array $args
      * @return boolean The result to run command
      */ 
-    public function run(array $argv) {
-        $this->parseArguments($argv);
+    public function run(array $args) {
+        $this->parseArguments($args);
         $command = self::SUPPORTED_CLASSES[$this->command];
         if (empty($command)) throw new InvalidArgumentException("No such command!!");
         $commandClass = new $command($this->options);
@@ -49,21 +49,25 @@ class CommandRunner {
 
     /**
      * Parse arguments
-     * @param array $argv the arguments to run command.
+     * @param array $args the arguments to run command.
+     * @return void
      */ 
-    private function parseArguments(array $argv) {
-        if (count($argv) <= 3) throw new InvalidArgumentException("Argument is missing.");
-        foreach ($argv as $index => $arg) {
-            if (strlen($arg) > 2 && substr($arg, 0, 2) === '--') {
-                $args = explode("=", substr($arg, 2));
-                if (count($args) === 2) {
-                    $this->options[$args[0]] = $args[1];
-                }
-            } elseif ($index === 1) {
-                $this->target = $arg;
-            } elseif ($index === 2) {
-                $this->command = $arg;
-            }
-        }
+    private function parseArguments(array $args) {
+        if (count($args) <= 3) throw new InvalidArgumentException("Argument is missing.");
+        $this->target = $args[1];
+        $this->command = $args[2];
+        unset($args[0], $args[1], $args[2]);
+        array_walk($args, [$this, "setOption"]);
+    }
+
+    /**
+     * Set option
+     * @param $arg $argument
+     * @return void
+     */
+    private function setOption($arg) {
+        if (strlen($arg) <= 2 || substr($arg, 0, 2) !== '--') return;
+        $args = explode("=", substr($arg, 2));
+        if (count($args) === 2) $this->options[$args[0]] = $args[1];
     }
 }

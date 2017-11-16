@@ -2,7 +2,7 @@
 namespace TddTest\Runner;
 use Tdd\Runner\CommandRunner;
 use TddTest\TddTestBase;
-use \Exception;
+use \InvalidArgumentException;
 /**
  * Test Case for Tdd\Runner\CommandRunner
  */
@@ -18,7 +18,7 @@ class CommandRunnerTest extends TddTestBase {
             $_SERVER['argv'] = $argv;
             $actual = CommandRunner::main();
             $this->assertSame($excepted, $actual);
-        } catch (Exception $e) {
+        } catch (InvalidArgumentException $e) {
             $this->assertException($excepted, $e);
         }
     }
@@ -33,7 +33,7 @@ class CommandRunnerTest extends TddTestBase {
             $this->target = new CommandRunner();
             $actual = $this->target->run($argv);
             $this->assertSame($excepted, $actual);
-        } catch(Exception $e) {
+        } catch(InvalidArgumentException $e) {
             $this->assertException($excepted, $e);
         }
     }
@@ -43,26 +43,25 @@ class CommandRunnerTest extends TddTestBase {
      * @return array The list of Test Parameters
      */
     function getProvidorRun() {
-        $bootstrap = getenv(TEST_BOOTSTRAP);
-        $className = "Tdd\Command\TestCode";
+        $className = "Tdd/Command/TestCode";
         $output = getenv(TEST_OUTPUT_DIR);
-        $ArgumentException = new Exception("Argument is missing.");
-        $NoSuchCommandException = new Exception("No such command!!");
+        $ArgumentException = new InvalidArgumentException("Argument is missing.");
+        $NoSuchCommandException = new InvalidArgumentException("No such command!!");
         return [
             [
-                ["tdd", "create", "test",   "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
+                ["tdd", "create", "test",   "--classname=". $className, "--output=". $output],
                 true,
             ],
             [
-                ["tdd", "create", "source", "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
+                ["tdd", "create", "source", "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [
-                ["tdd", "create", "doc",    "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
+                ["tdd", "create", "doc",    "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [
-                ["tdd", "create", "help",   "--bootstrap=". $bootstrap, "--classname=". $className, "--output=". $output],
+                ["tdd", "create", "help",   "--classname=". $className, "--output=". $output],
                 $NoSuchCommandException,
             ],
             [[], $ArgumentException],
@@ -75,7 +74,7 @@ class CommandRunnerTest extends TddTestBase {
      * @param Exception $excepted
      * @param Exception $actual 
      */
-    private function assertException($excepted, Exception $actual) {
+    private function assertException($excepted, InvalidArgumentException $actual) {
         $this->assertSame(get_class($excepted), get_class($actual));
         $this->assertSame($excepted->getMessage(), $actual->getMessage());
     }

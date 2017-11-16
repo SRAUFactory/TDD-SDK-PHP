@@ -1,7 +1,6 @@
 <?php
 namespace Tdd\Runner;
-use Tdd\Command\TestCode;
-use \Exception;
+use \InvalidArgumentException;
 /**
  * Run comannd batch
  * When you execute for CLI, this class use.
@@ -21,12 +20,18 @@ class CommandRunner {
     private $target;
     private $options = [];
 
+    const SUPPORTED_CLASSES = [
+        "test" => "Tdd\\Command\\TestCode",
+//        "source" => "Tdd\\Command\\SourceCode",
+//        "doc" => "Tdd\\Command\\Document",
+    ];
+
     /**
      * main function
      */ 
     public static function main() {
-         $runner = new static;
-         return $runner->run($_SERVER['argv']);
+        $runner = new static;
+        return $runner->run($_SERVER['argv']);
     }
 
     /**
@@ -35,52 +40,30 @@ class CommandRunner {
      * @return boolean The result to run command
      */ 
     public function run(array $argv) {
-        // Analyze $argv to Command options
         $this->parseArguments($argv);
-
-        // Run each command
-        $commandClass = $this->getCommandClass();
+        $command = self::SUPPORTED_CLASSES[$this->command];
+        if (empty($command)) throw new InvalidArgumentException("No such command!!");
+        $commandClass = new $command($this->options);
         return $commandClass->{$this->target}();
     }
-    
+
     /**
      * Parse arguments
      * @param array $argv the arguments to run command.
      */ 
     private function parseArguments(array $argv) {
-         if (count($argv) <= 3) {
-             throw new Exception("Argument is missing.");
-         }
-
-         foreach ($argv as $index => $arg) {
-             if (strlen($arg) > 2 && substr($arg, 0, 2) === '--') {
-                 $args = explode("=", substr($arg, 2));
-                 if (count($args) === 2) {
-                     $this->options[$args[0]] = $args[1];
-                 }
-             } elseif ($index === 1) {
-                 $this->target = $arg;
-             } elseif ($index === 2) {
-                 $this->command = $arg;
-             }
-         }
-    }
-
-    /**
-     * Get command class.
-     * @return string;
-     */ 
-    private function getCommandClass() {
-        switch ($this->command) {
-            case "test" :
-                return new TestCode($this->options);
-            case "source" :
-            //    retrun new SourceCode($this->options);
-            case "doc" :
-            //    return new Document($this->options);
-            default :
-                throw new Exception("No such command!!");
+        if (count($argv) <= 3) throw new InvalidArgumentException("Argument is missing.");
+        foreach ($argv as $index => $arg) {
+            if (strlen($arg) > 2 && substr($arg, 0, 2) === '--') {
+                $args = explode("=", substr($arg, 2));
+                if (count($args) === 2) {
+                    $this->options[$args[0]] = $args[1];
+                }
+            } elseif ($index === 1) {
+                $this->target = $arg;
+            } elseif ($index === 2) {
+                $this->command = $arg;
+            }
         }
     }
 }
-

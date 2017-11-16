@@ -51,7 +51,7 @@ abstract class AbstractCommand {
      * @param string $value Output value
      */ 
     protected function outputFile($value) {
-         file_put_contents($this->outputFileName, $value);
+        file_put_contents($this->outputFileName, $value);
     }
 
     /**
@@ -60,8 +60,7 @@ abstract class AbstractCommand {
      * @return boolean True is output method 
      */ 
     protected function isOutputMethod(ReflectionMethod $method) {
-        return $this->target->getName() === $method->class
-            && $method->isPublic();
+        return $this->target->getName() === $method->class && $method->isPublic();
     }
 
     /**
@@ -69,16 +68,10 @@ abstract class AbstractCommand {
      * @param array $options
      */
     private function parseOptions(array $options) {
-        if (!empty($options["bootstrap"])) {
-            require($options["bootstrap"]);
-        }
-
-        $className = str_replace("/", "\\", $options['classname']);
-        $this->target = new ReflectionClass($className);
-
+        $this->target = new ReflectionClass(str_replace("/", "\\", $options['classname']));
         $this->outputFileName = str_replace(".php", "Test.php", $this->target->getFileName());
         if (!empty($options["output"])) {
-           $this->outputFileName = $options["output"]. "/". $this->target->getShortName() . "Test.php";
+            $this->outputFileName = $options["output"]. "/". $this->target->getShortName() . "Test.php";
         }
     }
 }

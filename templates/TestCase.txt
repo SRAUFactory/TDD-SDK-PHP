@@ -1,9 +1,11 @@
 <?php
 use ###className###;
+use PHPUnit\Framework\TestCase;
 /**
  * Test Case for ###className###
+ * @package ###namespace###
  */
-class ###shortName###Test extends PHPUnit_Framework_TestCase {
+class ###shortName###Test extends TestCase {
     /**
      * The instance object to test class
      * @var ###className###

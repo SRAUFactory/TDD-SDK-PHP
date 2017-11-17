@@ -29,7 +29,8 @@ class TestCode extends AbstractCommand {
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
         $testFunctions = $this->functions;
-        $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions")));
+        $namespace = $this->target->getNamespaceName();
+        $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
         return true;
     }
 
@@ -41,23 +42,23 @@ class TestCode extends AbstractCommand {
     private function setFunctions($method, $index) {
         if (!$this->isOutputMethod($method)) return;
         array_walk($method->getParameters(), [$this, 'setParameters']); 
-        $args = $this->getArgs4BindTemplateByMethodName($method->name);
+        $args = $this->getArgs4BindTemplateByMethodName($method);
         $outputProvider = (count($this->params) > 0)? $this->bindTemplate("TestProvider", $args) : "";
         if (!empty($outputProvider)) $args["docs"] = $this->addDataProvider2Docs($args["docs"], $outputProvider);
-        $templateName = ($method->isStatic())? "TestStaticFunction" : "TestFunction";
-        $this->functions .= $this->bindTemplate($templateName, $args). $outputProvider;
+        $this->functions .= $this->bindTemplate("TestFunction", $args). $outputProvider;
     }
 
     /**
      * Get arguments for bindTemplate by method name
-     * @param string $name Method Name
+     * @param ReflectionMethod
      * @return array arguments
      */
-    function getArgs4BindTemplateByMethodName($name) {
-        $largeName = ucfirst($name);
+    function getArgs4BindTemplateByMethodName($method) {
+        $largeName = ucfirst($method->name);
         $params = implode(", ", $this->params);
         $className = $this->target->getShortName();
-        return compact("name", "largeName", "params", "className") + ["docs" => $this->docs];
+        $callMethod = $method->isStatic()? "$className::{$method->name}" : '$this->target->'. $method->name;
+        return compact("largeName", "params", "className", "callMethod") + ["name" => $method->name, "docs" => $this->docs];
     }
 
     /**

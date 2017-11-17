@@ -29,7 +29,8 @@ class TestCode extends AbstractCommand {
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
         $testFunctions = $this->functions;
-        $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions")));
+        $namespace = $this->target->getNamespaceName();
+        $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
         return true;
     }
 

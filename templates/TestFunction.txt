@@ -4,7 +4,6 @@
      */ 
     function test###largeName###(###params###) {
         $actual = ###callMethod###(###params###);
-        // @ToDo set the expected value
-        $this->assertNotEmpty($actual);
+        $this->markTestIncomplete("Set the expected value");
     }
 

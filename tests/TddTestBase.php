@@ -22,11 +22,8 @@ class TddTestBase extends TestCase {
      */
     public function setUp() {
         parent::setUp();
-
         $dir = getenv(TEST_OUTPUT_DIR);
-        if (!file_exists($dir)) {
-            mkdir($dir);
-        }
+        if (!file_exists($dir)) mkdir($dir);
     }
  
     /**
@@ -34,15 +31,13 @@ class TddTestBase extends TestCase {
      * @see
      */
     public function tearDown() {
-        unset($this->target);
-        parent::tearDown();
-
         $dir = getenv(TEST_OUTPUT_DIR);
         if (file_exists($dir) && !in_array($dir, self::$SYSTEM_DIR)) {
-            $files = scandir($dir);
-            array_walk($files, [$this, "removeFile"], $dir);
+            array_walk(scandir($dir), [$this, "removeFile"], $dir);
             rmdir($dir);
         }
+        unset($this->target);
+        parent::tearDown();
     }
 
     /**

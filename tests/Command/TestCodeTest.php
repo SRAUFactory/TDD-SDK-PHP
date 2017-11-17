@@ -12,10 +12,13 @@ class TestCodeTest extends TddTestBase {
      * @param string $className Target Class Name 
      */ 
     function testCreate($className) {
-        $params = ["classname" => $className, "output" => getenv(TEST_OUTPUT_DIR)];
+        $dir = getenv(TEST_OUTPUT_DIR);
+        $params = ["classname" => $className, "output" => $dir];
         $this->target = new TestCode($params);
         $actual = $this->target->create();
         $this->assertTrue($actual);
+        $expected = explode("/", $className);
+        $this->assertFileExists($dir. "/". $expected[2]. "Test.php");
     }
 
     /**
@@ -24,8 +27,8 @@ class TestCodeTest extends TddTestBase {
      */
     function getProvidorCreate() {
         return [
-            ["Tdd\Command\TestCode"],
-            ["Tdd\Runner\CommandRunner"],
+            ["Tdd/Command/TestCode"],
+            ["Tdd/Runner/CommandRunner"],
         ];
     }
 }

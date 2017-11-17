@@ -3,7 +3,7 @@
      * ###docs###
      */ 
     function test###largeName###(###params###) {
-        $actual = $this->target->###name###(###params###);
+        $actual = ###callMethod###(###params###);
         // @ToDo set the expected value
         $this->assertNotEmpty($actual);
     }

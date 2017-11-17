@@ -1,5 +1,7 @@
 <?php
 namespace Tdd\Command;
+use \ReflectionMethod;
+use \ReflectionParameter;
 /**
  * The class to generate Test Code
  */
@@ -39,7 +41,7 @@ class TestCode extends AbstractCommand {
      * @param ReflectionMethod $method Target Method
      * @param int $index The index of Method List
      */ 
-    private function setFunctions($method, $index) {
+    private function setFunctions(ReflectionMethod $method, $index) {
         if (!$this->isOutputMethod($method)) return;
         array_walk($method->getParameters(), [$this, 'setParameters']); 
         $args = $this->getArgs4BindTemplateByMethodName($method);
@@ -53,7 +55,7 @@ class TestCode extends AbstractCommand {
      * @param ReflectionMethod
      * @return array arguments
      */
-    function getArgs4BindTemplateByMethodName($method) {
+    function getArgs4BindTemplateByMethodName(ReflectionMethod $method) {
         $largeName = ucfirst($method->name);
         $params = implode(", ", $this->params);
         $className = $this->target->getShortName();
@@ -66,7 +68,7 @@ class TestCode extends AbstractCommand {
      * @param ReflectionParameter $parameter
      * @param int $index The index of Parameter List
      */
-    private function setParameters($parameter, $index) {
+    private function setParameters(ReflectionParameter $parameter, $index) {
         $name = "$". $parameter->name;
         $this->docs .= "\n     * @param string {$name} any param";
         $this->params[] = $name;

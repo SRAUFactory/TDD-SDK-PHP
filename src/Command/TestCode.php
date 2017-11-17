@@ -4,6 +4,7 @@ use \ReflectionMethod;
 use \ReflectionParameter;
 /**
  * The class to generate Test Code
+ * @package Tdd\Command
  */
 class TestCode extends AbstractCommand {
     /**

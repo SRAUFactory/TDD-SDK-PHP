@@ -4,6 +4,7 @@ use \InvalidArgumentException;
 /**
  * Run command batch
  * When you execute for CLI, this class use.
+ * @package Tdd\Runner
  */
 class CommandRunner {
     /**

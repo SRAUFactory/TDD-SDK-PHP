@@ -5,6 +5,7 @@ use \ReflectionMethod;
 /**
  * The base class of TDD command.
  * To inherit this class when TDD command implement.
+ * @package Tdd\Command
  */
 abstract class AbstractCommand {
     /**

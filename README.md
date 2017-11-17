@@ -1,6 +1,6 @@
 # TDD-SDK-PHP
 ## Overview
-This SDK is a tool for supporting Test Driven Development (TDD) with PHP.
+This SDK is a tool for supporting Test Driven Development (TDD) by PHP.
 This SDK doesn't require installation of PHP's third party libraries, it works only with standard PHP.
 You can be used just by installing PHP and this tool.
 

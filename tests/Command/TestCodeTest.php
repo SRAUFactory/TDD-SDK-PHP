@@ -9,9 +9,10 @@ class TestCodeTest extends TddTestBase {
     /**
      * Test for create
      * @dataProvider getProvidorCreate
-     * @param array $params 
+     * @param string $className Target Class Name 
      */ 
-    function testCreate(array $params) {
+    function testCreate($className) {
+        $params = ["classname" => $className, "output" => getenv(TEST_OUTPUT_DIR)];
         $this->target = new TestCode($params);
         $actual = $this->target->create();
         $this->assertTrue($actual);
@@ -22,17 +23,9 @@ class TestCodeTest extends TddTestBase {
      * @return array The list of Test Parameters
      */
     function getProvidorCreate() {
-        $testData = [[
-            "bootstrap" => getenv(TEST_BOOTSTRAP),
-            "classname" => "Tdd\Command\TestCode",
-            "output" => getenv(TEST_OUTPUT_DIR),
-        ]];
-        $testDataList = [$testData];
-
-
-        $testData[0]["classname"] = "Tdd\Runner\CommandRunner";
-        $testDataList[] = $testData;
-        
-        return $testDataList;
+        return [
+            ["Tdd\Command\TestCode"],
+            ["Tdd\Runner\CommandRunner"],
+        ];
     }
 }

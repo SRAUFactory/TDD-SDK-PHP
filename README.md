@@ -18,5 +18,5 @@ $ php composer.phar install
 ### Execution with CLI (Command Line Interface)
 
 ```
-$ php tdd create test --bootstrap=../autoload.php --classname=Tdd¥Command¥TestCase --output=../tests/Command
+$ php tdd create test --classname=Tdd/Command/TestCode --output=./tests/Command
 ```

@@ -41,6 +41,7 @@ class TestCode extends AbstractCommand {
      * Set test functions
      * @param ReflectionMethod $method Target Method
      * @param int $index The index of Method List
+     * @return void
      */ 
     private function setFunctions(ReflectionMethod $method, $index) {
         if (!$this->isOutputMethod($method)) return;
@@ -56,7 +57,7 @@ class TestCode extends AbstractCommand {
      * @param ReflectionMethod
      * @return array arguments
      */
-    function getArgs4BindTemplateByMethodName(ReflectionMethod $method) {
+    private function getArgs4BindTemplateByMethodName(ReflectionMethod $method) {
         $largeName = ucfirst($method->name);
         $params = implode(", ", $this->params);
         $className = $this->target->getShortName();
@@ -68,11 +69,11 @@ class TestCode extends AbstractCommand {
      * Set test parameters
      * @param ReflectionParameter $parameter
      * @param int $index The index of Parameter List
+     * @return void
      */
     private function setParameters(ReflectionParameter $parameter, $index) {
-        $name = "$". $parameter->name;
-        $this->docs .= "\n     * @param string {$name} any param";
-        $this->params[] = $name;
+        $this->docs .= "\n     * @param string \${$parameter->name} any param";
+        $this->params[] =  "$". $parameter->name;
     }
 
     /**

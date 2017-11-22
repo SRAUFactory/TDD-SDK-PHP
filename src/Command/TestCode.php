@@ -1,5 +1,6 @@
 <?php
 namespace Tdd\Command;
+use Tdd\Command\Traits\TemplateTrait;
 use \ReflectionMethod;
 use \ReflectionParameter;
 /**
@@ -7,6 +8,10 @@ use \ReflectionParameter;
  * @package Tdd\Command
  */
 class TestCode extends AbstractCommand {
+    /**
+     * Traits
+     */
+    use TemplateTrait;
     /**
      * Output Test Functions Value
      * @var string
@@ -33,7 +38,7 @@ class TestCode extends AbstractCommand {
         $shortName = $this->target->getShortName();
         $testFunctions = $this->functions;
         $namespace = $this->target->getNamespaceName();
-        $this->outputFile($this->bindTemplate("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
+        $this->output($this->getOutputFileName($this->target, $this->options), $this->bind("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
         return true;
     }
 
@@ -47,13 +52,13 @@ class TestCode extends AbstractCommand {
         if (!$this->isOutputMethod($method)) return;
         array_walk($method->getParameters(), [$this, 'setParameters']); 
         $args = $this->getArgs4BindTemplateByMethodName($method);
-        $outputProvider = (count($this->params) > 0)? $this->bindTemplate("TestProvider", $args) : "";
+        $outputProvider = (count($this->params) > 0)? $this->bind("TestProvider", $args) : "";
         if (!empty($outputProvider)) $args["docs"] = $this->addDataProvider2Docs($args["docs"], $outputProvider);
-        $this->functions .= $this->bindTemplate("TestFunction", $args). $outputProvider;
+        $this->functions .= $this->bind("TestFunction", $args). $outputProvider;
     }
 
     /**
-     * Get arguments for bindTemplate by method name
+     * Get arguments for bind by method name
      * @param ReflectionMethod
      * @return array arguments
      */

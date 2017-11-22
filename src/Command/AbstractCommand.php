@@ -18,6 +18,10 @@ abstract class AbstractCommand {
      * @var string
      */ 
     protected $outputFileName;
+    /**
+     * @ToDo Temporary solution
+     */
+    protected $options = [];
 
     /**
      * Constructor
@@ -25,6 +29,7 @@ abstract class AbstractCommand {
      */ 
     public function __construct(array $options) {
         $this->parseOptions($options);
+        $this->options = $options;
     }
 
     /**

@@ -32,12 +32,12 @@ trait TemplateTrait {
     }
 
     /**
-     * Get File Name
+     * Get Output File Name
      * @param ReflectionClass $target Target Class
      * @param array $options
      * @return string Ouput File Name
      */
-    protected function getFileName(ReflectionClass $target, array $options) {
+    protected function getOutputFileName(ReflectionClass $target, array $options) {
         $fileName = str_replace(".php", "Test.php", $target->getFileName());
         if (!empty($options["output"])) {
             $fileName = $options["output"]. "/". $target->getShortName() . "Test.php";

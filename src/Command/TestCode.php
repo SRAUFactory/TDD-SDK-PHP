@@ -65,9 +65,8 @@ class TestCode extends AbstractCommand {
     private function getArgs4BindTemplateByMethodName(ReflectionMethod $method) {
         $largeName = ucfirst($method->name);
         $params = implode(", ", $this->params);
-        $className = $this->target->getShortName();
-        $callMethod = $method->isStatic()? "$className::{$method->name}" : '$this->target->'. $method->name;
-        return compact("largeName", "params", "className", "callMethod") + ["name" => $method->name, "docs" => $this->docs];
+        $callMethod = $method->isStatic()? $this->target->getShortName(). "::{$method->name}" : '$this->target->'. $method->name;
+        return compact("largeName", "params", "callMethod") + ["name" => $method->name, "docs" => $this->docs];
     }
 
     /**

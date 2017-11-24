@@ -32,13 +32,4 @@ abstract class AbstractCommand {
      * @return boolean true is success to create.
      */ 
     abstract public function create();
-
-    /**
-     * Is output method
-     * @param ReflectionMethod $method Target method
-     * @return boolean True is output method 
-     */ 
-    protected function isOutputMethod(ReflectionMethod $method) {
-        return $this->target->getName() === $method->class && $method->isPublic();
-    }
 }

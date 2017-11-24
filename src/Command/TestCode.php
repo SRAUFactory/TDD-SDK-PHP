@@ -49,7 +49,7 @@ class TestCode extends AbstractCommand {
      * @return void
      */ 
     private function setFunctions(ReflectionMethod $method, $index) {
-        if (!$this->isOutputMethod($method)) return;
+        if ($this->target->getName() !== $method->class || !$method->isPublic()) return;
         array_walk($method->getParameters(), [$this, 'setParameters']); 
         $args = $this->getArgs4BindTemplateByMethodName($method);
         $outputProvider = (count($this->params) > 0)? $this->bind("TestProvider", $args) : "";

@@ -38,10 +38,7 @@ trait TemplateTrait {
      * @return string Ouput File Name
      */
     protected function getOutputFileName(ReflectionClass $target, array $options) {
-        $fileName = str_replace(".php", "Test.php", $target->getFileName());
-        if (!empty($options["output"])) {
-            $fileName = $options["output"]. "/". $target->getShortName() . "Test.php";
-        }
-        return $fileName;
+        if (empty($options["output"])) return str_replace(".php", "Test.php", $target->getFileName());
+        return $options["output"]. "/". $target->getShortName() . "Test.php";
     }
 }

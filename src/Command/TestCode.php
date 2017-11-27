@@ -17,16 +17,6 @@ class TestCode extends AbstractCommand {
      * @var string
      */ 
     private $functions = "";
-    /**
-     * Output Test Parameters
-     * @var array 
-     */ 
-    private $params = [];
-    /**
-     * Output PHPDoc Value
-     * @var string
-     */ 
-    private $docs = "";
 
     /**
      * @override
@@ -50,45 +40,23 @@ class TestCode extends AbstractCommand {
      */ 
     private function setFunctions(ReflectionMethod $method, $index) {
         if ($this->target->getName() !== $method->class || !$method->isPublic()) return;
-        array_walk($method->getParameters(), [$this, 'setParameters']); 
-        $args = $this->getArgs4BindTemplateByMethodName($method);
-        $outputProvider = (count($this->params) > 0)? $this->bind("TestProvider", $args) : "";
-        if (!empty($outputProvider)) $args["docs"] = $this->addDataProvider2Docs($args["docs"], $outputProvider);
-        $this->functions .= $this->bind("TestFunction", $args). $outputProvider;
-    }
 
-    /**
-     * Get arguments for bind by method name
-     * @param ReflectionMethod
-     * @return array arguments
-     */
-    private function getArgs4BindTemplateByMethodName(ReflectionMethod $method) {
-        $largeName = ucfirst($method->name);
-        $params = implode(", ", $this->params);
-        $callMethod = $method->isStatic()? $this->target->getShortName(). "::{$method->name}" : '$this->target->'. $method->name;
-        return compact("largeName", "params", "callMethod") + ["name" => $method->name, "docs" => $this->docs];
-    }
+        $args = ["largeName" => ucfirst($method->name), "name" => $method->name, "docs" => ""];
+        $params = [];
+        foreach ($method->getParameters() as $parameter) {
+            $args["docs"] .= "\n     * @param string \${$parameter->name} any param";
+            $params[] =  "$". $parameter->name;
+        }       
+        $args["params"] = implode(", ", $params);
+        $args["callMethod"] = $method->isStatic()? $this->target->getShortName(). "::{$method->name}" : '$this->target->'. $method->name;
 
-    /**
-     * Set test parameters
-     * @param ReflectionParameter $parameter
-     * @param int $index The index of Parameter List
-     * @return void
-     */
-    private function setParameters(ReflectionParameter $parameter, $index) {
-        $this->docs .= "\n     * @param string \${$parameter->name} any param";
-        $this->params[] =  "$". $parameter->name;
-    }
-
-    /**
-     * Add data provider to docs
-     * @param string $docs Docs
-     * @param string $dataProvider Adding data provider
-     * @return string Added docs
-     */
-    private function addDataProvider2Docs($docs, $dataProvider) {
-        preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
-        $providerName = str_replace($matches[1], "", $matches[0]);
-        return "@dataProvider {$providerName}{$docs}";
+        $dataProvider = "";
+        if (count($params) > 0) {
+            $dataProvider = $this->bind("TestProvider", $args);
+            preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
+            $providerName = str_replace($matches[1], "", $matches[0]);
+            $args["docs"] = "@dataProvider {$providerName}{$args["docs"]}";
+        }
+        $this->functions .= $this->bind("TestFunction", $args). $dataProvider;
     }
 }

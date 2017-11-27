@@ -12,33 +12,28 @@ class TestCode extends AbstractCommand {
      * Traits
      */
     use TemplateTrait;
-    /**
-     * Output Test Functions Value
-     * @var string
-     */ 
-    private $functions = "";
 
     /**
      * @override
      * @return boolean true is success to create.
      */ 
     public function create() {
-        array_walk($this->target->getMethods(), [$this, 'setFunctions']);
+        $functions = array_map([$this, 'getFunctions'], $this->target->getMethods());
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
-        $testFunctions = $this->functions;
+        $testFunctions = implode("", $functions);
         $namespace = $this->target->getNamespaceName();
         $this->output($this->getOutputFileName($this->target, $this->options), $this->bind("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
         return true;
     }
 
     /**
-     * Set test functions
+     * Get test functions
      * @param ReflectionMethod $method Target Method
      * @param int $index The index of Method List
      * @return void
      */ 
-    private function setFunctions(ReflectionMethod $method, $index) {
+    private function getFunctions(ReflectionMethod $method, $index) {
         if ($this->target->getName() !== $method->class || !$method->isPublic()) return;
 
         $args = ["largeName" => ucfirst($method->name), "name" => $method->name, "docs" => ""];
@@ -57,6 +52,6 @@ class TestCode extends AbstractCommand {
             $providerName = str_replace($matches[1], "", $matches[0]);
             $args["docs"] = "@dataProvider {$providerName}{$args["docs"]}";
         }
-        $this->functions .= $this->bind("TestFunction", $args). $dataProvider;
+        return $this->bind("TestFunction", $args). $dataProvider;
     }
 }

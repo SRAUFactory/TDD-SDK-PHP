@@ -1,7 +1,6 @@
 
     /**
-     * Test for ###name###
-     * ###docs###
+     * Test for ###name######docs###
      */ 
     function test###largeName###(###params###) {
         $actual = ###callMethod###(###params###);

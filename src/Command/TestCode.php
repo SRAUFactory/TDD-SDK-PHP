@@ -14,6 +14,11 @@ class TestCode extends AbstractCommand {
     use TemplateTrait;
 
     /**
+     * PHPDocs Prefix
+     */
+    const DOCS_PREFIX = "\n     * ";
+
+    /**
      * @override
      * @return boolean true is success to create.
      */ 
@@ -37,7 +42,7 @@ class TestCode extends AbstractCommand {
         $args = ["largeName" => ucfirst($method->name), "name" => $method->name, "docs" => ""];
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $args["docs"] .= "\n     * @param string \${$parameter->name} any param";
+            $args["docs"] .= self::DOCS_PREFIX. "@param string \${$parameter->name} any param";
             $params[] =  "$". $parameter->name;
         }       
         $args["params"] = implode(", ", $params);
@@ -48,7 +53,7 @@ class TestCode extends AbstractCommand {
             $dataProvider = $this->bind("TestProvider", $args);
             preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
             $providerName = str_replace($matches[1], "", $matches[0]);
-            $args["docs"] = "@dataProvider {$providerName}{$args["docs"]}";
+            $args["docs"] = self::DOCS_PREFIX. "@dataProvider {$providerName}{$args["docs"]}";
         }
         return $this->bind("TestFunction", $args). $dataProvider;
     }

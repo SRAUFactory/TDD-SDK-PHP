@@ -18,12 +18,10 @@ class TestCode extends AbstractCommand {
      * @return boolean true is success to create.
      */ 
     public function create() {
+        $args = ["className" => $this->target->getName(), "shortName" => $this->target->getShortName(), "namespace" => $this->target->getNamespaceName()];
         $functions = array_map([$this, 'getFunctions'], $this->target->getMethods());
-        $className = $this->target->getName();
-        $shortName = $this->target->getShortName();
-        $testFunctions = implode("", $functions);
-        $namespace = $this->target->getNamespaceName();
-        $this->output($this->getOutputFileName($this->target, $this->options), $this->bind("TestCase", compact("className", "shortName", "testFunctions", "namespace")));
+        $args["testFunctions"] = implode("", $functions);
+        $this->output($this->getOutputFileName($this->target, $this->options), $this->bind("TestCase", $args));
         return true;
     }
 

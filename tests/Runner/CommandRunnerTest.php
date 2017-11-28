@@ -6,14 +6,16 @@ use \InvalidArgumentException;
 /**
  * Test Case for Tdd\Runner\CommandRunner
  */
-class CommandRunnerTest extends TddTestBase {
+class CommandRunnerTest extends TddTestBase
+{
     /**
      * Test for main
      * @dataProvider getProvidorRun
      * @param array $argv Argument values
      * @param mixed $excepted
      */ 
-    function testMain(array $argv, $excepted) {
+    function testMain(array $argv, $excepted)
+    {
         try {
             $_SERVER['argv'] = $argv;
             $actual = CommandRunner::main();
@@ -28,7 +30,8 @@ class CommandRunnerTest extends TddTestBase {
      * @dataProvider getProvidorRun
      * @param array $argv Argument values
      */ 
-    function testRun(array $argv, $excepted) {
+    function testRun(array $argv, $excepted)
+    {
         try {
             $this->target = new CommandRunner();
             $actual = $this->target->run($argv);
@@ -42,7 +45,8 @@ class CommandRunnerTest extends TddTestBase {
      * Test Providor for run
      * @return array The list of Test Parameters
      */
-    function getProvidorRun() {
+    function getProvidorRun()
+    {
         $className = "Tdd/Command/TestCode";
         $output = getenv(TEST_OUTPUT_DIR);
         $ArgumentException = new InvalidArgumentException("Argument is missing.");
@@ -74,7 +78,8 @@ class CommandRunnerTest extends TddTestBase {
      * @param Exception $excepted
      * @param Exception $actual 
      */
-    private function assertException($excepted, InvalidArgumentException $actual) {
+    private function assertException($excepted, InvalidArgumentException $actual)
+    {
         $this->assertSame(get_class($excepted), get_class($actual));
         $this->assertSame($excepted->getMessage(), $actual->getMessage());
     }

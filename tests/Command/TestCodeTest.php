@@ -5,13 +5,15 @@ use TddTest\TddTestBase;
 /**
  * Test Case for Tdd\Command\TestCode
  */
-class TestCodeTest extends TddTestBase {
+class TestCodeTest extends TddTestBase
+{
     /**
      * Test for create
      * @dataProvider getProvidorCreate
      * @param string $className Target Class Name 
      */ 
-    function testCreate($className) {
+    function testCreate($className)
+    {
         $dir = getenv(TEST_OUTPUT_DIR);
         $params = ["classname" => $className, "output" => $dir];
         $this->target = new TestCode($params);
@@ -25,7 +27,8 @@ class TestCodeTest extends TddTestBase {
      * Test Providor for create
      * @return array The list of Test Parameters
      */
-    function getProvidorCreate() {
+    function getProvidorCreate()
+    {
         return [
             ["Tdd/Command/TestCode"],
             ["Tdd/Runner/CommandRunner"],

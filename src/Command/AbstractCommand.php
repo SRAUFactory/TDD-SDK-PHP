@@ -7,7 +7,8 @@ use \ReflectionMethod;
  * To inherit this class when TDD command implement.
  * @package Tdd\Command
  */
-abstract class AbstractCommand {
+abstract class AbstractCommand
+{
     /**
      * Target class
      * @var ReflectionClass
@@ -22,7 +23,8 @@ abstract class AbstractCommand {
      * Constructor
      * @param array $options
      */ 
-    public function __construct(array $options) {
+    public function __construct(array $options)
+    {
         $this->target = new ReflectionClass(str_replace("/", "\\", $options['classname']));
         $this->options = $options;
     }

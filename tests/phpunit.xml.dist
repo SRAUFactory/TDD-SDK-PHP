@@ -1,0 +1,15 @@
+<phpunit bootstrap="../autoload.php">
+    <php>
+        <env name="TEST_OUTPUT_DIR" value="./../output" />
+    </php>
+    <testsuites>
+        <testsuite name="tdd-sdk-php">
+            <directory>../tests/*</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

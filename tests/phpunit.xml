@@ -1,19 +1,15 @@
 <phpunit bootstrap="../autoload.php">
     <php>
         <env name="TEST_OUTPUT_DIR" value="./../output" />
-        <env name="TEST_BOOTSTRAP"  value="../autoload.php" />
     </php>
-	<testsuites>
-		<testsuite name="tdd-sdk-php">
+    <testsuites>
+        <testsuite name="tdd-sdk-php">
             <directory>../tests/*</directory>
-		</testsuite>
-	</testsuites>
-	<filter>
-		<whitelist processUncoveredFilesFromWhitelist="true">
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../src</directory>
-		</whitelist>
-	</filter>
-	<logging>
-		<log type="coverage-html" target="../../coverage" />
-	</logging>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -5,7 +5,8 @@ use PHPUnit\Framework\TestCase;
  * Test Case for ###className###
  * @package ###namespace###
  */
-class ###shortName###Test extends TestCase {
+class ###shortName###Test extends TestCase
+{
     /**
      * The instance object to test class
      * @var ###className###
@@ -16,7 +17,8 @@ class ###shortName###Test extends TestCase {
      * @override
      * @see 
      */
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->target = new ###shortName###();
     }
@@ -25,7 +27,8 @@ class ###shortName###Test extends TestCase {
      * @override
      * @see
      */
-    public function tearDown() {
+    public function tearDown()
+    {
         unset($this->target);
         parent::tearDown();
     }

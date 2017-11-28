@@ -5,6 +5,7 @@ use TddTest\TddTestBase;
 use \InvalidArgumentException;
 /**
  * Test Case for Tdd\Runner\CommandRunner
+ * @package TddTest\Runner
  */
 class CommandRunnerTest extends TddTestBase
 {

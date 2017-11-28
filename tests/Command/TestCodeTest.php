@@ -4,6 +4,7 @@ use Tdd\Command\TestCode;
 use TddTest\TddTestBase;
 /**
  * Test Case for Tdd\Command\TestCode
+ * @package TddTest\Command
  */
 class TestCodeTest extends TddTestBase
 {

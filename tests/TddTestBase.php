@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * The test base class on TDD.
  * To inherit this class when TDD test class implement.
+ * @package TddTest
  */ 
 class TddTestBase extends TestCase
 {

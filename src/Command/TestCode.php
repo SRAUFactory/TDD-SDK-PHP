@@ -25,9 +25,10 @@ class TestCode extends AbstractCommand
      */ 
     public function create()
     {
-        $args = ["className" => $this->target->getName(), "shortName" => $this->target->getShortName(), "namespace" => $this->target->getNamespaceName()];
-        $functions = array_map([$this, 'getFunctions'], $this->target->getMethods());
-        $args["testFunctions"] = implode("", $functions);
+        $args = ["className" => $this->target->getName(), "shortName" => $this->target->getShortName(), "namespace" => $this->target->getNamespaceName(), "testFunctions" => ""];
+        foreach ($this->target->getMethods() as $method) {
+            $args["testFunctions"] .= $this->getFunctions($method);
+        }
         $this->output($this->getOutputFileName($this->target, $this->options), $this->bind("TestCase", $args));
         return true;
     }
@@ -35,10 +36,9 @@ class TestCode extends AbstractCommand
     /**
      * Get test functions
      * @param ReflectionMethod $method Target Method
-     * @param int $index The index of Method List
      * @return void
      */ 
-    private function getFunctions(ReflectionMethod $method, $index)
+    private function getFunctions(ReflectionMethod $method)
     {
         if ($this->target->getName() !== $method->class || !$method->isPublic()) return;
 

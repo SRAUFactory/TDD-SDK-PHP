@@ -7,7 +7,8 @@ use \ReflectionParameter;
  * The class to generate Test Code
  * @package Tdd\Command
  */
-class TestCode extends AbstractCommand {
+class TestCode extends AbstractCommand
+{
     /**
      * Traits
      */
@@ -22,7 +23,8 @@ class TestCode extends AbstractCommand {
      * @override
      * @return boolean true is success to create.
      */ 
-    public function create() {
+    public function create()
+    {
         $args = ["className" => $this->target->getName(), "shortName" => $this->target->getShortName(), "namespace" => $this->target->getNamespaceName()];
         $functions = array_map([$this, 'getFunctions'], $this->target->getMethods());
         $args["testFunctions"] = implode("", $functions);
@@ -36,7 +38,8 @@ class TestCode extends AbstractCommand {
      * @param int $index The index of Method List
      * @return void
      */ 
-    private function getFunctions(ReflectionMethod $method, $index) {
+    private function getFunctions(ReflectionMethod $method, $index)
+    {
         if ($this->target->getName() !== $method->class || !$method->isPublic()) return;
 
         $args = ["largeName" => ucfirst($method->name), "name" => $method->name, "docs" => ""];

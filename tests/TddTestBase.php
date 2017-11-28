@@ -4,8 +4,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * The test base class on TDD.
  * To inherit this class when TDD test class implement.
+ * @package TddTest
  */ 
-class TddTestBase extends TestCase {
+class TddTestBase extends TestCase
+{
     /**
      * The instance object to test class
      */
@@ -20,17 +22,19 @@ class TddTestBase extends TestCase {
      * @override
      * @see
      */
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $dir = getenv(TEST_OUTPUT_DIR);
         if (!file_exists($dir)) mkdir($dir);
     }
- 
+
     /**
      * @override
      * @see
      */
-    public function tearDown() {
+    public function tearDown()
+    {
         $dir = getenv(TEST_OUTPUT_DIR);
         if (file_exists($dir) && !in_array($dir, self::$SYSTEM_DIR)) {
             array_walk(scandir($dir), [$this, "removeFile"], $dir);
@@ -46,7 +50,8 @@ class TddTestBase extends TestCase {
      * @param int $key The index of File List
      * @param string $dir Target Directory
      */ 
-    private function removeFile($file, $key, $dir) {
+    private function removeFile($file, $key, $dir)
+    {
         unlink("{$dir}/{$file}");
     } 
 }

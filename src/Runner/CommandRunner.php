@@ -6,7 +6,8 @@ use \InvalidArgumentException;
  * When you execute for CLI, this class use.
  * @package Tdd\Runner
  */
-class CommandRunner {
+class CommandRunner
+{
     /**
      * Supported Classes
      * @var array
@@ -20,7 +21,8 @@ class CommandRunner {
     /**
      * main function
      */ 
-    public static function main() {
+    public static function main()
+    {
         $runner = new static;
         return $runner->run($_SERVER['argv']);
     }
@@ -30,7 +32,8 @@ class CommandRunner {
      * @param array $args
      * @return boolean The result to run command
      */ 
-    public function run(array $args) {
+    public function run(array $args)
+    {
         if (count($args) <= 3) throw new InvalidArgumentException("Argument is missing.");
         $options = [];
         foreach($args as $index => $arg) {

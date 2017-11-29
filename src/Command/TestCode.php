@@ -42,7 +42,9 @@ class TestCode extends AbstractCommand
             'testFunctions' => '',
         ];
         foreach ($this->target->getMethods() as $method) {
-            $args['testFunctions'] .= $this->getFunctions($method);
+            if ($args['className'] === $method->class && $method->isPublic()) {
+                $args['testFunctions'] .= $this->getFunctions($method);
+            }
         }
 
         $fileName = $this->getOutputFileName($this->target, $this->options);
@@ -61,10 +63,6 @@ class TestCode extends AbstractCommand
      */
     private function getFunctions(ReflectionMethod $method)
     {
-        if ($this->target->getName() !== $method->class || !$method->isPublic()) {
-            return;
-        }
-
         $args = [
             'largeName' => ucfirst($method->name),
             'name' => $method->name,
@@ -72,7 +70,7 @@ class TestCode extends AbstractCommand
             'callMethod' => '$this->target->'.$method->name,
         ];
         if ($method->isStatic()) {
-            $args['callMethod'] = $this->target->getShortName()."::{$args['name']}";
+            $args['callMethod'] = $this->target->getShortName()."::".$args['name'];
          }
 
         $params = [];

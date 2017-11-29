@@ -19,6 +19,14 @@ class TestCode extends AbstractCommand
      * PHPDocs Prefix.
      */
     const DOCS_PREFIX = "\n     * ";
+    /**
+     * Argument of Test Function Docs Format
+     */
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX."@param mixed \$%s any param";
+    /**
+     * Data Provider of Test Function Docs Format
+     */
+    const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX."@dataProvider %s%s";
 
     /**
      * @override
@@ -64,12 +72,12 @@ class TestCode extends AbstractCommand
             'callMethod' => '$this->target->'.$method->name,
         ];
         if ($method->isStatic()) {
-            $args['callMethod'] = $this->target->getShortName()."::{$method->name}";
+            $args['callMethod'] = $this->target->getShortName()."::{$args['name']}";
          }
 
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $args['docs'] .= self::DOCS_PREFIX."@param string \${$parameter->name} any param";
+            $args['docs'] .=  sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
         $args['params'] = implode(', ', $params);
@@ -79,7 +87,7 @@ class TestCode extends AbstractCommand
             $dataProvider = $this->bind('TestProvider', $args);
             preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
             $providerName = str_replace($matches[1], '', $matches[0]);
-            $args['docs'] = self::DOCS_PREFIX."@dataProvider {$providerName}{$args['docs']}";
+            $args['docs'] = sprintf(self::DATA_PROVIDER_FORMAT, $providerName, $args['docs']);
         }
 
         return $this->bind('TestFunction', $args).$dataProvider;

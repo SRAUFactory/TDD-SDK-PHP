@@ -20,7 +20,8 @@ trait TemplateTrait
      */
     protected function bind($templateName, array $values)
     {
-        $bindValues = file_get_contents(dirname(__FILE__)."/../../../templates/{$templateName}.txt");
+        $filePath = dirname(__FILE__)."/../../../templates/{$templateName}.txt";
+        $bindValues = file_get_contents($filePath);
         foreach ($values as $key => $value) {
             $bindValues = str_replace("###{$key}###", $value, $bindValues);
         }
@@ -51,10 +52,11 @@ trait TemplateTrait
      */
     protected function getOutputFileName(ReflectionClass $target, array $options)
     {
-        if (empty($options['output'])) {
-            return str_replace('.php', 'Test.php', $target->getFileName());
+        $fileName = $target->getFileName();
+        if (!empty($options['output'])) {
+            $fileName = $options['output'].'/'.$target->getShortName().'.php';
         }
 
-        return $options['output'].'/'.$target->getShortName().'Test.php';
+        return str_replace('.php', 'Test.php', $fileName);
     }
 }

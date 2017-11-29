@@ -72,17 +72,30 @@ class TestCode extends AbstractCommand
             $args['callMethod'] = $this->target->getShortName().'::'.$args['name'];
         }
 
-        $params = [];
-        foreach ($method->getParameters() as $parameter) {
-            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
-            $params[] = '$'.$parameter->name;
-        }
-        $args['params'] = implode(', ', $params);
-
+        $args = $this->setParams2PhpDocs($args, $method->getParameters());
         $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
         $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * Set Params to PHP Docs.
+     *
+     * @param array $args       Arguments for bind to TestFunction
+     * @param array $parameters list of ReflectionParameter
+     *
+     * @return array Arguments after setting
+     */
+    private function setParams2PhpDocs(array $args, array $parameters) {
+        $params = [];
+        foreach ($parameters as $parameter) {
+            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
+            $params[] = '$'.$parameter->name;
+        }
+        $args['params'] = implode(', ', $params);
+        
+        return $args;
     }
 
     /**
@@ -98,9 +111,8 @@ class TestCode extends AbstractCommand
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {
             $providerName = str_replace($matches[1], '', $matches[0]);
-            $docs = self::DOCS_PREFIX.$docs;
             $format = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
-            $docs = sprintf($format, $providerName, $docs);
+            $docs = sprintf($format, $providerName, self::DOCS_PREFIX.$docs);
         }
 
         return $docs;

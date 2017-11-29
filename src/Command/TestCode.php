@@ -28,7 +28,7 @@ class TestCode extends AbstractCommand
      */
     const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
     /**
-     * Format Call Method 
+     * Format Call Method. 
      */
     const FORMAT_CALL_METHOD = '$this->target-';
 

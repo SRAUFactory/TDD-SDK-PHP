@@ -1,16 +1,18 @@
 <?php
+
 namespace Tdd\Command;
-use \ReflectionClass;
-use \ReflectionMethod;
+
+use ReflectionClass;
+
 /**
  * The base class of TDD command.
  * To inherit this class when TDD command implement.
- * @package Tdd\Command
  */
 abstract class AbstractCommand
 {
     /**
-     * Target class
+     * Target class.
+     *
      * @var ReflectionClass
      */
     protected $target;
@@ -20,18 +22,20 @@ abstract class AbstractCommand
     protected $options = [];
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param array $options
-     */ 
+     */
     public function __construct(array $options)
     {
-        $this->target = new ReflectionClass(str_replace("/", "\\", $options['classname']));
+        $this->target = new ReflectionClass(str_replace('/', '\\', $options['classname']));
         $this->options = $options;
     }
 
     /**
-     * Create command
-     * @return boolean true is success to create.
-     */ 
+     * Create command.
+     *
+     * @return bool true is success to create.
+     */
     abstract public function create();
 }

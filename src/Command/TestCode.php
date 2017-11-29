@@ -22,7 +22,7 @@ class TestCode extends AbstractCommand
     /**
      * Argument of Test Function Docs Format.
      */
-    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param mixed \$%s any param';
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param mixed $%s any param';
     /**
      * Data Provider of Test Function Docs Format.
      */
@@ -79,16 +79,29 @@ class TestCode extends AbstractCommand
         }
         $args['params'] = implode(', ', $params);
 
-        $dataProvider = '';
-        if (count($params) > 0) {
-            $dataProvider = $this->bind('TestProvider', $args);
-            preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
-            $providerName = str_replace($matches[1], '', $matches[0]);
-            $args['docs'] = self::DOCS_PREFIX.$args['docs'];
-            $args['docs'] = sprintf(self::DATA_PROVIDER_FORMAT, $providerName, $args['docs']);
-            $args['docs'] = self::DOCS_PREFIX.$args['docs'];
-        }
+        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * Set dataProvider to PHP Docs.
+     *
+     * @param string $docs Traget PHP Docs
+     * @param string $dataProvider Data Provider Values
+     *
+     * @return string PHPDocs after setting
+     */ 
+    private function setDataProvider2PhpDocs($docs, $dataProvider) {
+        preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
+        if (count($matches) >= 2) {
+            $providerName = str_replace($matches[1], '', $matches[0]);
+            $docs = self::DOCS_PREFIX.$docs;
+            $format = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
+            $docs = sprintf($format, $providerName, $docs);
+        }
+
+        return $docs;
     }
 }

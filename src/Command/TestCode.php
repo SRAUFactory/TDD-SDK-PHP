@@ -27,11 +27,19 @@ class TestCode extends AbstractCommand
      */
     public function create()
     {
-        $args = ['className' => $this->target->getName(), 'shortName' => $this->target->getShortName(), 'namespace' => $this->target->getNamespaceName(), 'testFunctions' => ''];
+        $args = [
+            'className' => $this->target->getName(),
+            'shortName' => $this->target->getShortName(),
+            'namespace' => $this->target->getNamespaceName(), 
+            'testFunctions' => '',
+        ];
         foreach ($this->target->getMethods() as $method) {
             $args['testFunctions'] .= $this->getFunctions($method);
         }
-        $this->output($this->getOutputFileName($this->target, $this->options), $this->bind('TestCase', $args));
+
+        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $bindValues = $this->bind('TestCase', $args);
+        $this->output($fileName, $bindValues);
 
         return true;
     }
@@ -49,14 +57,22 @@ class TestCode extends AbstractCommand
             return;
         }
 
-        $args = ['largeName' => ucfirst($method->name), 'name' => $method->name, 'docs' => ''];
+        $args = [
+            'largeName' => ucfirst($method->name),
+            'name' => $method->name,
+            'docs' => '',
+            'callMethod' => '$this->target->'.$method->name,
+        ];
+        if ($method->isStatic()) {
+            $args['callMethod'] = $this->target->getShortName()."::{$method->name}";
+         }
+
         $params = [];
         foreach ($method->getParameters() as $parameter) {
             $args['docs'] .= self::DOCS_PREFIX."@param string \${$parameter->name} any param";
             $params[] = '$'.$parameter->name;
         }
         $args['params'] = implode(', ', $params);
-        $args['callMethod'] = $method->isStatic() ? $this->target->getShortName()."::{$method->name}" : '$this->target->'.$method->name;
 
         $dataProvider = '';
         if (count($params) > 0) {

@@ -27,6 +27,10 @@ class TestCode extends AbstractCommand
      * Data Provider of Test Function Docs Format.
      */
     const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
+    /**
+     * Format Call Method 
+     */
+    const FORMAT_CALL_METHOD = '$this->target-';
 
     /**
      * @override
@@ -49,19 +53,16 @@ class TestCode extends AbstractCommand
      */
     private function getArgumentsOfBind4TestCase()
     {
-        $args = [
-            'className'     => $this->target->getName(),
-            'shortName'     => $this->target->getShortName(),
-            'testFunctions' => '',
-        ];
-
+        $className = $this->target->getName();
+        $shortName = $this->target->getShortName();
+        $testFunctions = '';
         foreach ($this->target->getMethods() as $method) {
-            if ($args['className'] === $method->class && $method->isPublic()) {
-                $args['testFunctions'] .= $this->getFunctions($method);
+            if ($className === $method->class && $method->isPublic()) {
+                $testFunctions .= $this->getFunctions($method);
             }
         }
 
-        return $args;
+        return compact('className', 'shortName', 'testFunctions');
     }
 
     /**
@@ -90,17 +91,13 @@ class TestCode extends AbstractCommand
      */
     private function getArgumentsOfBind4TestFunction(ReflectionMethod $method)
     {
-        $args = [
-            'largeName'  => ucfirst($method->name),
-            'name'       => $method->name,
-            'docs'       => '',
-            'callMethod' => '$this->target->'.$method->name,
-        ];
+        $largeName = ucfirst($method->name);
+        $callMethod = self::FORMAT_CALL_METHOD.$method->name;
         if ($method->isStatic()) {
-            $args['callMethod'] = $this->target->getShortName().'::'.$args['name'];
+            $callMethod = $this->target->getShortName().'::'.$method->name;
         }
 
-        return $args;
+        return ['name' => $method->name] + compact('largeName', 'callMethod');
     }
 
     /**
@@ -114,6 +111,7 @@ class TestCode extends AbstractCommand
     private function setParams2PhpDocs(array $args, array $parameters)
     {
         $params = [];
+        $args['docs'] = '';
         foreach ($parameters as $parameter) {
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;

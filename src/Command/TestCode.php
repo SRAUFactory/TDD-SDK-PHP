@@ -43,7 +43,7 @@ class TestCode extends AbstractCommand
     }
 
     /**
-     * Get Arguments of Bind for Test Case
+     * Get Arguments of Bind for Test Case.
      *
      * @return array Arguments of Bind for Test Case
      */
@@ -53,7 +53,7 @@ class TestCode extends AbstractCommand
             'className'     => $this->target->getName(),
             'shortName'     => $this->target->getShortName(),
             'testFunctions' => '',
-        ];  
+        ];
 
         foreach ($this->target->getMethods() as $method) {
             if ($args['className'] === $method->class && $method->isPublic()) {
@@ -82,7 +82,7 @@ class TestCode extends AbstractCommand
     }
 
     /**
-     * Get Arguments of Bind for Test Function
+     * Get Arguments of Bind for Test Function.
      *
      * @param ReflectionMethod $method Target Method
      *

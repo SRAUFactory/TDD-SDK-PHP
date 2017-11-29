@@ -38,7 +38,7 @@ class TestCode extends AbstractCommand
         $args = [
             'className'     => $this->target->getName(),
             'shortName'     => $this->target->getShortName(),
-            'namespace'     => $this->target->getNamespaceName(), 
+            'namespace'     => $this->target->getNamespaceName(),
             'testFunctions' => '',
         ];
         foreach ($this->target->getMethods() as $method) {
@@ -71,11 +71,11 @@ class TestCode extends AbstractCommand
         ];
         if ($method->isStatic()) {
             $args['callMethod'] = $this->target->getShortName().'::'.$args['name'];
-         }
+        }
 
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $args['docs'] .=  sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
+            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
         $args['params'] = implode(', ', $params);

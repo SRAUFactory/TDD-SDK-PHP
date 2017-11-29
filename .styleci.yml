@@ -1,4 +1,7 @@
 risky: false
 linting: true
 preset: recommended
+enabled:
+    - strict
+    - unalign_double_arrow
 

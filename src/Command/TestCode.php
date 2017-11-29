@@ -93,9 +93,8 @@ class TestCode extends AbstractCommand
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
-        $args['params'] = implode(', ', $params);
         
-        return $args;
+        return $args + ['params' => implode(', ', $params)];
     }
 
     /**

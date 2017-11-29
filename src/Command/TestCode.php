@@ -38,7 +38,6 @@ class TestCode extends AbstractCommand
         $args = [
             'className'     => $this->target->getName(),
             'shortName'     => $this->target->getShortName(),
-            'namespace'     => $this->target->getNamespaceName(),
             'testFunctions' => '',
         ];
         foreach ($this->target->getMethods() as $method) {
@@ -85,7 +84,9 @@ class TestCode extends AbstractCommand
             $dataProvider = $this->bind('TestProvider', $args);
             preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
             $providerName = str_replace($matches[1], '', $matches[0]);
+            $args['docs'] = self::DOCS_PREFIX. $args['docs'];
             $args['docs'] = sprintf(self::DATA_PROVIDER_FORMAT, $providerName, $args['docs']);
+            $args['docs'] = self::DOCS_PREFIX. $args['docs'];
         }
 
         return $this->bind('TestFunction', $args).$dataProvider;

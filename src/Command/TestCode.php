@@ -92,8 +92,9 @@ class TestCode extends AbstractCommand
      * @param string $dataProvider Data Provider Values
      *
      * @return string PHPDocs after setting
-     */ 
-    private function setDataProvider2PhpDocs($docs, $dataProvider) {
+     */
+    private function setDataProvider2PhpDocs($docs, $dataProvider)
+    {
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {
             $providerName = str_replace($matches[1], '', $matches[0]);

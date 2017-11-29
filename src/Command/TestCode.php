@@ -88,7 +88,7 @@ class TestCode extends AbstractCommand
     /**
      * Set dataProvider to PHP Docs.
      *
-     * @param string $docs Traget PHP Docs
+     * @param string $docs         Traget PHP Docs
      * @param string $dataProvider Data Provider Values
      *
      * @return string PHPDocs after setting

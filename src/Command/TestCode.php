@@ -20,13 +20,13 @@ class TestCode extends AbstractCommand
      */
     const DOCS_PREFIX = "\n     * ";
     /**
-     * Argument of Test Function Docs Format
+     * Argument of Test Function Docs Format.
      */
-    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX."@param mixed \$%s any param";
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param mixed \$%s any param';
     /**
-     * Data Provider of Test Function Docs Format
+     * Data Provider of Test Function Docs Format.
      */
-    const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX."@dataProvider %s%s";
+    const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
 
     /**
      * @override
@@ -36,9 +36,9 @@ class TestCode extends AbstractCommand
     public function create()
     {
         $args = [
-            'className' => $this->target->getName(),
-            'shortName' => $this->target->getShortName(),
-            'namespace' => $this->target->getNamespaceName(), 
+            'className'     => $this->target->getName(),
+            'shortName'     => $this->target->getShortName(),
+            'namespace'     => $this->target->getNamespaceName(), 
             'testFunctions' => '',
         ];
         foreach ($this->target->getMethods() as $method) {
@@ -64,13 +64,13 @@ class TestCode extends AbstractCommand
     private function getFunctions(ReflectionMethod $method)
     {
         $args = [
-            'largeName' => ucfirst($method->name),
-            'name' => $method->name,
-            'docs' => '',
+            'largeName'  => ucfirst($method->name),
+            'name'       => $method->name,
+            'docs'       => '',
             'callMethod' => '$this->target->'.$method->name,
         ];
         if ($method->isStatic()) {
-            $args['callMethod'] = $this->target->getShortName()."::".$args['name'];
+            $args['callMethod'] = $this->target->getShortName().'::'.$args['name'];
          }
 
         $params = [];

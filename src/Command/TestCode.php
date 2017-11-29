@@ -35,22 +35,33 @@ class TestCode extends AbstractCommand
      */
     public function create()
     {
+        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $bindValues = $this->bind('TestCase', $this->getArgumentsOfBind4TestCase());
+        $this->output($fileName, $bindValues);
+
+        return true;
+    }
+
+    /**
+     * Get Arguments of Bind for Test Case
+     *
+     * @return array Arguments of Bind for Test Case
+     */
+    private function getArgumentsOfBind4TestCase()
+    {
         $args = [
             'className'     => $this->target->getName(),
             'shortName'     => $this->target->getShortName(),
             'testFunctions' => '',
-        ];
+        ];  
+
         foreach ($this->target->getMethods() as $method) {
             if ($args['className'] === $method->class && $method->isPublic()) {
                 $args['testFunctions'] .= $this->getFunctions($method);
             }
         }
 
-        $fileName = $this->getOutputFileName($this->target, $this->options);
-        $bindValues = $this->bind('TestCase', $args);
-        $this->output($fileName, $bindValues);
-
-        return true;
+        return $args;
     }
 
     /**
@@ -58,9 +69,26 @@ class TestCode extends AbstractCommand
      *
      * @param ReflectionMethod $method Target Method
      *
-     * @return void
+     * @return string Test Function Values
      */
     private function getFunctions(ReflectionMethod $method)
+    {
+        $args = $this->getArgumentsOfBind4TestFunction($method);
+        $args = $this->setParams2PhpDocs($args, $method->getParameters());
+        $dataProvider = (!empty($args['params'])) ? $this->bind('TestProvider', $args) : '';
+        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
+
+        return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * Get Arguments of Bind for Test Function
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return array Arguments of Bind for Test Function
+     */
+    private function getArgumentsOfBind4TestFunction(ReflectionMethod $method)
     {
         $args = [
             'largeName'  => ucfirst($method->name),
@@ -72,28 +100,25 @@ class TestCode extends AbstractCommand
             $args['callMethod'] = $this->target->getShortName().'::'.$args['name'];
         }
 
-        $args = $this->setParams2PhpDocs($args, $method->getParameters());
-        $dataProvider = (!empty($args['params'])) ? $this->bind('TestProvider', $args) : '';
-        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
-
-        return $this->bind('TestFunction', $args).$dataProvider;
+        return $args;
     }
 
     /**
      * Set Params to PHP Docs.
      *
-     * @param array $args       Arguments for bind to TestFunction
-     * @param array $parameters list of ReflectionParameter
+     * @param array $args       Arguments for Bind to TestFunction
+     * @param array $parameters The list of ReflectionParameter
      *
      * @return array Arguments after setting
      */
-    private function setParams2PhpDocs(array $args, array $parameters) {
+    private function setParams2PhpDocs(array $args, array $parameters)
+    {
         $params = [];
         foreach ($parameters as $parameter) {
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
-        
+
         return $args + ['params' => implode(', ', $params)];
     }
 

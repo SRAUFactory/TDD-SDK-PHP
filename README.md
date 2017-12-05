@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/SRAUFactory/TDD-SDK-PHP.svg?branch=master)](https://travis-ci.org/SRAUFactory/TDD-SDK-PHP)
 [![StyleCI](https://styleci.io/repos/73277248/shield?branch=master)](https://styleci.io/repos/73277248)
+[![Coverage Status](https://coveralls.io/repos/github/SRAUFactory/TDD-SDK-PHP/badge.svg?branch=master)](https://coveralls.io/github/SRAUFactory/TDD-SDK-PHP?branch=master)
 
 ## Overview
 This SDK is a tool for supporting Test Driven Development (TDD) by PHP.

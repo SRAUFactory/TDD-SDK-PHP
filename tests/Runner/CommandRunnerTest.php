@@ -62,7 +62,7 @@ class CommandRunnerTest extends TddTestBase
 
         return [
             [
-                ['tdd', 'create', 'test',   '--classname='.$className, '--output='.$output],
+                ['tdd', 'create', 'test',   '--classname='.$className, '--output='.$output, 'test=test'],
                 true,
             ],
             [

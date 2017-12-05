@@ -22,7 +22,7 @@ class CommandRunner
     ];
 
     /**
-     * main function.
+     * Main function.
      */
     public static function main()
     {
@@ -32,7 +32,7 @@ class CommandRunner
     }
 
     /**
-     * run command.
+     * Run command.
      *
      * @param array $args Arguments for execute
      *
@@ -53,7 +53,7 @@ class CommandRunner
     }
 
     /**
-     * Get Options
+     * Get options.
      *
      * @param array $args Arguments for execute
      *

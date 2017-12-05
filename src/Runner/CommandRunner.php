@@ -17,12 +17,12 @@ class CommandRunner
      */
     const SUPPORTED_CLASSES = [
         'test' => 'Tdd\\Command\\TestCode',
-//        "source" => "Tdd\\Command\\SourceCode",
-//        "doc" => "Tdd\\Command\\Document",
+        //        "source" => "Tdd\\Command\\SourceCode",
+        //        "doc" => "Tdd\\Command\\Document",
     ];
 
     /**
-     * main function.
+     * Main function.
      */
     public static function main()
     {
@@ -32,9 +32,9 @@ class CommandRunner
     }
 
     /**
-     * run command.
+     * Run command.
      *
-     * @param array $args
+     * @param array $args Arguments for execute
      *
      * @return bool The result to run command
      */
@@ -43,9 +43,28 @@ class CommandRunner
         if (count($args) <= 3) {
             throw new InvalidArgumentException('Argument is missing.');
         }
+        $command = self::SUPPORTED_CLASSES[$args[2]];
+        if (empty($command)) {
+            throw new InvalidArgumentException('No such command!!');
+        }
+        $commandClass = new $command($this->getOptions($args));
+
+        return $commandClass->{$args[1]}();
+    }
+
+    /**
+     * Get options.
+     *
+     * @param array $args Arguments for execute
+     *
+     * @return array Optional Values
+     */
+    private function getOptions(array $args)
+    {
+        unset($args[0], $args[1], $args[2]);
         $options = [];
         foreach ($args as $index => $arg) {
-            if ($index <= 2 || strlen($arg) <= 2 || substr($arg, 0, 2) !== '--') {
+            if (strlen($arg) <= 2 || substr($arg, 0, 2) !== '--') {
                 continue;
             }
             $argv = explode('=', substr($arg, 2));
@@ -54,12 +73,6 @@ class CommandRunner
             }
         }
 
-        $command = self::SUPPORTED_CLASSES[$args[2]];
-        if (empty($command)) {
-            throw new InvalidArgumentException('No such command!!');
-        }
-        $commandClass = new $command($options);
-
-        return $commandClass->{$args[1]}();
+        return $options;
     }
 }

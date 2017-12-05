@@ -3,18 +3,19 @@ use ###className###;
 use PHPUnit\Framework\TestCase;
 /**
  * Test Case for ###className###
- * @package ###namespace###
  */
 class ###shortName###Test extends TestCase
 {
     /**
      * The instance object to test class
+     *
      * @var ###className###
      */
     protected $target;
 
     /**
      * @override
+     *
      * @see 
      */
     public function setUp()
@@ -25,6 +26,7 @@ class ###shortName###Test extends TestCase
 
     /**
      * @override
+
      * @see
      */
     public function tearDown()

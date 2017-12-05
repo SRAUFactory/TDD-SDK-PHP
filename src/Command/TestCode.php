@@ -19,6 +19,18 @@ class TestCode extends AbstractCommand
      * PHPDocs Prefix.
      */
     const DOCS_PREFIX = "\n     * ";
+    /**
+     * Argument of Test Function Docs Format.
+     */
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param mixed $%s any param';
+    /**
+     * Data Provider of Test Function Docs Format.
+     */
+    const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
+    /**
+     * Format Call Method.
+     */
+    const FORMAT_CALL_METHOD = '$this->target->';
 
     /**
      * @override
@@ -27,11 +39,19 @@ class TestCode extends AbstractCommand
      */
     public function create()
     {
-        $args = ['className' => $this->target->getName(), 'shortName' => $this->target->getShortName(), 'namespace' => $this->target->getNamespaceName(), 'testFunctions' => ''];
+        $args = [
+            'className'     => $this->target->getName(),
+            'shortName'     => $this->target->getShortName(),
+            'testFunctions' => '',
+        ];
         foreach ($this->target->getMethods() as $method) {
-            $args['testFunctions'] .= $this->getFunctions($method);
+            if ($args['className'] === $method->class && $method->isPublic()) {
+                $args['testFunctions'] .= $this->getFunctions($method);
+            }
         }
-        $this->output($this->getOutputFileName($this->target, $this->options), $this->bind('TestCase', $args));
+
+        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $this->output($fileName, $this->bind('TestCase', $args));
 
         return true;
     }
@@ -41,31 +61,50 @@ class TestCode extends AbstractCommand
      *
      * @param ReflectionMethod $method Target Method
      *
-     * @return void
+     * @return string Test Function Values
      */
     private function getFunctions(ReflectionMethod $method)
     {
-        if ($this->target->getName() !== $method->class || !$method->isPublic()) {
-            return;
+        $args = [
+            'name'       => $method->name,
+            'largeName'  => ucfirst($method->name),
+            'callMethod' => self::FORMAT_CALL_METHOD.$method->name,
+            'docs'       => '',
+        ];
+        if ($method->isStatic()) {
+            $args['callMethod'] = $this->target->getShortName().'::'.$method->name;
         }
 
-        $args = ['largeName' => ucfirst($method->name), 'name' => $method->name, 'docs' => ''];
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $args['docs'] .= self::DOCS_PREFIX."@param string \${$parameter->name} any param";
+            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
         $args['params'] = implode(', ', $params);
-        $args['callMethod'] = $method->isStatic() ? $this->target->getShortName()."::{$method->name}" : '$this->target->'.$method->name;
 
-        $dataProvider = '';
-        if (count($params) > 0) {
-            $dataProvider = $this->bind('TestProvider', $args);
-            preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
-            $providerName = str_replace($matches[1], '', $matches[0]);
-            $args['docs'] = self::DOCS_PREFIX."@dataProvider {$providerName}{$args['docs']}";
-        }
+        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * Set dataProvider to PHP Docs.
+     *
+     * @param string $docs         Traget PHP Docs
+     * @param string $dataProvider Data Provider Values
+     *
+     * @return string PHPDocs after setting
+     */
+    private function setDataProvider2PhpDocs($docs, $dataProvider)
+    {
+        preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
+        if (count($matches) >= 2) {
+            $providerName = str_replace($matches[1], '', $matches[0]);
+            $format = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
+            $docs = sprintf($format, $providerName, self::DOCS_PREFIX.$docs);
+        }
+
+        return $docs;
     }
 }

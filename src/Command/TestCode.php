@@ -39,30 +39,21 @@ class TestCode extends AbstractCommand
      */
     public function create()
     {
-        $fileName = $this->getOutputFileName($this->target, $this->options);
-        $bindValues = $this->bind('TestCase', $this->getArgumentsOfBind4TestCase());
-        $this->output($fileName, $bindValues);
-
-        return true;
-    }
-
-    /**
-     * Get Arguments of Bind for Test Case.
-     *
-     * @return array Arguments of Bind for Test Case
-     */
-    private function getArgumentsOfBind4TestCase()
-    {
-        $className = $this->target->getName();
-        $shortName = $this->target->getShortName();
-        $testFunctions = '';
+        $args = [
+            'className'     => $this->target->getName(),
+            'shortName'     => $this->target->getShortName(),
+            'testFunctions' => '',
+        ];
         foreach ($this->target->getMethods() as $method) {
-            if ($className === $method->class && $method->isPublic()) {
-                $testFunctions .= $this->getFunctions($method);
+            if ($args['className'] === $method->class && $method->isPublic()) {
+                $args['testFunctions'] .= $this->getFunctions($method);
             }
         }
 
-        return compact('className', 'shortName', 'testFunctions');
+        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $this->output($fileName, $this->bind('TestCase', $args));
+
+        return true;
     }
 
     /**

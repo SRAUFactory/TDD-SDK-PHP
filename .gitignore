@@ -3,3 +3,4 @@ templates/*Test.php
 vendor
 composer.lock
 tests/phpunit.xml
+build/logs/clover.xml

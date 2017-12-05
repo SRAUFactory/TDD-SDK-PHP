@@ -30,7 +30,7 @@ class TestCode extends AbstractCommand
     /**
      * Format Call Method.
      */
-    const FORMAT_CALL_METHOD = '$this->target-';
+    const FORMAT_CALL_METHOD = '$this->target->';
 
     /**
      * @override
@@ -74,50 +74,27 @@ class TestCode extends AbstractCommand
      */
     private function getFunctions(ReflectionMethod $method)
     {
-        $args = $this->getArgumentsOfBind4TestFunction($method);
-        $args = $this->setParams2PhpDocs($args, $method->getParameters());
-        $dataProvider = (!empty($args['params'])) ? $this->bind('TestProvider', $args) : '';
-        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
-
-        return $this->bind('TestFunction', $args).$dataProvider;
-    }
-
-    /**
-     * Get Arguments of Bind for Test Function.
-     *
-     * @param ReflectionMethod $method Target Method
-     *
-     * @return array Arguments of Bind for Test Function
-     */
-    private function getArgumentsOfBind4TestFunction(ReflectionMethod $method)
-    {
-        $largeName = ucfirst($method->name);
-        $callMethod = self::FORMAT_CALL_METHOD.$method->name;
+        $args = [
+            'name'       => $method->name,
+            'largeName'  => ucfirst($method->name),
+            'callMethod' => self::FORMAT_CALL_METHOD.$method->name,
+            'docs'       => '',
+        ];
         if ($method->isStatic()) {
-            $callMethod = $this->target->getShortName().'::'.$method->name;
+            $args['callMethod'] = $this->target->getShortName().'::'.$method->name;
         }
 
-        return ['name' => $method->name] + compact('largeName', 'callMethod');
-    }
-
-    /**
-     * Set Params to PHP Docs.
-     *
-     * @param array $args       Arguments for Bind to TestFunction
-     * @param array $parameters The list of ReflectionParameter
-     *
-     * @return array Arguments after setting
-     */
-    private function setParams2PhpDocs(array $args, array $parameters)
-    {
         $params = [];
-        $args['docs'] = '';
-        foreach ($parameters as $parameter) {
+        foreach ($method->getParameters() as $parameter) {
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
+        $args['params'] = implode(', ', $params);
 
-        return $args + ['params' => implode(', ', $params)];
+        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
+
+        return $this->bind('TestFunction', $args).$dataProvider;
     }
 
     /**

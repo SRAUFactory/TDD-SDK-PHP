@@ -22,7 +22,7 @@ class TestCode extends AbstractCommand
     /**
      * Argument of Test Function Docs Format.
      */
-    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param mixed $%s any param';
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param %s $%s any param';
     /**
      * Data Provider of Test Function Docs Format.
      */
@@ -77,7 +77,8 @@ class TestCode extends AbstractCommand
 
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $parameter->name);
+            $type = $parameter->getType();
+            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
         $args['params'] = implode(', ', $params);

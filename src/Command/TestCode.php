@@ -34,7 +34,7 @@ class TestCode extends AbstractCommand
     /**
      * Type Unknown.
      */
-    const TYPE_UNKNOWN = "mixed";
+    const TYPE_UNKNOWN = 'mixed';
 
     /**
      * @override

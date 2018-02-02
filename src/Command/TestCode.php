@@ -33,7 +33,7 @@ class TestCode extends AbstractCommand
     const FORMAT_CALL_METHOD = '$this->target->';
     /**
      * Type Unknown.
-     */ 
+     */
     const TYPE_UNKNOWN = "mixed";
 
     /**

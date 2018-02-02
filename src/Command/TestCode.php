@@ -32,7 +32,7 @@ class TestCode extends AbstractCommand
      */
     const FORMAT_CALL_METHOD = '$this->target->';
     /**
-     * Type Unknown
+     * Type Unknown.
      */ 
     const TYPE_UNKNOWN = "mixed";
 
@@ -81,7 +81,7 @@ class TestCode extends AbstractCommand
 
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $type = $parameter->getType()?? self::TYPE_UNKNOWN;
+            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
             $params[] = '$'.$parameter->name;
         }

@@ -12,8 +12,5 @@
             "Tdd\\" : "src/",
             "TddTest\\" : "tests/"
         }
-    },
-    "require-dev": {
-        "satooshi/php-coveralls": "dev-master"
     }
 }

@@ -10,4 +10,4 @@ script:
     - phpunit --coverage-clover build/logs/clover.xml --configuration tests/phpunit.xml.dist tests
 
 after_script:
-    - php vendor/bin/coveralls -v
+

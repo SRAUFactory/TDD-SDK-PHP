@@ -37,6 +37,11 @@ class TestCode extends AbstractCommand
     const TYPE_UNKNOWN = 'mixed';
 
     /**
+     * Main Template Name.
+     */
+    const MAIN_TEMPLATE_NAME = 'TestCase';
+
+    /**
      * File Ext.
      */
     const FILE_EXT_TARGET = self::DEFAULT_FILE_EXT;
@@ -50,7 +55,7 @@ class TestCode extends AbstractCommand
     public function create() : bool
     {
         $fileName = $this->getOutputFileName($this->target, $this->options);
-        $this->output($fileName, $this->bind('TestCase', $this->getOutputValues()));
+        $this->output($fileName, $this->bind(self::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
 
         return true;
     }

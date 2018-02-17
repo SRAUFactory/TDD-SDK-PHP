@@ -68,7 +68,7 @@ class CommandRunnerTest extends TddTestBase
             ],
             [
                 ['tdd', 'create', 'source', '--classname='.$className, '--output='.$output],
-                $NoSuchCommandException,
+                true,
             ],
             [
                 ['tdd', 'create', 'doc',    '--classname='.$className, '--output='.$output],

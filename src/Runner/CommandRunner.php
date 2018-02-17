@@ -17,8 +17,7 @@ class CommandRunner
      */
     const SUPPORTED_CLASSES = [
         'test' => 'Tdd\\Command\\TestCode',
-        //        "source" => "Tdd\\Command\\SourceCode",
-        //        "doc" => "Tdd\\Command\\Document",
+        'source' => 'Tdd\\Command\\SourceCode',
     ];
 
     /**

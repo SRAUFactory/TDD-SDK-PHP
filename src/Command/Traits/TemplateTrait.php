@@ -27,8 +27,8 @@ trait TemplateTrait
      */
     protected function bind(string $templateName, array $values) : string
     {
-        $dirPath    = $this->getTemplateDirPath();
-        $filePath   = dirname(__FILE__)."/../../../templates/{$dirPath}/{$templateName}.txt";
+        $dirPath = $this->getTemplateDirPath();
+        $filePath = dirname(__FILE__)."/../../../templates/{$dirPath}/{$templateName}.txt";
         $bindValues = file_get_contents($filePath);
 
         foreach ($values as $key => $value) {

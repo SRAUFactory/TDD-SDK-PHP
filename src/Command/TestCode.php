@@ -101,8 +101,8 @@ class TestCode extends AbstractCommand
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
             $params[] = '$'.$parameter->name;
         }
-
         $args['params'] = implode(', ', $params);
+
         $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
         $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 

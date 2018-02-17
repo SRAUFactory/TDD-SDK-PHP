@@ -62,18 +62,17 @@ class TestCode extends AbstractCommand
      */
     protected function getOutputValues() : array
     {
-        $values = [
-            'className'     => $this->target->getName(),
-            'shortName'     => $this->target->getShortName(),
-            'testFunctions' => '',
-        ];
+        $className = $this->target->getName();
+        $shortName = $this->target->getShortName();
+        $testFunctions = '';
+
         foreach ($this->target->getMethods() as $method) {
-            if ($values['className'] === $method->class && $method->isPublic()) {
-                $values['testFunctions'] .= $this->getFunctions($method);
+            if ($className === $method->class && $method->isPublic()) {
+                $testFunctions .= $this->getFunctions($method);
             }
         }
 
-        return $values;
+        return compact('className', 'shortName', 'testFunctions');
     }
 
     /**

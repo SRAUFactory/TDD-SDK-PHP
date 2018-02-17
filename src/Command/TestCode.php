@@ -77,7 +77,7 @@ class TestCode extends AbstractCommand
      *
      * @return string Test Function Values
      */
-    private function getFunctions(ReflectionMethod $method)
+    private function getFunctions(ReflectionMethod $method) : string
     {
         $args = [
             'name'       => $method->name,
@@ -111,7 +111,7 @@ class TestCode extends AbstractCommand
      *
      * @return string PHPDocs after setting
      */
-    private function setDataProvider2PhpDocs($docs, $dataProvider)
+    private function setDataProvider2PhpDocs(string $docs, $dataProvider) : string
     {
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {

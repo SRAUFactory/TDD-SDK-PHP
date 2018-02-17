@@ -39,9 +39,9 @@ class TestCode extends AbstractCommand
     /**
      * @override
      *
-     * @return bool true is success to create.
+     * @see Tdd\Command\AbstractCommand::create
      */
-    public function create()
+    public function create() : bool
     {
         $args = [
             'className'     => $this->target->getName(),

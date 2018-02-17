@@ -37,5 +37,5 @@ abstract class AbstractCommand
      *
      * @return bool true is success to create.
      */
-    abstract public function create();
+    abstract public function create() : bool;
 }

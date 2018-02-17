@@ -23,8 +23,10 @@ class CommandRunner
 
     /**
      * Main function.
+     *
+     * @return bool Result
      */
-    public static function main()
+    public static function main() : bool
     {
         $runner = new static();
 
@@ -38,7 +40,7 @@ class CommandRunner
      *
      * @return bool The result to run command
      */
-    public function run(array $args)
+    public function run(array $args) : bool
     {
         if (count($args) <= 3) {
             throw new InvalidArgumentException('Argument is missing.');
@@ -59,7 +61,7 @@ class CommandRunner
      *
      * @return array Optional Values
      */
-    private function getOptions(array $args)
+    private function getOptions(array $args) : array
     {
         unset($args[0], $args[1], $args[2]);
         $options = [];

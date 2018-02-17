@@ -11,6 +11,13 @@ use ReflectionClass;
 trait TemplateTrait
 {
     /**
+     * Get template directory path.
+     *
+     * @return string
+     */
+    abstract protected function getTemplateDirPath();
+
+    /**
      * The values bind on template.
      *
      * @param string $templateName Template file name
@@ -20,8 +27,10 @@ trait TemplateTrait
      */
     protected function bind($templateName, array $values)
     {
-        $filePath = dirname(__FILE__)."/../../../templates/{$templateName}.txt";
+        $dirPath    = $this->getTemplateDirPath();
+        $filePath   = dirname(__FILE__)."/../../../templates/{$dirPath}/{$templateName}.txt";
         $bindValues = file_get_contents($filePath);
+
         foreach ($values as $key => $value) {
             $bindValues = str_replace("###{$key}###", $value, $bindValues);
         }

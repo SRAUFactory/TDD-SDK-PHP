@@ -61,6 +61,16 @@ class TestCode extends AbstractCommand
     }
 
     /**
+     * @override
+     *
+     * @see Tdd\Command\Traits\TemplateTrait::getTemplateDirPath
+     */
+    protected function getTemplateDirPath()
+    {
+        return "TestCode";
+    }
+
+    /**
      * Get test functions.
      *
      * @param ReflectionMethod $method Target Method
@@ -81,14 +91,14 @@ class TestCode extends AbstractCommand
 
         $params = [];
         foreach ($method->getParameters() as $parameter) {
-            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
+            $type          = $parameter->getType() ?? self::TYPE_UNKNOWN;
             $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
-            $params[] = '$'.$parameter->name;
+            $params[]      = '$'.$parameter->name;
         }
-        $args['params'] = implode(', ', $params);
 
-        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
-        $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
+        $args['params'] = implode(', ', $params);
+        $dataProvider   = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $args['docs']   = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
     }
@@ -106,8 +116,8 @@ class TestCode extends AbstractCommand
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {
             $providerName = str_replace($matches[1], '', $matches[0]);
-            $format = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
-            $docs = sprintf($format, $providerName, self::DOCS_PREFIX.$docs);
+            $format       = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
+            $docs         = sprintf($format, $providerName, self::DOCS_PREFIX.$docs);
         }
 
         return $docs;

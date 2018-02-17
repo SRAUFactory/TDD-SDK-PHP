@@ -49,19 +49,8 @@ class TestCode extends AbstractCommand
      */
     public function create() : bool
     {
-        $args = [
-            'className'     => $this->target->getName(),
-            'shortName'     => $this->target->getShortName(),
-            'testFunctions' => '',
-        ];
-        foreach ($this->target->getMethods() as $method) {
-            if ($args['className'] === $method->class && $method->isPublic()) {
-                $args['testFunctions'] .= $this->getFunctions($method);
-            }
-        }
-
         $fileName = $this->getOutputFileName($this->target, $this->options);
-        $this->output($fileName, $this->bind('TestCase', $args));
+        $this->output($fileName, $this->bind('TestCase', $this->getOutputValues()));
 
         return true;
     }
@@ -74,6 +63,27 @@ class TestCode extends AbstractCommand
     protected function getTemplateDirPath() : string
     {
         return 'TestCode';
+    }
+
+    /**
+     * Get output values.
+     *
+     * @return array Output Values
+     */
+    protected function getOutputValues() : array
+    {
+        $values = [
+            'className'     => $this->target->getName(),
+            'shortName'     => $this->target->getShortName(),
+            'testFunctions' => '',
+        ];
+        foreach ($this->target->getMethods() as $method) {
+            if ($values['className'] === $method->class && $method->isPublic()) {
+                $values['testFunctions'] .= $this->getFunctions($method);
+            }
+        }
+
+        return $values;
     }
 
     /**

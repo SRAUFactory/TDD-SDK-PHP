@@ -6,7 +6,7 @@ use Tdd\Command\SourceCode;
 use TddTest\TddTestBase;
 
 /**
- * Test Case for Tdd\Command\SourceCode
+ * Test Case for Tdd\Command\SourceCode.
  */
 class SourceCodeTest extends TddTestBase
 {
@@ -17,7 +17,7 @@ class SourceCodeTest extends TddTestBase
      *
      * @param string $className Target Class Name
      */
-    function testCreate(string $className)
+    public function testCreate(string $className)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
         $this->target = new SourceCode(['classname' => $className, 'output' => $dir]);
@@ -29,9 +29,9 @@ class SourceCodeTest extends TddTestBase
     /**
      * Test Providor for create.
      *
-     * @return array The list of Test Parameters 
+     * @return array The list of Test Parameters
      */
-    function getProvidorCreate()
+    public function getProvidorCreate()
     {
         return [
             ['TddTest/Command/TestCodeTest'],

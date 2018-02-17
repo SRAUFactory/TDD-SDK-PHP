@@ -37,6 +37,12 @@ class TestCode extends AbstractCommand
     const TYPE_UNKNOWN = 'mixed';
 
     /**
+     * File Ext.
+     */
+    const FILE_EXT_TARGET = self::DEFAULT_FILE_EXT;
+    const FILE_EXT_OUTPUT = 'Test.php';
+
+    /**
      * @override
      *
      * @see Tdd\Command\AbstractCommand::create

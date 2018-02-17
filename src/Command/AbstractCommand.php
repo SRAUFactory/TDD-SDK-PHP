@@ -11,6 +11,11 @@ use ReflectionClass;
 abstract class AbstractCommand
 {
     /**
+     * Default File Ext.
+     */ 
+    const DEFAULT_FILE_EXT = '.php';
+
+    /**
      * Target class.
      *
      * @var ReflectionClass

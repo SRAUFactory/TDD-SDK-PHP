@@ -66,6 +66,6 @@ trait TemplateTrait
             $fileName = $options['output'].'/'.$target->getShortName().'.php';
         }
 
-        return str_replace('.php', 'Test.php', $fileName);
+        return str_replace(self::FILE_EXT_TARGET, self::FILE_EXT_OUTPUT, $fileName);
     }
 }

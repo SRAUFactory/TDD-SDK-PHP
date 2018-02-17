@@ -15,6 +15,11 @@ class SourceCode extends AbstractCommand
     use TemplateTrait;
 
     /**
+     * Main Template Name.
+     */
+    const MAIN_TEMPLATE_NAME = 'Class';
+
+    /**
      * File Ext.
      */
     const FILE_EXT_TARGET = 'Test.php';
@@ -23,11 +28,11 @@ class SourceCode extends AbstractCommand
     /**
      * @override
      *
-     * @see Tdd\Command\AbstractCommand::create
+     * @see Tdd\Command\AbstractCommand::getOutputValues
      */
-    public function create() : bool
+    protected function getOutputValues() : array
     {
         // @ToDo Implement codes
-        return true;
+        return [];
     }
 }

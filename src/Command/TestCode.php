@@ -50,20 +50,7 @@ class TestCode extends AbstractCommand
     /**
      * @override
      *
-     * @see Tdd\Command\AbstractCommand::create
-     */
-    public function create() : bool
-    {
-        $fileName = $this->getOutputFileName($this->target, $this->options);
-        $this->output($fileName, $this->bind(self::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
-
-        return true;
-    }
-
-    /**
-     * Get output values.
-     *
-     * @return array Output Values
+     * @see Tdd\Command\AbstractCommand::getOutputValues
      */
     protected function getOutputValues() : array
     {

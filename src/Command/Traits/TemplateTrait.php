@@ -15,7 +15,7 @@ trait TemplateTrait
      *
      * @return string
      */
-    abstract protected function getTemplateDirPath();
+    abstract protected function getTemplateDirPath() : string;
 
     /**
      * The values bind on template.
@@ -25,7 +25,7 @@ trait TemplateTrait
      *
      * @return string After bind on template value.
      */
-    protected function bind($templateName, array $values)
+    protected function bind(string $templateName, array $values) : string
     {
         $dirPath    = $this->getTemplateDirPath();
         $filePath   = dirname(__FILE__)."/../../../templates/{$dirPath}/{$templateName}.txt";
@@ -59,7 +59,7 @@ trait TemplateTrait
      *
      * @return string Ouput File Name
      */
-    protected function getOutputFileName(ReflectionClass $target, array $options)
+    protected function getOutputFileName(ReflectionClass $target, array $options) : string
     {
         $fileName = $target->getFileName();
         if (!empty($options['output'])) {

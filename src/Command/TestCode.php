@@ -65,7 +65,7 @@ class TestCode extends AbstractCommand
      *
      * @see Tdd\Command\Traits\TemplateTrait::getTemplateDirPath
      */
-    protected function getTemplateDirPath()
+    protected function getTemplateDirPath() : string
     {
         return "TestCode";
     }

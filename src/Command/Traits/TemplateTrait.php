@@ -11,13 +11,6 @@ use ReflectionClass;
 trait TemplateTrait
 {
     /**
-     * Get template directory path.
-     *
-     * @return string
-     */
-    abstract protected function getTemplateDirPath() : string;
-
-    /**
      * The values bind on template.
      *
      * @param string $templateName Template file name

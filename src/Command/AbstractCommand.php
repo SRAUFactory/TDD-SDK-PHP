@@ -28,7 +28,7 @@ abstract class AbstractCommand
      */
     public function __construct(array $options)
     {
-        $this->target = new ReflectionClass(str_replace('/', '\\', $options['classname']));
+        $this->target  = new ReflectionClass(str_replace('/', '\\', $options['classname']));
         $this->options = $options;
     }
 

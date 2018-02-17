@@ -12,7 +12,7 @@ abstract class AbstractCommand
 {
     /**
      * Default File Ext.
-     */ 
+     */
     const DEFAULT_FILE_EXT = '.php';
 
     /**

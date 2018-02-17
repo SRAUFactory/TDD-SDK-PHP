@@ -16,7 +16,7 @@ class SourceCode extends AbstractCommand
 
     /**
      * File Ext.
-     */ 
+     */
     const FILE_EXT_TARGET = 'Test.php';
     const FILE_EXT_OUTPUT = self::DEFAULT_FILE_EXT;
 

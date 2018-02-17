@@ -45,7 +45,7 @@ class TestCode extends AbstractCommand
      * File Ext.
      */
     const FILE_EXT_TARGET = self::DEFAULT_FILE_EXT;
-    const FILE_EXT_OUTPUT = 'Test.php';
+    const FILE_EXT_OUTPUT = 'Test'.self::DEFAULT_FILE_EXT;
 
     /**
      * @override

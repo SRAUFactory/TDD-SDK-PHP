@@ -56,7 +56,7 @@ trait TemplateTrait
     {
         $fileName = $target->getFileName();
         if (!empty($options['output'])) {
-            $fileName = $options['output'].'/'.$target->getShortName().'.php';
+            $fileName = $options['output'].'/'.$target->getShortName().self::DEFAULT_FILE_EXT;
         }
 
         return str_replace(self::FILE_EXT_TARGET, self::FILE_EXT_OUTPUT, $fileName);

@@ -17,7 +17,7 @@ class TestCodeTest extends TddTestBase
      *
      * @param string $className Target Class Name
      */
-    public function testCreate($className)
+    public function testCreate(string $className)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
         $params = ['classname' => $className, 'output' => $dir];

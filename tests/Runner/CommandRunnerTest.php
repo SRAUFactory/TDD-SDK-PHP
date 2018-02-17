@@ -2,6 +2,7 @@
 
 namespace TddTest\Runner;
 
+use Exception;
 use InvalidArgumentException;
 use Tdd\Runner\CommandRunner;
 use TddTest\TddTestBase;
@@ -70,10 +71,6 @@ class CommandRunnerTest extends TddTestBase
                 $NoSuchCommandException,
             ],
             [
-                ['tdd', 'create', 'doc',    '--classname='.$className, '--output='.$output],
-                $NoSuchCommandException,
-            ],
-            [
                 ['tdd', 'create', 'help',   '--classname='.$className, '--output='.$output],
                 $NoSuchCommandException,
             ],
@@ -85,10 +82,10 @@ class CommandRunnerTest extends TddTestBase
     /**
      * Assert Exception.
      *
-     * @param Exception $excepted
-     * @param Exception $actual
+     * @param Exception                $excepted
+     * @param InvalidArgumentException $actual
      */
-    private function assertException($excepted, InvalidArgumentException $actual)
+    private function assertException(Exception $excepted, InvalidArgumentException $actual)
     {
         $this->assertSame(get_class($excepted), get_class($actual));
         $this->assertSame($excepted->getMessage(), $actual->getMessage());

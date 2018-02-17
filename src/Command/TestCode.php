@@ -37,27 +37,34 @@ class TestCode extends AbstractCommand
     const TYPE_UNKNOWN = 'mixed';
 
     /**
+     * Main Template Name.
+     */
+    const MAIN_TEMPLATE_NAME = 'TestCase';
+
+    /**
+     * File Ext.
+     */
+    const FILE_EXT_TARGET = self::DEFAULT_FILE_EXT;
+    const FILE_EXT_OUTPUT = 'Test'.self::DEFAULT_FILE_EXT;
+
+    /**
      * @override
      *
-     * @return bool true is success to create.
+     * @see Tdd\Command\AbstractCommand::getOutputValues
      */
-    public function create()
+    protected function getOutputValues() : array
     {
-        $args = [
-            'className'     => $this->target->getName(),
-            'shortName'     => $this->target->getShortName(),
-            'testFunctions' => '',
-        ];
+        $className = $this->target->getName();
+        $shortName = $this->target->getShortName();
+        $testFunctions = '';
+
         foreach ($this->target->getMethods() as $method) {
-            if ($args['className'] === $method->class && $method->isPublic()) {
-                $args['testFunctions'] .= $this->getFunctions($method);
+            if ($className === $method->class && $method->isPublic()) {
+                $testFunctions .= $this->getFunctions($method);
             }
         }
 
-        $fileName = $this->getOutputFileName($this->target, $this->options);
-        $this->output($fileName, $this->bind('TestCase', $args));
-
-        return true;
+        return compact('className', 'shortName', 'testFunctions');
     }
 
     /**
@@ -67,7 +74,7 @@ class TestCode extends AbstractCommand
      *
      * @return string Test Function Values
      */
-    private function getFunctions(ReflectionMethod $method)
+    private function getFunctions(ReflectionMethod $method) : string
     {
         $args = [
             'name'       => $method->name,
@@ -101,7 +108,7 @@ class TestCode extends AbstractCommand
      *
      * @return string PHPDocs after setting
      */
-    private function setDataProvider2PhpDocs($docs, $dataProvider)
+    private function setDataProvider2PhpDocs(string $docs, $dataProvider) : string
     {
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {

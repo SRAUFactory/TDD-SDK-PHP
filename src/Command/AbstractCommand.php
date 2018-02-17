@@ -11,6 +11,11 @@ use ReflectionClass;
 abstract class AbstractCommand
 {
     /**
+     * Default File Ext.
+     */
+    const DEFAULT_FILE_EXT = '.php';
+
+    /**
      * Target class.
      *
      * @var ReflectionClass
@@ -37,5 +42,18 @@ abstract class AbstractCommand
      *
      * @return bool true is success to create.
      */
-    abstract public function create();
+    public function create() : bool
+    {
+        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
+
+        return true;
+    }
+
+    /**
+     * Get output values.
+     *
+     * @return array Output Values
+     */
+    abstract protected function getOutputValues() : array;
 }

@@ -18,10 +18,12 @@ trait TemplateTrait
      *
      * @return string After bind on template value.
      */
-    protected function bind($templateName, array $values)
+    protected function bind(string $templateName, array $values) : string
     {
-        $filePath = dirname(__FILE__)."/../../../templates/{$templateName}.txt";
+        $dirPath = basename(strtr(get_class($this), '\\', '/'));
+        $filePath = dirname(__FILE__)."/../../../templates/{$dirPath}/{$templateName}.txt";
         $bindValues = file_get_contents($filePath);
+
         foreach ($values as $key => $value) {
             $bindValues = str_replace("###{$key}###", $value, $bindValues);
         }
@@ -50,13 +52,13 @@ trait TemplateTrait
      *
      * @return string Ouput File Name
      */
-    protected function getOutputFileName(ReflectionClass $target, array $options)
+    protected function getOutputFileName(ReflectionClass $target, array $options) : string
     {
         $fileName = $target->getFileName();
         if (!empty($options['output'])) {
-            $fileName = $options['output'].'/'.$target->getShortName().'.php';
+            $fileName = $options['output'].'/'.$target->getShortName().self::DEFAULT_FILE_EXT;
         }
 
-        return str_replace('.php', 'Test.php', $fileName);
+        return str_replace(self::FILE_EXT_TARGET, self::FILE_EXT_OUTPUT, $fileName);
     }
 }

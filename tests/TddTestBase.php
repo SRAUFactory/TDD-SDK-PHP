@@ -57,7 +57,7 @@ class TddTestBase extends TestCase
      * @param int    $key  The index of File List
      * @param string $dir  Target Directory
      */
-    private function removeFile($file, $key, $dir)
+    private function removeFile(string $file, int $key, string $dir)
     {
         unlink("{$dir}/{$file}");
     }

@@ -4,6 +4,7 @@ namespace Tdd\Command;
 
 use InvalidArgumentException;
 use Tdd\Command\Traits\TemplateTrait;
+use ReflectionMethod;
 
 /**
  *  The class to generate Source Code.
@@ -46,13 +47,25 @@ class SourceCode extends AbstractCommand
         /* @var ReflectionMethod $method */
         foreach ($this->target->getMethods() as $method) {
             $methodName = preg_replace('/^test/', '', $method->name);
-            if ($this->target->getName() === $method->class && $methodName !== $method->name && $method->isPublic()) {
+            if ($this->isCurrentPublicMethod($method) && $methodName !== $method->name) {
                 $methodName = lcfirst($methodName);
                 echo "{$method->class}::{$method->name} => {$methodName}\n";
             }
         }
 
         return compact('className', 'shortName', 'namespace', 'functions');
+    }
+
+    /**
+     * Check public method in current target class
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return bool True is public method in current target class
+     */
+    protected function isCurrentPublicMethod(ReflectionMethod $method) : bool
+    {
+        return $this->target->getName() === $method->class && $method->isPublic();
     }
 
     /**

@@ -49,6 +49,10 @@ class SourceCode extends AbstractCommand
             if ($this->isCurrentPublicMethod($method) && $methodName !== $method->name) {
                 $methodName = lcfirst($methodName);
                 echo "{$method->class}::{$method->name} => {$methodName}\n";
+                foreach ($method->getParameters() as $parameter) {
+                    $type = $parameter->getType() ?? 'mixed';
+                    echo "{$method->class}::{$method->name} => {$parameter->name} is {$type} \n";
+                }
             }
         }
 

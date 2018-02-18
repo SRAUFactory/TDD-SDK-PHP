@@ -44,10 +44,7 @@ class SourceCode extends AbstractCommand
         }
         // @ToDo Create functions
 
-        $values = compact('className', 'shortName', 'namespace', 'functions');
-        var_dump($values);
-
-        return $values;
+        return compact('className', 'shortName', 'namespace', 'functions');
     }
 
     /**

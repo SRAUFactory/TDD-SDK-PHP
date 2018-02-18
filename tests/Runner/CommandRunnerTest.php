@@ -18,16 +18,16 @@ class CommandRunnerTest extends TddTestBase
      * @dataProvider getProvidorRun
      *
      * @param array $argv     Argument values
-     * @param mixed $excepted
+     * @param mixed $expected
      */
-    public function testMain(array $argv, $excepted)
+    public function testMain(array $argv, $expected)
     {
         try {
             $_SERVER['argv'] = $argv;
             $actual = CommandRunner::main();
-            $this->assertSame($excepted, $actual);
+            $this->assertSame($expected, $actual);
         } catch (InvalidArgumentException $e) {
-            $this->assertException($excepted, $e);
+            $this->assertException($expected, $e);
         }
     }
 
@@ -38,14 +38,14 @@ class CommandRunnerTest extends TddTestBase
      *
      * @param array $argv Argument values
      */
-    public function testRun(array $argv, $excepted)
+    public function testRun(array $argv, $expected)
     {
         try {
             $this->target = new CommandRunner();
             $actual = $this->target->run($argv);
-            $this->assertSame($excepted, $actual);
+            $this->assertSame($expected, $actual);
         } catch (InvalidArgumentException $e) {
-            $this->assertException($excepted, $e);
+            $this->assertException($expected, $e);
         }
     }
 
@@ -82,12 +82,12 @@ class CommandRunnerTest extends TddTestBase
     /**
      * Assert Exception.
      *
-     * @param Exception                $excepted
+     * @param Exception                $expected
      * @param InvalidArgumentException $actual
      */
-    private function assertException(Exception $excepted, InvalidArgumentException $actual)
+    private function assertException(Exception $expected, InvalidArgumentException $actual)
     {
-        $this->assertSame(get_class($excepted), get_class($actual));
-        $this->assertSame($excepted->getMessage(), $actual->getMessage());
+        $this->assertSame(get_class($expected), get_class($actual));
+        $this->assertSame($expected->getMessage(), $actual->getMessage());
     }
 }

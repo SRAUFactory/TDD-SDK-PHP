@@ -2,8 +2,8 @@
 
 namespace Tdd\Command;
 
-use Tdd\Command\Traits\TemplateTrait;
 use InvalidArgumentException;
+use Tdd\Command\Traits\TemplateTrait;
 
 /**
  *  The class to generate Source Code.
@@ -47,7 +47,7 @@ class SourceCode extends AbstractCommand
         $values = compact('className', 'shortName', 'namespace', 'functions');
         var_dump($values);
 
-        return $values; 
+        return $values;
     }
 
     /**
@@ -55,7 +55,7 @@ class SourceCode extends AbstractCommand
      *
      * @param string $className Target Class Name
      *
-     * @return bool If the target class doesn't inherits from PHPUnit\Framework\TestCase is ture 
+     * @return bool If the target class doesn't inherits from PHPUnit\Framework\TestCase is ture
      */
     private function isNotTestClass(string $className) : bool
     {

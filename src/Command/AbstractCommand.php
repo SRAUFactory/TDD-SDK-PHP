@@ -59,7 +59,7 @@ abstract class AbstractCommand
     abstract protected function getOutputValues() : array;
 
     /**
-     * Check public method in current target class
+     * Check public method in current target class.
      *
      * @param ReflectionMethod $method Target Method
      *

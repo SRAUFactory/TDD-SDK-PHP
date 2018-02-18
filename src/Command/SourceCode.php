@@ -42,7 +42,15 @@ class SourceCode extends AbstractCommand
         if ($this->isNotTestClass($className)) {
             throw new InvalidArgumentException('Target class not test class!!');
         }
-        // @ToDo Create functions
+
+        /* @var ReflectionMethod $method */
+        foreach ($this->target->getMethods() as $method) {
+            $methodName = preg_replace('/^test/', '', $method->name);
+            if ($this->target->getName() === $method->class && $methodName !== $method->name && $method->isPublic()) {
+                $methodName = lcfirst($methodName);
+                echo "{$method->class}::{$method->name} => {$methodName}\n";
+            }
+        }
 
         return compact('className', 'shortName', 'namespace', 'functions');
     }

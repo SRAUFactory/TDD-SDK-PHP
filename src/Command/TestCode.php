@@ -59,7 +59,7 @@ class TestCode extends AbstractCommand
         $testFunctions = '';
 
         foreach ($this->target->getMethods() as $method) {
-            if ($className === $method->class && $method->isPublic()) {
+            if ($this->isCurrentPublicMethod($method)) {
                 $testFunctions .= $this->getFunctions($method);
             }
         }

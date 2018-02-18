@@ -2,10 +2,10 @@
 
 namespace TddTest\Command;
 
-use Tdd\Command\SourceCode;
-use TddTest\TddTestBase;
 use Exception;
 use InvalidArgumentException;
+use Tdd\Command\SourceCode;
+use TddTest\TddTestBase;
 
 /**
  * Test Case for Tdd\Command\SourceCode.
@@ -46,8 +46,8 @@ class SourceCodeTest extends TddTestBase
      *
      * @dataProvider getProvidorCreateError
      *
-     * @param string $className Target Class Name
-     * @param Exception $expected Expected Value
+     * @param string    $className Target Class Name
+     * @param Exception $expected  Expected Value
      */
     public function testCreateError(string $className, Exception $expected)
     {
@@ -57,13 +57,10 @@ class SourceCodeTest extends TddTestBase
         $this->target->create();
     }
 
-   /**
-    *
-    */
-   public function getProvidorCreateError()
-   {
-       return [
+    public function getProvidorCreateError()
+    {
+        return [
            ['Tdd/Command/TestCode', new InvalidArgumentException('Target class not test class!!')],
        ];
-   }
+    }
 }

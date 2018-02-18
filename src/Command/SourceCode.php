@@ -32,10 +32,7 @@ class SourceCode extends AbstractCommand
      */
     protected function getOutputValues() : array
     {
-        $className = preg_replace('/Test$/', '', $this->target->getName());
-        $namespaces = explode('\\', $className);
-        $namespaces[0] = preg_replace('/Test$/', '', $namespaces[0]);
-
+        $namespaces = preg_replace('/Test$/', '', explode('\\', $this->target->getName()));
         $className = implode('\\', $namespaces);
         $shortName = array_pop($namespaces);
         $namespace = implode('\\', $namespaces);

@@ -38,6 +38,9 @@ class SourceCode extends AbstractCommand
         $namespace = implode('\\', $namespaces);
         $functions = '';
 
+        // @ToDo Check if $ className is test class
+        // @ToDo Create functions
+
         $values = compact('className', 'shortName', 'namespace', 'functions');
         var_dump($values);
 

@@ -60,7 +60,7 @@ class SourceCodeTest extends TddTestBase
     /**
      * Test Providor of the case of error for create.
      *
-     * @return array The list of Test Parameters  
+     * @return array The list of Test Parameters
      */
     public function getProvidorCreateError()
     {

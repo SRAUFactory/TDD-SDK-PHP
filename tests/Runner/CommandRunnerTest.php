@@ -57,22 +57,22 @@ class CommandRunnerTest extends TddTestBase
     public function getProvidorRun()
     {
         $className = 'Tdd/Command/TestCode';
+        $testName = 'TddTest/Runner/CommandRunnerTest';
         $output = getenv(TEST_OUTPUT_DIR);
         $ArgumentException = new InvalidArgumentException('Argument is missing.');
-        $NoSuchCommandException = new InvalidArgumentException('No such command!!');
 
         return [
             [
-                ['tdd', 'create', 'test',   '--classname='.$className, '--output='.$output, 'test=test'],
+                ['tdd', 'create', 'test',  '--classname='.$className, '--output='.$output, 'test=test'],
                 true,
             ],
             [
-                ['tdd', 'create', 'source', '--classname='.$className, '--output='.$output],
+                ['tdd', 'create', 'source', '--classname='.$testName, '--output='.$output],
                 true,
             ],
             [
-                ['tdd', 'create', 'help',   '--classname='.$className, '--output='.$output],
-                $NoSuchCommandException,
+                ['tdd', 'create', 'help', '--classname='.$className, '--output='.$output],
+                new InvalidArgumentException('No such command!!'),
             ],
             [[], $ArgumentException],
             [['tdd', 'create'], $ArgumentException],

@@ -3,6 +3,7 @@
 namespace Tdd\Command;
 
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * The base class of TDD command.
@@ -56,4 +57,16 @@ abstract class AbstractCommand
      * @return array Output Values
      */
     abstract protected function getOutputValues() : array;
+
+    /**
+     * Check public method in current target class
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return bool True is public method in current target class
+     */
+    protected function isCurrentPublicMethod(ReflectionMethod $method) : bool
+    {
+        return $this->target->getName() === $method->class && $method->isPublic();
+    }
 }

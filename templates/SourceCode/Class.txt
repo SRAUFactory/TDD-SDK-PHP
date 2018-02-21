@@ -1,0 +1,16 @@
+<?php
+###namespace###
+
+/**
+ * ###className###
+ */
+class ###shortName###
+{
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        // @ToDo Initialize this class.
+    }
+###functions###}

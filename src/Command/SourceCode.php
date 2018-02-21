@@ -37,7 +37,7 @@ class SourceCode extends AbstractCommand
         $className = implode('\\', $namespaces);
         $shortName = array_pop($namespaces);
         $namespace = implode('\\', $namespaces);
-        $namespace = empty($namespace)? '' : $this->bind('Namespace', compact('namespace'));
+        $namespace = empty($namespace) ? '' : $this->bind('Namespace', compact('namespace'));
         $functions = '';
 
         if ($this->isNotTestClass($className)) {

@@ -1,8 +1,6 @@
 
       /**
-       * ###docs###
-       *
-       * ###docs###
+       * ###title######docParams###
        * @return void
        */
       public function ###name###(###params###)

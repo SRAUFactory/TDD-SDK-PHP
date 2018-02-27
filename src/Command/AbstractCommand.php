@@ -3,6 +3,7 @@
 namespace Tdd\Command;
 
 use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * The base class of TDD command.
@@ -14,6 +15,19 @@ abstract class AbstractCommand
      * Default File Ext.
      */
     const DEFAULT_FILE_EXT = '.php';
+
+    /**
+     * PHPDocs Prefix.
+     */
+    const DOCS_PREFIX = "\n     * ";
+    /**
+     * Argument of Test Function Docs Format.
+     */
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param %s $%s any param';
+    /**
+     * Type Unknown.
+     */
+    const TYPE_UNKNOWN = 'mixed';
 
     /**
      * Target class.
@@ -56,4 +70,16 @@ abstract class AbstractCommand
      * @return array Output Values
      */
     abstract protected function getOutputValues() : array;
+
+    /**
+     * Check public method in current target class.
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return bool True is public method in current target class
+     */
+    protected function isCurrentPublicMethod(ReflectionMethod $method) : bool
+    {
+        return $this->target->getName() === $method->class && $method->isPublic();
+    }
 }

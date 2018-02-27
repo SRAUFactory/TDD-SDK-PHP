@@ -67,6 +67,6 @@ class SourceCodeTest extends TddTestBase
     {
         return [
             ['Tdd/Command/TestCode', new InvalidArgumentException('Target class not test class!!')],
-       ];
+        ];
     }
 }

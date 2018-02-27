@@ -1,9 +1,10 @@
 
-      /**
-       * ###title######docParams###
-       * @return void
-       */
-      public function ###name###(###params###)
-      {
-          // @ToDo Implement codes
-      }
+    /**
+     *###docs###
+     *
+     * @return void
+     */
+    public function ###name###(###params###)
+    {
+        // @ToDo Implement codes
+    }

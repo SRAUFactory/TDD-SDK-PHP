@@ -66,7 +66,7 @@ class SourceCodeTest extends TddTestBase
     public function getProvidorCreateError()
     {
         return [
-           ['Tdd/Command/TestCode', new InvalidArgumentException('Target class not test class!!')],
+            ['Tdd/Command/TestCode', new InvalidArgumentException('Target class not test class!!')],
        ];
     }
 }

@@ -48,13 +48,20 @@ class SourceCode extends AbstractCommand
         foreach ($this->target->getMethods() as $method) {
             $methodName = preg_replace('/^test/', '', $method->name);
             if ($this->isCurrentPublicMethod($method) && $methodName !== $method->name) {
-                $methodName = lcfirst($methodName);
-                echo "{$method->class}::{$method->name} => {$methodName}\n";
+                $args = ['docs' => '', 'name' => lcfirst($methodName)];
+
+                $params = [];
                 foreach ($method->getParameters() as $parameter) {
-                    // @ToDo exclude prefix of `expected`
-                    $type = $parameter->getType() ?? 'mixed';
-                    echo "{$method->class}::{$method->name} => {$parameter->name} is {$type} \n";
+                    if (preg_match('/^expected/', $parameter->name)) {
+                        continue;
+                    }
+                    $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
+                    $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
+                    $type = ($type !== self::TYPE_UNKNOWN) ? $type.' ' : '';
+                    $params[] = $type.'$'.$parameter->name;
                 }
+                $args['params'] = implode(', ', $params);
+                $functions .= $this->bind('Function', $args);
             }
         }
 

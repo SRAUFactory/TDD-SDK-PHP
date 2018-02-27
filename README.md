@@ -14,7 +14,7 @@ You can be used just by installing PHP and this tool.
 * Generate and add PHPDoc to the source code
 
 ## How to use
-### Initalize
+### Initialize
 ```
 $ php composer.phar install
 ```

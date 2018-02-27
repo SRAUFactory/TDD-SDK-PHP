@@ -18,14 +18,15 @@ class SourceCodeTest extends TddTestBase
      * @dataProvider getProvidorCreate
      *
      * @param string $className Target Class Name
+     * @param string $expected  Expected class name
      */
-    public function testCreate(string $className)
+    public function testCreate(string $className, string $expected)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
         $this->target = new SourceCode(['classname' => $className, 'output' => $dir]);
         $actual = $this->target->create();
         $this->assertTrue($actual);
-        // @ToDo Add asserts for output file exists
+        $this->assertFileExists($dir.'/'.$expected.'.php');
     }
 
     /**
@@ -33,11 +34,11 @@ class SourceCodeTest extends TddTestBase
      *
      * @return array The list of Test Parameters
      */
-    public function getProvidorCreate()
+    public function getProvidorCreate() : array
     {
         return [
-            ['TddTest/Command/TestCodeTest'],
-            ['TddTest/Runner/CommandRunnerTest'],
+            ['TddTest/Command/TestCodeTest',     'TestCode'],
+            ['TddTest/Runner/CommandRunnerTest', 'CommandRunner'],
         ];
     }
 

@@ -48,7 +48,7 @@ class SourceCode extends AbstractCommand
         foreach ($this->target->getMethods() as $method) {
             $methodName = preg_replace('/^test/', '', $method->name);
             if ($this->isCurrentPublicMethod($method) && $methodName !== $method->name) {
-                $args = ['docs' => '', 'name' => lcfirst($methodName)];
+                $args = ['docs' => '', 'name' => lcfirst($methodName), 'title' => $methodName];
 
                 $params = [];
                 foreach ($method->getParameters() as $parameter) {

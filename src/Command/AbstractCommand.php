@@ -17,6 +17,19 @@ abstract class AbstractCommand
     const DEFAULT_FILE_EXT = '.php';
 
     /**
+     * PHPDocs Prefix.
+     */
+    const DOCS_PREFIX = "\n     * ";
+    /**
+     * Argument of Test Function Docs Format.
+     */
+    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param %s $%s any param';
+    /**
+     * Type Unknown.
+     */
+    const TYPE_UNKNOWN = 'mixed';
+
+    /**
      * Target class.
      *
      * @var ReflectionClass

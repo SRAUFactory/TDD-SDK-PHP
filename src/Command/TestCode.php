@@ -16,14 +16,6 @@ class TestCode extends AbstractCommand
     use TemplateTrait;
 
     /**
-     * PHPDocs Prefix.
-     */
-    const DOCS_PREFIX = "\n     * ";
-    /**
-     * Argument of Test Function Docs Format.
-     */
-    const DOCS_ARGUMENT_FORMAT = self::DOCS_PREFIX.'@param %s $%s any param';
-    /**
      * Data Provider of Test Function Docs Format.
      */
     const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
@@ -31,10 +23,6 @@ class TestCode extends AbstractCommand
      * Format Call Method.
      */
     const FORMAT_CALL_METHOD = '$this->target->';
-    /**
-     * Type Unknown.
-     */
-    const TYPE_UNKNOWN = 'mixed';
 
     /**
      * Main Template Name.

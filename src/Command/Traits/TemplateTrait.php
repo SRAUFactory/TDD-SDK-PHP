@@ -50,7 +50,7 @@ trait TemplateTrait
      * @param ReflectionClass $target  Target Class
      * @param array           $options
      *
-     * @return string Ouput File Name
+     * @return string Output File Name
      */
     protected function getOutputFileName(ReflectionClass $target, array $options) : string
     {

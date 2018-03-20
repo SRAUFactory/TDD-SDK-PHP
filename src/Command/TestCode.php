@@ -24,7 +24,7 @@ class TestCode extends AbstractCommand
      */
     const FORMAT_CALL_METHOD = '$this->target->';
     /**
-     * Format Namespace
+     * Format Namespace.
      */
     const FORMAT_NAMESPACE = 'namespace %s;';
 
@@ -49,7 +49,7 @@ class TestCode extends AbstractCommand
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
         $namespace = str_replace('\\'.$shortName, '', $className);
-        $namespace = empty($namespace)? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
+        $namespace = empty($namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
 
         $testFunctions = '';
         foreach ($this->target->getMethods() as $method) {

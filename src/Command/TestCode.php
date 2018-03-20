@@ -23,6 +23,10 @@ class TestCode extends AbstractCommand
      * Format Call Method.
      */
     const FORMAT_CALL_METHOD = '$this->target->';
+    /**
+     * Format Namespace
+     */
+    const FORMAT_NAMESPACE = 'namespace %s;';
 
     /**
      * Main Template Name.
@@ -44,15 +48,17 @@ class TestCode extends AbstractCommand
     {
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
-        $testFunctions = '';
+        $namespace = str_replace('\\'.$shortName, '', $className);
+        $namespace = empty($namespace)? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
 
+        $testFunctions = '';
         foreach ($this->target->getMethods() as $method) {
             if ($this->isCurrentPublicMethod($method)) {
                 $testFunctions .= $this->getFunctions($method);
             }
         }
 
-        return compact('className', 'shortName', 'testFunctions');
+        return compact('className', 'namespace', 'shortName', 'testFunctions');
     }
 
     /**

@@ -1,4 +1,6 @@
 <?php
+###namespace###
+
 use ###className###;
 use PHPUnit\Framework\TestCase;
 /**

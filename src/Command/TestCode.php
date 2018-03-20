@@ -18,11 +18,15 @@ class TestCode extends AbstractCommand
     /**
      * Data Provider of Test Function Docs Format.
      */
-    const DATA_PROVIDER_FORMAT = self::DOCS_PREFIX.'@dataProvider %s%s';
+    const FORMAT_DATA_PROVIDER = self::DOCS_PREFIX.'@dataProvider %s%s';
     /**
      * Format Call Method.
      */
     const FORMAT_CALL_METHOD = '$this->target->';
+    /**
+     * Format Namespace.
+     */
+    const FORMAT_NAMESPACE = 'namespace %s;';
 
     /**
      * Main Template Name.
@@ -44,15 +48,17 @@ class TestCode extends AbstractCommand
     {
         $className = $this->target->getName();
         $shortName = $this->target->getShortName();
-        $testFunctions = '';
+        $namespace = str_replace('\\'.$shortName, '', $className);
+        $namespace = empty($namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
 
+        $testFunctions = '';
         foreach ($this->target->getMethods() as $method) {
             if ($this->isCurrentPublicMethod($method)) {
                 $testFunctions .= $this->getFunctions($method);
             }
         }
 
-        return compact('className', 'shortName', 'testFunctions');
+        return compact('className', 'namespace', 'shortName', 'testFunctions');
     }
 
     /**
@@ -101,7 +107,7 @@ class TestCode extends AbstractCommand
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {
             $providerName = str_replace($matches[1], '', $matches[0]);
-            $format = self::DOCS_PREFIX.self::DATA_PROVIDER_FORMAT;
+            $format = self::DOCS_PREFIX.self::FORMAT_DATA_PROVIDER;
             $docs = sprintf($format, $providerName, self::DOCS_PREFIX.$docs);
         }
 

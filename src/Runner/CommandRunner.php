@@ -3,6 +3,7 @@
 namespace Tdd\Runner;
 
 use InvalidArgumentException;
+use Tdd\Traits\LogTrait;
 
 /**
  * Run command batch
@@ -10,6 +11,11 @@ use InvalidArgumentException;
  */
 class CommandRunner
 {
+    /*
+     * Traits
+     */
+    use LogTrait;
+
     /**
      * Supported Classes.
      *
@@ -48,9 +54,16 @@ class CommandRunner
         if (empty($command)) {
             throw new InvalidArgumentException('No such command!!');
         }
-        $commandClass = new $command($this->getOptions($args));
 
-        return $commandClass->{$args[1]}();
+        $options = $this->getOptions($args);
+        $commandClass = new $command($options);
+        $logPrefix = get_class($commandClass).'::'.$args[1];
+        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options));
+
+        $result = $commandClass->{$args[1]}();
+        $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
+
+        return $result;
     }
 
     /**

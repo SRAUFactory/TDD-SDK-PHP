@@ -3,18 +3,12 @@
 namespace Tdd\Command;
 
 use InvalidArgumentException;
-use Tdd\Command\Traits\TemplateTrait;
 
 /**
  *  The class to generate Source Code.
  */
 class SourceCode extends AbstractCommand
 {
-    /*
-     * Traits
-     */
-    use TemplateTrait;
-
     /**
      * Main Template Name.
      */

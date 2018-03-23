@@ -4,6 +4,8 @@ namespace Tdd\Command;
 
 use ReflectionClass;
 use ReflectionMethod;
+use Tdd\Command\Traits\TemplateTrait;
+use Tdd\Traits\LogTrait;
 
 /**
  * The base class of TDD command.
@@ -11,6 +13,11 @@ use ReflectionMethod;
  */
 abstract class AbstractCommand
 {
+    /*
+     * Trait
+     */
+    use LogTrait, TemplateTrait;
+
     /**
      * Default File Ext.
      */

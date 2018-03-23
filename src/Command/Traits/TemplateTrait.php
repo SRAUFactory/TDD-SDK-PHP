@@ -39,9 +39,10 @@ trait TemplateTrait
      *
      * @return void
      */
-    protected function output($fileName, $value)
+    protected function output(string $fileName, string $value)
     {
         file_put_contents($fileName, $value);
+        $this->outputLog("Output: $fileName");
     }
 
     /**
@@ -59,6 +60,6 @@ trait TemplateTrait
             $fileName = $options['output'].'/'.$target->getShortName().self::DEFAULT_FILE_EXT;
         }
 
-        return str_replace(self::FILE_EXT_TARGET, self::FILE_EXT_OUTPUT, $fileName);
+        return str_replace(static::FILE_EXT_TARGET, static::FILE_EXT_OUTPUT, $fileName);
     }
 }

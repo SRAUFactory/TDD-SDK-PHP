@@ -12,7 +12,7 @@ use Tdd\Traits\LogTrait;
 class CommandRunner
 {
     /**
-     * Traits.
+     * Traits
      */
     use LogTrait;
 

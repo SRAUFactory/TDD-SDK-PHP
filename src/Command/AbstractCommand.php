@@ -14,7 +14,7 @@ use Tdd\Traits\LogTrait;
 abstract class AbstractCommand
 {
     /**
-     * Trait.
+     * Trait
      */
     use LogTrait, TemplateTrait;
 

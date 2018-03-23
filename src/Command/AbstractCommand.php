@@ -13,7 +13,7 @@ use Tdd\Traits\LogTrait;
  */
 abstract class AbstractCommand
 {
-    /**
+    /*
      * Trait
      */
     use LogTrait, TemplateTrait;

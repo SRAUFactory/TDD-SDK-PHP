@@ -11,7 +11,7 @@ use Tdd\Traits\LogTrait;
  */
 class CommandRunner
 {
-    /**
+    /*
      * Traits
      */
     use LogTrait;
@@ -57,11 +57,11 @@ class CommandRunner
 
         $options = $this->getOptions($args);
         $commandClass = new $command($options);
-        $logPrefix = get_class($commandClass)."::".$args[1];
-        $this->outputLog("Execute statrt ".$logPrefix." args: ".json_encode($options));
-        
+        $logPrefix = get_class($commandClass).'::'.$args[1];
+        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options));
+
         $result = $commandClass->{$args[1]}();
-        $this->outputLog("Execute finish ".$logPrefix." result: ".$result);
+        $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 
         return $result;
     }

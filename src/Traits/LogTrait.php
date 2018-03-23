@@ -9,7 +9,7 @@ namespace Tdd\Traits;
 trait LogTrait
 {
     /**
-     * Ouput log.
+     * Output log.
      *
      * @param string $log Log to output
      */

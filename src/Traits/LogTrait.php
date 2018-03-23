@@ -4,7 +4,7 @@ namespace Tdd\Traits;
 
 /**
  * Log Trait
- * This trait is to ouput logs.
+ * This trait is to output logs.
  */
 trait LogTrait
 {

@@ -3,18 +3,12 @@
 namespace Tdd\Command;
 
 use ReflectionMethod;
-use Tdd\Command\Traits\TemplateTrait;
 
 /**
  * The class to generate Test Code.
  */
 class TestCode extends AbstractCommand
 {
-    /*
-     * Traits
-     */
-    use TemplateTrait;
-
     /**
      * Data Provider of Test Function Docs Format.
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tdd\Runner;
 
 /**
@@ -18,21 +19,22 @@ class Options
 
     const OPTION_SETS = [
         self::SHORT_OPTION_GENERATE => self::LONG_OPTION_GENERATE,
-        self::SHORT_OPTION_HELP => self::LONG_OPTION_HELP,
-        self::SHORT_OPTION_INPUT => self::LONG_OPTION_INPUT,
-        self::SHORT_OPTION_OUTPUT => self::LONG_OPTION_OUTPUT,
+        self::SHORT_OPTION_HELP     => self::LONG_OPTION_HELP,
+        self::SHORT_OPTION_INPUT    => self::LONG_OPTION_INPUT,
+        self::SHORT_OPTION_OUTPUT   => self::LONG_OPTION_OUTPUT,
     ];
 
     /**
-     * Options
+     * Options.
+     *
      * @var array
-     */ 
+     */
     private $options;
 
-    public function set() : Options
+    public function set() : self
     {
         $this->options = getopt($this->getShortOption(), $this->getLongOptions());
-        // @ToDo Merge to short options into long options 
+        // @ToDo Merge to short options into long options
         return $this;
     }
 
@@ -52,7 +54,7 @@ class Options
     }
 
     public function get(string $key) : string
-    {       
+    {
         return $this->options[$key] ?? '';
     }
 

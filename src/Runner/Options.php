@@ -2,27 +2,17 @@
 
 namespace Tdd\Runner;
 
+use \ReflectionClass;
+
 /**
  * Command options.
  */
 class Options
 {
-    const SHORT_OPTION_GENERATE = 'g:';
-    const SHORT_OPTION_HELP = 'h::';
-    const SHORT_OPTION_INPUT = 'i:';
-    const SHORT_OPTION_OUTPUT = 'o:';
-
-    const LONG_OPTION_GENERATE = 'generate:';
-    const LONG_OPTION_HELP = 'help';
-    const LONG_OPTION_INPUT = 'input:';
-    const LONG_OPTION_OUTPUT = 'output:';
-
-    const OPTION_SETS = [
-        self::SHORT_OPTION_GENERATE => self::LONG_OPTION_GENERATE,
-        self::SHORT_OPTION_HELP     => self::LONG_OPTION_HELP,
-        self::SHORT_OPTION_INPUT    => self::LONG_OPTION_INPUT,
-        self::SHORT_OPTION_OUTPUT   => self::LONG_OPTION_OUTPUT,
-    ];
+    const KEY_GENERATE = 'generate';
+    const KEY_HELP = 'help';
+    const KEY_INPUT = 'input';
+    const KEY_OUTPUT = 'output';
 
     /**
      * Options.
@@ -33,33 +23,65 @@ class Options
 
     public function set() : self
     {
-        $this->options = getopt($this->getShortOption(), $this->getLongOptions());
+        $this->options = getopt($this->getShortOptions(), $this->getLongOptions());
         // @ToDo Merge to short options into long options
         return $this;
     }
 
-    private function getShortOption() : string
+    private function getShortOptions() : string
     {
-        return implode('', array_keys(self::OPTION_SETS));
+        $result = '';
+        foreach ($this->getOptionKeys() as $key) {
+            $result .= $this->getShortOptionKey($key).$this->getOptionKeyShufix($key);
+        }
+
+        return $result;
     }
 
     private function getLongOptions() : array
     {
-        return array_values(self::OPTION_SETS);
+        $result = [];
+        foreach ($this->getOptionKeys() as $key) {
+            $result[] = $key.$this->getOptionKeyShufix($key);
+        }
+
+        return $result;
     }
 
     public function isset(string $key) : bool
     {
-        return array_key_exists($key, $this->options);
+        return array_key_exists($key, $this->options)
+           || array_key_exists($this->getShortOptionKey($key), $this->options);
     }
 
     public function get(string $key) : string
     {
-        return $this->options[$key] ?? '';
+        return $this->options[$key] ?? $this->options[$this->getShortOptionKey($key)] ?? '';
     }
 
     public function getValues() : array
     {
         return $this->options;
+    }
+
+    private function getOptionKeyShufix(string $key) : string
+    {
+        return $this->isArgValueRequired($key) ? ':' : '';
+    }
+
+    private function getShortOptionKey(string $key) : string
+    {
+        return substr($key, 0, 1);
+    }
+
+    private function getOptionKeys() : array
+    {
+        $reflect = new ReflectionClass($this);
+        return $reflect->getConstants();
+    }
+
+    private function isArgValueRequired(string $key) : bool
+    {
+        return $key !== self::KEY_HELP;
     }
 }

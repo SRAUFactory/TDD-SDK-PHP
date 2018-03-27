@@ -2,7 +2,7 @@
 
 namespace Tdd\Runner;
 
-use \ReflectionClass;
+use ReflectionClass;
 
 /**
  * Command options.
@@ -22,7 +22,7 @@ class Options
     private $options;
 
     /**
-     * Set arguments from getopt 
+     * Set arguments from getopt.
      *
      * @return $this
      */
@@ -99,7 +99,7 @@ class Options
     }
 
     /**
-     * Get option key shufix
+     * Get option key shufix.
      *
      * @param string $key Target
      *
@@ -111,7 +111,7 @@ class Options
     }
 
     /**
-     * Get short option key
+     * Get short option key.
      *
      * @param string $key Target
      *
@@ -130,6 +130,7 @@ class Options
     private function getOptionKeys() : array
     {
         $reflect = new ReflectionClass($this);
+
         return $reflect->getConstants();
     }
 

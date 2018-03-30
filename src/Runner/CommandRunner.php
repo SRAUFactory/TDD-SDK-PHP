@@ -56,7 +56,7 @@ class CommandRunner
         }
 
         $options = $this->getOptions($args);
-        $commandClass = new $command($options);
+        $commandClass = new $command($options['classname'], $options['output']);
         $logPrefix = get_class($commandClass).'::'.$args[1];
         $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options));
 

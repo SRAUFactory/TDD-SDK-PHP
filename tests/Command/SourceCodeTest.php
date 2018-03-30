@@ -23,7 +23,7 @@ class SourceCodeTest extends TddTestBase
     public function testCreate(string $className, string $expected)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
-        $this->target = new SourceCode(['classname' => $className, 'output' => $dir]);
+        $this->target = new SourceCode($className, $dir);
         $actual = $this->target->create();
         $this->assertTrue($actual);
         $this->assertFileExists($dir.'/'.$expected.'.php');
@@ -54,7 +54,7 @@ class SourceCodeTest extends TddTestBase
     {
         $this->expectException(get_class($expected));
         $this->expectExceptionMessage($expected->getMessage());
-        $this->target = new SourceCode(['classname' => $className]);
+        $this->target = new SourceCode($className);
         $this->target->create();
     }
 

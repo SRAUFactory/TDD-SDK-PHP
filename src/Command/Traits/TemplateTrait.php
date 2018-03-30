@@ -34,7 +34,7 @@ trait TemplateTrait
     /**
      * Output to file.
      *
-     * @param string $fileName Output File Name
+     * @param string $fileName Output file name
      * @param string $value    Output value
      *
      * @return void
@@ -48,17 +48,14 @@ trait TemplateTrait
     /**
      * Get Output File Name.
      *
-     * @param ReflectionClass $target  Target Class
-     * @param array           $options
+     * @param ReflectionClass $target Target class
+     * @param string          $output Output file path
      *
      * @return string Output File Name
      */
-    protected function getOutputFileName(ReflectionClass $target, array $options) : string
+    protected function getOutputFileName(ReflectionClass $target, string $output = null) : string
     {
-        $fileName = $target->getFileName();
-        if (!empty($options['output'])) {
-            $fileName = $options['output'].'/'.$target->getShortName().self::DEFAULT_FILE_EXT;
-        }
+        $fileName = $output ? $output.'/'.$target->getShortName().self::DEFAULT_FILE_EXT : $target->getFileName();
 
         return str_replace(static::FILE_EXT_TARGET, static::FILE_EXT_OUTPUT, $fileName);
     }

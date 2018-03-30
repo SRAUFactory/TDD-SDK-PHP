@@ -52,9 +52,9 @@ abstract class AbstractCommand
     /**
      * Constructor.
      *
-     * @param array $options
+     * @param array  $options
      * @param string $className Target class name
-     * @param string $output Output file path
+     * @param string $output    Output file path
      */
     public function __construct(string $className, string $output = null)
     {

@@ -55,7 +55,7 @@ trait TemplateTrait
      */
     protected function getOutputFileName(ReflectionClass $target, string $output = null) : string
     {
-        $fileName = !empty($output) ? $output.'/'.$target->getShortName().self::DEFAULT_FILE_EXT : $target->getFileName();
+        $fileName = $output ? $output.'/'.$target->getShortName().self::DEFAULT_FILE_EXT : $target->getFileName();
 
         return str_replace(static::FILE_EXT_TARGET, static::FILE_EXT_OUTPUT, $fileName);
     }

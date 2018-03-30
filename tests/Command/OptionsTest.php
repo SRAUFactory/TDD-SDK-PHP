@@ -1,12 +1,12 @@
 <?php
 
-namespace TddTest\Runner;
+namespace TddTest\Command;
 
-use Tdd\Runner\Options;
+use Tdd\Command\Options;
 use TddTest\TddTestBase;
 
 /**
- * Test Case for Tdd\Runner\Options.
+ * Test Case for Tdd\Command\Options.
  */
 class OptionsTest extends TddTestBase
 {

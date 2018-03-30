@@ -22,15 +22,11 @@ class Options
     private $options;
 
     /**
-     * Set arguments from getopt.
-     *
-     * @return $this
+     * Constructor. 
      */
-    public function set() : self
+    public function __construct()
     {
         $this->options = getopt($this->getShortOptions(), $this->getLongOptions());
-        // @ToDo Merge to short options into long options
-        return $this;
     }
 
     /**

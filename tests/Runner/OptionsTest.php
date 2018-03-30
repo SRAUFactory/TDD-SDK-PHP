@@ -11,21 +11,12 @@ use TddTest\TddTestBase;
 class OptionsTest extends TddTestBase
 {
     /**
-     * Test for set.
-     */
-    public function testSet()
-    {
-        $this->target = new Options();
-        $this->assertInstanceOf('Tdd\Runner\Options', $this->target->set());
-    }
-
-    /**
      * Test for isSetOptions.
      */
     public function testIsSetOptions($key)
     {
         $this->target = new Options();
-        $this->assertFalse($this->target->set()->isSetOptions(Options::KEY_GENERATE));
+        $this->assertFalse($this->target->isSetOptions(Options::KEY_GENERATE));
     }
 
     /**
@@ -34,7 +25,7 @@ class OptionsTest extends TddTestBase
     public function testGet($key)
     {
         $this->target = new Options();
-        $this->assertSame('', $this->target->set()->get(Options::KEY_HELP));
+        $this->assertSame('', $this->target->get(Options::KEY_HELP));
     }
 
     /**
@@ -43,6 +34,6 @@ class OptionsTest extends TddTestBase
     public function testGetValues()
     {
         $this->target = new Options();
-        $this->assertSame([], $this->target->set()->getValues());
+        $this->assertSame([], $this->target->getValues());
     }
 }

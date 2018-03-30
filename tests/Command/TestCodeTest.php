@@ -20,8 +20,7 @@ class TestCodeTest extends TddTestBase
     public function testCreate(string $className)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
-        $params = ['classname' => $className, 'output' => $dir];
-        $this->target = new TestCode($params);
+        $this->target = new TestCode($className, $dir);
         $actual = $this->target->create();
         $this->assertTrue($actual);
         $expected = explode('/', $className);

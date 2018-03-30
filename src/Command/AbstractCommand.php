@@ -43,19 +43,23 @@ abstract class AbstractCommand
      */
     protected $target;
     /**
-     * @ToDo Temporary solution
+     * Output file path.
+     *
+     * @var string | null
      */
-    protected $options = [];
+    protected $output;
 
     /**
      * Constructor.
      *
-     * @param array $options
+     * @param array  $options
+     * @param string $className Target class name
+     * @param string $output    Output file path
      */
-    public function __construct(array $options)
+    public function __construct(string $className, string $output = null)
     {
-        $this->target = new ReflectionClass(str_replace('/', '\\', $options['classname']));
-        $this->options = $options;
+        $this->target = new ReflectionClass(str_replace('/', '\\', $className));
+        $this->output = $output;
     }
 
     /**
@@ -65,7 +69,7 @@ abstract class AbstractCommand
      */
     public function create() : bool
     {
-        $fileName = $this->getOutputFileName($this->target, $this->options);
+        $fileName = $this->getOutputFileName($this->target, $this->output);
         $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
 
         return true;

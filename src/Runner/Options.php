@@ -22,7 +22,7 @@ class Options
     private $options;
 
     /**
-     * Constructor. 
+     * Constructor.
      */
     public function __construct()
     {

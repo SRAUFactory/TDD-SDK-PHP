@@ -70,7 +70,7 @@ class Options
      *
      * @return bool True is to set to options
      */
-    public function isset(string $key) : bool
+    public function isSetOptions(string $key) : bool
     {
         return array_key_exists($key, $this->options)
            || array_key_exists($this->getShortOptionKey($key), $this->options);

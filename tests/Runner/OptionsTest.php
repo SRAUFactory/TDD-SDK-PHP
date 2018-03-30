@@ -20,12 +20,12 @@ class OptionsTest extends TddTestBase
     }
 
     /**
-     * Test for isset.
+     * Test for isSetOptions.
      */
-    public function testIsset($key)
+    public function testIsSetOptions($key)
     {
         $this->target = new Options();
-        $this->assertFalse($this->target->set()->isset(Options::KEY_GENERATE));
+        $this->assertFalse($this->target->set()->isSetOptions(Options::KEY_GENERATE));
     }
 
     /**

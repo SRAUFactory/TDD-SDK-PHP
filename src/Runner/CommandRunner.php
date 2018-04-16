@@ -34,9 +34,9 @@ class CommandRunner
      */
     public static function main() : bool
     {
-        $runner = new static;
+        $runner = new static();
 
-        return $runner->run(new Options);
+        return $runner->run(new Options());
     }
 
     /**

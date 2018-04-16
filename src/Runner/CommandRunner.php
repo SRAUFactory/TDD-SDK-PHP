@@ -48,7 +48,7 @@ class CommandRunner
      */
     public function run(Options $options) : bool
     {
-        if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) { 
+        if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) {
             throw new InvalidArgumentException('Argument is missing.');
         }
 

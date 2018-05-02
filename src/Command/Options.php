@@ -19,7 +19,7 @@ class Options
      *
      * @var array
      */
-    private $options;
+    protected $options;
 
     /**
      * Constructor.
@@ -78,7 +78,7 @@ class Options
      *
      * @return string option key shufix(`:`, '')
      */
-    private function getOptionKeyShufix(string $key) : string
+    protected function getOptionKeyShufix(string $key) : string
     {
         return $this->isArgValueRequired($key) ? ':' : '';
     }
@@ -90,7 +90,7 @@ class Options
      *
      * @return string short option key(ex: self::KEY_GENERATE => 'g')
      */
-    private function getShortOptionKey(string $key) : string
+    protected function getShortOptionKey(string $key) : string
     {
         return substr($key, 0, 1);
     }
@@ -100,7 +100,7 @@ class Options
      *
      * @return array all supported option keys
      */
-    private function getOptionKeys() : array
+    protected function getOptionKeys() : array
     {
         $reflect = new ReflectionClass($this);
 
@@ -114,7 +114,7 @@ class Options
      *
      * @return bool True is required
      */
-    private function isArgValueRequired(string $key) : bool
+    protected function isArgValueRequired(string $key) : bool
     {
         return $key !== self::KEY_HELP;
     }

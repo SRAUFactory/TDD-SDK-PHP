@@ -58,7 +58,7 @@ class CommandRunner
         }
 
         $method = $options->isSetOptions(Options::KEY_HELP) ? Options::KEY_HELP : Options::KEY_GENERATE;
-        $commandClass = new $command($options->get(Options::Input), $options->get(Options::Output));
+        $commandClass = new $command($options->get(Options::KEY_INPUT), $options->get(Options::KEY_OUTPUT));
         $logPrefix = get_class($commandClass).'::'.$method;
         $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options->getValues()));
 

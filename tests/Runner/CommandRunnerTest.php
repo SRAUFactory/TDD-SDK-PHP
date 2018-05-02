@@ -2,11 +2,11 @@
 
 namespace TddTest\Runner;
 
+use Exception;
+use InvalidArgumentException;
 use Tdd\Command\Options;
 use Tdd\Runner\CommandRunner;
 use TddTest\TddTestBase;
-use \Exception;
-use \InvalidArgumentException;
 
 /**
  * Test Case for Tdd\Runner\CommandRunner.
@@ -45,7 +45,7 @@ class CommandRunnerTest extends TddTestBase
         $output = getenv(TEST_OUTPUT_DIR);
 
         return [
-            [  
+            [
                 new OptionsMock([
                     OptionsMock::KEY_GENERATE => 'test',
                     OptionsMock::KEY_INPUT    => 'Tdd/Command/TestCode',
@@ -77,16 +77,16 @@ class CommandRunnerTest extends TddTestBase
         $this->target->run($options);
     }
 
-    /** 
+    /**
      * Test Providor for run.
-     *  
+     *
      * @return array The list of Test Parameters
      */
     public function getProvidorRunForThrowException() : array
     {
         return [
             [new Options(), new InvalidArgumentException('Argument is missing.')],
-            [new OptionsMock([OptionsMock::KEY_HELP => false]), new InvalidArgumentException('No such command!!')]
+            [new OptionsMock([OptionsMock::KEY_HELP => false]), new InvalidArgumentException('No such command!!')],
         ];
     }
 
@@ -94,7 +94,7 @@ class CommandRunnerTest extends TddTestBase
      * Set expect exception.
      *
      * @param Exception $expected Expected exception
-     */ 
+     */
     private function setExpectException(Exception $expected)
     {
         $this->expectException(get_class($expected));

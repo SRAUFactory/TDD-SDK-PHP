@@ -26,37 +26,14 @@ class Options
      */
     public function __construct()
     {
-        $this->options = getopt($this->getShortOptions(), $this->getLongOptions());
-    }
-
-    /**
-     * Get short options.
-     *
-     * @return string Short option value
-     */
-    private function getShortOptions() : string
-    {
-        $result = '';
+        $shortOption = '';
+        $longOptions = [];
         foreach ($this->getOptionKeys() as $key) {
-            $result .= $this->getShortOptionKey($key).$this->getOptionKeyShufix($key);
+            $shufix = $this->getOptionKeyShufix($key);
+            $shortOption .= $this->getShortOptionKey($key).$shufix;
+            $longOptions[] = $key.$shufix;
         }
-
-        return $result;
-    }
-
-    /**
-     * Get long options.
-     *
-     * @return array Long option values
-     */
-    private function getLongOptions() : array
-    {
-        $result = [];
-        foreach ($this->getOptionKeys() as $key) {
-            $result[] = $key.$this->getOptionKeyShufix($key);
-        }
-
-        return $result;
+        $this->options = getopt($shortOption, $longOptions);
     }
 
     /**
@@ -68,8 +45,7 @@ class Options
      */
     public function isSetOptions(string $key) : bool
     {
-        return array_key_exists($key, $this->options)
-           || array_key_exists($this->getShortOptionKey($key), $this->options);
+        return array_key_exists($key, $this->options) || array_key_exists($this->getShortOptionKey($key), $this->options);
     }
 
     /**

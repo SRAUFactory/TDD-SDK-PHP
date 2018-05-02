@@ -45,7 +45,8 @@ class Options
      */
     public function isSetOptions(string $key) : bool
     {
-        return array_key_exists($key, $this->options) || array_key_exists($this->getShortOptionKey($key), $this->options);
+        return array_key_exists($key, $this->options)
+            || array_key_exists($this->getShortOptionKey($key), $this->options);
     }
 
     /**

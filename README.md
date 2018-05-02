@@ -21,5 +21,5 @@ $ php composer.phar install
 ### Execution with CLI (Command Line Interface)
 
 ```
-$ php tdd create test --classname=Tdd/Command/TestCode --output=./tests/Command
+$ php tdd --generate test --input Tdd/Command/TestCode --output './tests/Command'
 ```

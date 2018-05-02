@@ -9,11 +9,11 @@ use Tdd\Command\Options;
  */
 class OptionsMock extends Options
 {
-   /**
-    * Constructor.
-    */
-   public function __construct(array $mockParams)
-   {
-       $this->options = $mockParams;
-   }
+    /**
+     * Constructor.
+     */
+    public function __construct(array $mockParams)
+    {
+        $this->options = $mockParams;
+    }
 }

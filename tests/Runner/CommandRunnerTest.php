@@ -3,7 +3,6 @@
 namespace TddTest\Runner;
 
 use Tdd\Runner\CommandRunner;
-use TddTest\Runner\OptionsMock;
 use TddTest\TddTestBase;
 
 /**

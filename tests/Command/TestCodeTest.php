@@ -11,28 +11,28 @@ use TddTest\TddTestBase;
 class TestCodeTest extends TddTestBase
 {
     /**
-     * Test for create.
+     * Test for generate.
      *
-     * @dataProvider getProvidorCreate
+     * @dataProvider getProvidorGenerate
      *
      * @param string $className Target Class Name
      */
-    public function testCreate(string $className)
+    public function testGenerate(string $className)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
         $this->target = new TestCode($className, $dir);
-        $actual = $this->target->create();
+        $actual = $this->target->generate();
         $this->assertTrue($actual);
         $expected = explode('/', $className);
         $this->assertFileExists($dir.'/'.$expected[2].'Test.php');
     }
 
     /**
-     * Test Providor for create.
+     * Test Providor for generate.
      *
      * @return array The list of Test Parameters
      */
-    public function getProvidorCreate()
+    public function getProvidorGenerate()
     {
         return [
             ['Tdd/Command/TestCode'],

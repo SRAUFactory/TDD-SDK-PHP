@@ -12,5 +12,8 @@
             "Tdd\\" : "src/",
             "TddTest\\" : "tests/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
     }
 }

@@ -31,7 +31,8 @@ class CommandRunnerTest extends TddTestBase
      */
     public function testRun(Options $options)
     {
-        $this->assertTrue(CommandRunner::run($options));
+        $this->target = new CommandRunner();
+        $this->assertTrue($this->target->run($options));
     }
 
     /**
@@ -41,16 +42,24 @@ class CommandRunnerTest extends TddTestBase
      */
     public function getProvidorRun() : array
     {
-        $testPattern = [];
-        foreach (CommandRunner::SUPPORTED_CLASSES as $generateKey => $class) {
-            $testPattern[] = [new OptionsMock([
-                OptionsMock::KEY_GENERATE => $generateKey,
-                OptionsMock::KEY_INPUT    => $class,
-                OptionsMock::KEY_OUTPUT   => getenv(TEST_OUTPUT_DIR), 
-            ])];
-        }
+        $output = getenv(TEST_OUTPUT_DIR);
 
-        return $testPattern;
+        return [
+            [  
+                new OptionsMock([
+                    OptionsMock::KEY_GENERATE => 'test',
+                    OptionsMock::KEY_INPUT    => 'Tdd/Command/TestCode',
+                    OptionsMock::KEY_OUTPUT   => $output,
+                ]),
+            ],
+            [
+                new OptionsMock([
+                    OptionsMock::KEY_GENERATE => 'source',
+                    OptionsMock::KEY_INPUT    => 'TddTest/Runner/CommandRunnerTest',
+                    OptionsMock::KEY_OUTPUT   => $output,
+                ]),
+            ],
+        ];
     }
 
     /**
@@ -64,7 +73,8 @@ class CommandRunnerTest extends TddTestBase
     public function testRunForThrowException(Options $options, Exception $expected)
     {
         $this->setExpectException($expected);
-        CommandRunner::run($options);
+        $this->target = new CommandRunner();
+        $this->target->run($options);
     }
 
     /** 

@@ -13,28 +13,28 @@ use TddTest\TddTestBase;
 class SourceCodeTest extends TddTestBase
 {
     /**
-     * Test for create.
+     * Test for generate.
      *
-     * @dataProvider getProvidorCreate
+     * @dataProvider getProvidorGenerate
      *
      * @param string $className Target Class Name
      * @param string $expected  Expected class name
      */
-    public function testCreate(string $className, string $expected)
+    public function testGenerate(string $className, string $expected)
     {
         $dir = getenv(TEST_OUTPUT_DIR);
         $this->target = new SourceCode($className, $dir);
-        $actual = $this->target->create();
+        $actual = $this->target->generate();
         $this->assertTrue($actual);
         $this->assertFileExists($dir.'/'.$expected.'.php');
     }
 
     /**
-     * Test Providor for create.
+     * Test Providor for generate.
      *
      * @return array The list of Test Parameters
      */
-    public function getProvidorCreate() : array
+    public function getProvidorGenerate() : array
     {
         return [
             ['TddTest/Command/TestCodeTest',     'TestCode'],
@@ -43,27 +43,27 @@ class SourceCodeTest extends TddTestBase
     }
 
     /**
-     * Test case of error for create.
+     * Test case of error for generate.
      *
-     * @dataProvider getProvidorCreateError
+     * @dataProvider getProvidorGenerateError
      *
      * @param string    $className Target Class Name
      * @param Exception $expected  Expected Value
      */
-    public function testCreateError(string $className, Exception $expected)
+    public function testGenerateError(string $className, Exception $expected)
     {
         $this->expectException(get_class($expected));
         $this->expectExceptionMessage($expected->getMessage());
         $this->target = new SourceCode($className);
-        $this->target->create();
+        $this->target->generate();
     }
 
     /**
-     * Test Providor of the case of error for create.
+     * Test Providor of the case of error for generate.
      *
      * @return array The list of Test Parameters
      */
-    public function getProvidorCreateError()
+    public function getProvidorGenerateError()
     {
         return [
             ['Tdd/Command/TestCode', new InvalidArgumentException('Target class not test class!!')],

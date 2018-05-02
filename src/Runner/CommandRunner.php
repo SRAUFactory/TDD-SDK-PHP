@@ -3,6 +3,7 @@
 namespace Tdd\Runner;
 
 use InvalidArgumentException;
+use Tdd\Command\Options;
 use Tdd\Traits\LogTrait;
 
 /**
@@ -35,58 +36,35 @@ class CommandRunner
     {
         $runner = new static();
 
-        return $runner->run($_SERVER['argv']);
+        return $runner->run(new Options());
     }
 
     /**
      * Run command.
      *
-     * @param array $args Arguments for execute
+     * @param Options $options Arguments for execute
      *
      * @return bool The result to run command
      */
-    public function run(array $args) : bool
+    public function run(Options $options) : bool
     {
-        if (count($args) <= 3) {
+        if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) {
             throw new InvalidArgumentException('Argument is missing.');
         }
-        $command = self::SUPPORTED_CLASSES[$args[2]];
+
+        $command = self::SUPPORTED_CLASSES[$options->get(Options::KEY_GENERATE)];
         if (empty($command)) {
             throw new InvalidArgumentException('No such command!!');
         }
 
-        $options = $this->getOptions($args);
-        $commandClass = new $command($options['classname'], $options['output']);
-        $logPrefix = get_class($commandClass).'::'.$args[1];
-        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options));
+        $method = $options->isSetOptions(Options::KEY_HELP) ? Options::KEY_HELP : Options::KEY_GENERATE;
+        $commandClass = new $command($options->get(Options::KEY_INPUT), $options->get(Options::KEY_OUTPUT));
+        $logPrefix = get_class($commandClass).'::'.$method;
+        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options->getValues()));
 
-        $result = $commandClass->{$args[1]}();
+        $result = $commandClass->{$method}();
         $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 
         return $result;
-    }
-
-    /**
-     * Get options.
-     *
-     * @param array $args Arguments for execute
-     *
-     * @return array Optional Values
-     */
-    private function getOptions(array $args) : array
-    {
-        unset($args[0], $args[1], $args[2]);
-        $options = [];
-        foreach ($args as $index => $arg) {
-            if (strlen($arg) <= 2 || substr($arg, 0, 2) !== '--') {
-                continue;
-            }
-            $argv = explode('=', substr($arg, 2));
-            if (count($argv) === 2) {
-                $options[$argv[0]] = $argv[1];
-            }
-        }
-
-        return $options;
     }
 }

@@ -4,6 +4,7 @@ namespace TddTest\Runner;
 
 use Exception;
 use InvalidArgumentException;
+use Tdd\Command\Options;
 use Tdd\Runner\CommandRunner;
 use TddTest\TddTestBase;
 
@@ -14,21 +15,11 @@ class CommandRunnerTest extends TddTestBase
 {
     /**
      * Test for main.
-     *
-     * @dataProvider getProvidorRun
-     *
-     * @param array $argv     Argument values
-     * @param mixed $expected
      */
-    public function testMain(array $argv, $expected)
+    public function testMain()
     {
-        try {
-            $_SERVER['argv'] = $argv;
-            $actual = CommandRunner::main();
-            $this->assertSame($expected, $actual);
-        } catch (InvalidArgumentException $e) {
-            $this->assertException($expected, $e);
-        }
+        $this->setExpectException(new InvalidArgumentException('Argument is missing.'));
+        CommandRunner::main();
     }
 
     /**
@@ -36,17 +27,12 @@ class CommandRunnerTest extends TddTestBase
      *
      * @dataProvider getProvidorRun
      *
-     * @param array $argv Argument values
+     * @param Options $options Arguments for execute
      */
-    public function testRun(array $argv, $expected)
+    public function testRun(Options $options)
     {
-        try {
-            $this->target = new CommandRunner();
-            $actual = $this->target->run($argv);
-            $this->assertSame($expected, $actual);
-        } catch (InvalidArgumentException $e) {
-            $this->assertException($expected, $e);
-        }
+        $this->target = new CommandRunner();
+        $this->assertTrue($this->target->run($options));
     }
 
     /**
@@ -54,40 +40,64 @@ class CommandRunnerTest extends TddTestBase
      *
      * @return array The list of Test Parameters
      */
-    public function getProvidorRun()
+    public function getProvidorRun() : array
     {
-        $className = 'Tdd/Command/TestCode';
-        $testName = 'TddTest/Runner/CommandRunnerTest';
         $output = getenv(TEST_OUTPUT_DIR);
-        $ArgumentException = new InvalidArgumentException('Argument is missing.');
 
         return [
             [
-                ['tdd', 'create', 'test',  '--classname='.$className, '--output='.$output, 'test=test'],
-                true,
+                new OptionsMock([
+                    OptionsMock::KEY_GENERATE => 'test',
+                    OptionsMock::KEY_INPUT    => 'Tdd/Command/TestCode',
+                    OptionsMock::KEY_OUTPUT   => $output,
+                ]),
             ],
             [
-                ['tdd', 'create', 'source', '--classname='.$testName, '--output='.$output],
-                true,
+                new OptionsMock([
+                    OptionsMock::KEY_GENERATE => 'source',
+                    OptionsMock::KEY_INPUT    => 'TddTest/Runner/CommandRunnerTest',
+                    OptionsMock::KEY_OUTPUT   => $output,
+                ]),
             ],
-            [
-                ['tdd', 'create', 'help', '--classname='.$className, '--output='.$output],
-                new InvalidArgumentException('No such command!!'),
-            ],
-            [[], $ArgumentException],
-            [['tdd', 'create'], $ArgumentException],
         ];
     }
 
     /**
-     * Assert Exception.
+     * Test case of throw exception for run.
      *
-     * @param Exception                $expected
-     * @param InvalidArgumentException $actual
+     * @dataProvider getProvidorRunForThrowException
+     *
+     * @param Options   $options  Arguments for execute
+     * @param Exception $expected Expected exception
      */
-    private function assertException(Exception $expected, InvalidArgumentException $actual)
+    public function testRunForThrowException(Options $options, Exception $expected)
     {
-        $this->assertSame(get_class($expected), get_class($actual));
-        $this->assertSame($expected->getMessage(), $actual->getMessage());
+        $this->setExpectException($expected);
+        $this->target = new CommandRunner();
+        $this->target->run($options);
+    }
+
+    /**
+     * Test Providor for run.
+     *
+     * @return array The list of Test Parameters
+     */
+    public function getProvidorRunForThrowException() : array
+    {
+        return [
+            [new Options(), new InvalidArgumentException('Argument is missing.')],
+            [new OptionsMock([OptionsMock::KEY_HELP => false]), new InvalidArgumentException('No such command!!')],
+        ];
+    }
+
+    /**
+     * Set expect exception.
+     *
+     * @param Exception $expected Expected exception
+     */
+    private function setExpectException(Exception $expected)
+    {
+        $this->expectException(get_class($expected));
+        $this->expectExceptionMessage($expected->getMessage());
     }
 }

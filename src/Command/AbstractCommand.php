@@ -63,11 +63,11 @@ abstract class AbstractCommand
     }
 
     /**
-     * Create command.
+     * Generate command.
      *
-     * @return bool true is success to create.
+     * @return bool true is success to generate.
      */
-    public function create() : bool
+    public function generate() : bool
     {
         $fileName = $this->getOutputFileName($this->target, $this->output);
         $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $this->getOutputValues()));

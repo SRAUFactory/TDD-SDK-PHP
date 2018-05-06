@@ -99,7 +99,7 @@ abstract class AbstractCommand
         }
 
         $fileName = $this->getOutputFileName($this->target, $this->output);
-        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, ((array)$this) + compact('functions')));
+        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, ((array) $this) + compact('functions')));
 
         return true;
     }

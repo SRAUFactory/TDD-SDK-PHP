@@ -85,7 +85,7 @@ class TestCode extends AbstractCommand
      *
      * @return string PHPDocs after setting
      */
-    private function setDataProvider2PhpDocs(string $docs, $dataProvider) : string
+    private function setDataProvider2PhpDocs(string $docs, string $dataProvider) : string
     {
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {

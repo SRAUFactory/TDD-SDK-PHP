@@ -3,6 +3,8 @@
 namespace Tdd\Command;
 
 use InvalidArgumentException;
+use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  *  The class to generate Source Code.
@@ -23,43 +25,65 @@ class SourceCode extends AbstractCommand
     /**
      * @override
      *
-     * @see Tdd\Command\AbstractCommand::getOutputValues
+     * @see Tdd\Command\AbstractCommand::setClassName
      */
-    protected function getOutputValues() : array
+    protected function setClassName()
     {
         $namespaces = preg_replace('/Test$/', '', explode('\\', $this->target->getName()));
-        $className = implode('\\', $namespaces);
-        $shortName = array_pop($namespaces);
+        $this->className = implode('\\', $namespaces);
+        $this->shortName = array_pop($namespaces);
         $namespace = implode('\\', $namespaces);
-        $namespace = empty($namespace) ? '' : $this->bind('Namespace', compact('namespace'));
-        $functions = '';
+        $this->namespace = empty($namespace) ? '' : $this->bind('Namespace', compact('namespace'));
 
-        if ($this->isNotTestClass($className)) {
+        if ($this->isNotTestClass($this->className)) {
             throw new InvalidArgumentException('Target class not test class!!');
         }
+    }
 
-        /* @var ReflectionMethod $method */
-        foreach ($this->target->getMethods() as $method) {
-            $methodName = preg_replace('/^test/', '', $method->name);
-            if ($this->isCurrentPublicMethod($method) && $methodName !== $method->name) {
-                $args = ['docs' => '', 'name' => lcfirst($methodName), 'title' => $methodName];
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::getFunctions
+     */
+    protected function getFunctions(ReflectionMethod $method) : string
+    {
+        $methodName = $this->getMethodName($method);
+        $args = ['docs' => '', 'name' => lcfirst($methodName), 'title' => $methodName];
+        $args += $this->getArgsAndDocs2Functions($method->getParameters());
 
-                $params = [];
-                foreach ($method->getParameters() as $parameter) {
-                    if (preg_match('/^expected/', $parameter->name)) {
-                        continue;
-                    }
-                    $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
-                    $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
-                    $type = ($type !== self::TYPE_UNKNOWN) ? $type.' ' : '';
-                    $params[] = $type.'$'.$parameter->name;
-                }
-                $args['params'] = implode(', ', $params);
-                $functions .= $this->bind('Function', $args);
-            }
-        }
+        return $this->bind('Function', $args);
+    }
 
-        return compact('className', 'shortName', 'namespace', 'functions');
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::isIgnoreParameter2Functions
+     */
+    protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool
+    {
+        return preg_match('/^expected/', $parameter->name);
+    }
+
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::isCurrentPublicMethod
+     */
+    protected function isCurrentPublicMethod(ReflectionMethod $method) : bool
+    {
+        return parent::isCurrentPublicMethod($method) && $this->getMethodName($method) !== $method->name;
+    }
+
+    /**
+     * Get method name.
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return string method name
+     */
+    private function getMethodName(ReflectionMethod $method) : string
+    {
+        return preg_replace('/^test/', '', $method->name);
     }
 
     /**

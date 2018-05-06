@@ -3,6 +3,7 @@
 namespace Tdd\Command;
 
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  * The class to generate Test Code.
@@ -36,56 +37,47 @@ class TestCode extends AbstractCommand
     /**
      * @override
      *
-     * @see Tdd\Command\AbstractCommand::getOutputValues
+     * @see Tdd\Command\AbstractCommand::setClassName
      */
-    protected function getOutputValues() : array
+    protected function setClassName()
     {
-        $className = $this->target->getName();
-        $shortName = $this->target->getShortName();
-        $namespace = str_replace('\\'.$shortName, '', $className);
-        $namespace = empty($namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
-
-        $testFunctions = '';
-        foreach ($this->target->getMethods() as $method) {
-            if ($this->isCurrentPublicMethod($method)) {
-                $testFunctions .= $this->getFunctions($method);
-            }
-        }
-
-        return compact('className', 'namespace', 'shortName', 'testFunctions');
+        $this->className = $this->target->getName();
+        $this->shortName = $this->target->getShortName();
+        $this->namespace = str_replace('\\'.$this->shortName, '', $this->className);
+        $this->namespace = empty($this->namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $this->namespace);
     }
 
     /**
-     * Get test functions.
+     * @override
      *
-     * @param ReflectionMethod $method Target Method
-     *
-     * @return string Test Function Values
+     * @see Tdd\Command\AbstractCommand::getFunctions
      */
-    private function getFunctions(ReflectionMethod $method) : string
+    protected function getFunctions(ReflectionMethod $method) : string
     {
         $args = [
             'name'       => $method->name,
             'largeName'  => ucfirst($method->name),
             'callMethod' => self::FORMAT_CALL_METHOD.$method->name,
-            'docs'       => '',
         ];
         if ($method->isStatic()) {
             $args['callMethod'] = $this->target->getShortName().'::'.$method->name;
         }
 
-        $params = [];
-        foreach ($method->getParameters() as $parameter) {
-            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
-            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
-            $params[] = '$'.$parameter->name;
-        }
-        $args['params'] = implode(', ', $params);
-
-        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $args += $this->getArgsAndDocs2Functions($method->getParameters());
+        $dataProvider = !empty($args['params']) ? $this->bind('TestProvider', $args) : '';
         $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::isIgnoreParameter2Functions
+     */
+    protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool
+    {
+        return false;
     }
 
     /**
@@ -96,7 +88,7 @@ class TestCode extends AbstractCommand
      *
      * @return string PHPDocs after setting
      */
-    private function setDataProvider2PhpDocs(string $docs, $dataProvider) : string
+    private function setDataProvider2PhpDocs(string $docs, string $dataProvider) : string
     {
         preg_match('/(function )[a-zA-z0-9:punct:]*/', $dataProvider, $matches);
         if (count($matches) >= 2) {

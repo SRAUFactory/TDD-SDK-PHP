@@ -36,4 +36,4 @@ class ###shortName###Test extends TestCase
         unset($this->target);
         parent::tearDown();
     }
-###testFunctions###}
+###functions###}

@@ -4,6 +4,7 @@ namespace Tdd\Command;
 
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 use Tdd\Command\Traits\TemplateTrait;
 use Tdd\Traits\LogTrait;
 
@@ -49,6 +50,27 @@ abstract class AbstractCommand
      */
     protected $output;
 
+    /*+
+     * Output for full class name.
+     *
+     * @var string
+     */
+    public $className;
+
+    /**
+     * Output for short class name.
+     *
+     * @var string
+     */
+    public $shortName;
+
+    /**
+     * Output for namespace.
+     *
+     * @var string
+     */
+    public $namespace;
+
     /**
      * Constructor.
      *
@@ -69,18 +91,69 @@ abstract class AbstractCommand
      */
     public function generate() : bool
     {
+        $this->setClassName();
+        $functions = '';
+        foreach ($this->target->getMethods() as $method) {
+            if ($this->isCurrentPublicMethod($method)) {
+                $functions .= $this->getFunctions($method);
+            }
+        }
+
         $fileName = $this->getOutputFileName($this->target, $this->output);
-        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
+        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, ((array) $this) + compact('functions')));
 
         return true;
     }
 
     /**
-     * Get output values.
+     * Set class name and namespace name.
      *
-     * @return array Output Values
+     * @return void
      */
-    abstract protected function getOutputValues() : array;
+    abstract protected function setClassName();
+
+    /**
+     * Get functions.
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return string Test Function Value
+     */
+    abstract protected function getFunctions(ReflectionMethod $method) : string;
+
+    /**
+     * Check ignore parameter to functions.
+     *
+     * @param ReflectionParameter $parameter Parameter
+     *
+     * @return bool true is ignore to set parameter to functions
+     */
+    abstract protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool;
+
+    /**
+     * Get function arguments and PHPDoc.
+     *
+     * @param array $parameters array of ReflectionParameter
+     *
+     * @return array('params' => (string)arguments, 'docs' => (string)PHPDoc)
+     */
+    protected function getArgsAndDocs2Functions(array $parameters) : array
+    {
+        $docs = '';
+        $params = [];
+
+        foreach ($parameters as $parameter) {
+            if ($this->isIgnoreParameter2Functions($parameter)) {
+                continue;
+            }
+            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
+            $docs .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
+            $type = ($type !== self::TYPE_UNKNOWN) ? $type.' ' : '';
+            $params[] = $type.'$'.$parameter->name;
+        }
+
+        return compact('docs') + ['params' => implode(', ', $params)];
+    }
 
     /**
      * Check public method in current target class.

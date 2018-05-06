@@ -3,6 +3,7 @@
 namespace Tdd\Command;
 
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  * The class to generate Test Code.
@@ -63,18 +64,21 @@ class TestCode extends AbstractCommand
             $args['callMethod'] = $this->target->getShortName().'::'.$method->name;
         }
 
-        $params = [];
-        foreach ($method->getParameters() as $parameter) {
-            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
-            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
-            $params[] = '$'.$parameter->name;
-        }
-        $args['params'] = implode(', ', $params);
-
+        $args += $this->getArgsAndDocs2Functions($method->getParameters());
         $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
         $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;
+    }
+
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::isIgnoreParameter2Functions
+     */
+    protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool
+    {
+        return false;
     }
 
     /**

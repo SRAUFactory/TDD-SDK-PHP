@@ -4,6 +4,7 @@ namespace Tdd\Command;
 
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 use Tdd\Command\Traits\TemplateTrait;
 use Tdd\Traits\LogTrait;
 
@@ -119,6 +120,42 @@ abstract class AbstractCommand
      * @return string Test Function Value
      */
     abstract protected function getFunctions(ReflectionMethod $method) : string;
+
+    /**
+     * Check ignore parameter to functions.
+     *
+     * @param ReflectionParameter $parameter Parameter
+     *
+     * @return bool true is ignore to set parameter to functions
+     */
+    abstract protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool;
+
+    /**
+     * Get function arguments and PHPDoc.
+     *
+     * @param array $parameters array of ReflectionParameter
+     *
+     * @return array('params' => (string)arguments, 'docs' => (string)PHPDoc)
+     */
+    protected function getArgsAndDocs2Functions(array $parameters) : array
+    {
+        $docs = '';
+        $params = [];
+
+        foreach ($parameters as $parameter) {
+            if ($this->isIgnoreParameter2Functions($parameter)) {
+                continue;
+            }
+            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
+            $docs .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
+            $type = ($type !== self::TYPE_UNKNOWN) ? $type.' ' : '';
+            $params[] = $type.'$'.$parameter->name;
+        }
+
+
+        return compact('docs') + ['params' => implode(', ', $params)];
+    }
+
 
     /**
      * Check public method in current target class.

@@ -4,6 +4,7 @@ namespace Tdd\Command;
 
 use InvalidArgumentException;
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  *  The class to generate Source Code.
@@ -48,20 +49,19 @@ class SourceCode extends AbstractCommand
     {
         $methodName = $this->getMethodName($method);
         $args = ['docs' => '', 'name' => lcfirst($methodName), 'title' => $methodName];
-
-        $params = [];
-        foreach ($method->getParameters() as $parameter) {
-            if (preg_match('/^expected/', $parameter->name)) {
-                continue;
-            }
-            $type = $parameter->getType() ?? self::TYPE_UNKNOWN;
-            $args['docs'] .= sprintf(self::DOCS_ARGUMENT_FORMAT, $type, $parameter->name);
-            $type = ($type !== self::TYPE_UNKNOWN) ? $type.' ' : '';
-            $params[] = $type.'$'.$parameter->name;
-        }
-        $args['params'] = implode(', ', $params);
+        $args += $this->getArgsAndDocs2Functions($method->getParameters());
 
         return $this->bind('Function', $args);
+    }
+
+    /**
+     * @override
+     *
+     * @see Tdd\Command\AbstractCommand::isIgnoreParameter2Functions
+     */
+    protected function isIgnoreParameter2Functions(ReflectionParameter $parameter) : bool
+    {
+        return preg_match('/^expected/', $parameter->name);
     }
 
     /**

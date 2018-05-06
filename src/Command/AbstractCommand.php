@@ -152,10 +152,8 @@ abstract class AbstractCommand
             $params[] = $type.'$'.$parameter->name;
         }
 
-
         return compact('docs') + ['params' => implode(', ', $params)];
     }
-
 
     /**
      * Check public method in current target class.

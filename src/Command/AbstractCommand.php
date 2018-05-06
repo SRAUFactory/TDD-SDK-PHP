@@ -49,6 +49,27 @@ abstract class AbstractCommand
      */
     protected $output;
 
+    /*+
+     * Output for full class name.
+     *
+     * @var string
+     */
+    protected $className;
+
+    /**
+     * Output for short class name.
+     *
+     * @var string
+     */
+    protected $shortName;
+
+    /**
+     * Output for namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
     /**
      * Constructor.
      *
@@ -69,18 +90,41 @@ abstract class AbstractCommand
      */
     public function generate() : bool
     {
+        $this->setClassName();
+        $values = [
+            'className' => $this->className,
+            'shortName' => $this->shortName,
+            'namespace' => $this->namespace,
+            'functions' => '',
+        ];
+
+        foreach ($this->target->getMethods() as $method) {
+            if ($this->isCurrentPublicMethod($method)) {
+                $values['functions'] .= $this->getFunctions($method);
+            }
+        }
+
         $fileName = $this->getOutputFileName($this->target, $this->output);
-        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $this->getOutputValues()));
+        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $values));
 
         return true;
     }
 
     /**
-     * Get output values.
+     * Set class name and namespace name.
      *
-     * @return array Output Values
+     * @return void
+     */ 
+    abstract protected function setClassName();
+
+    /**
+     * Get functions.
+     *
+     * @param ReflectionMethod $method Target Method
+     *
+     * @return string Test Function Value
      */
-    abstract protected function getOutputValues() : array;
+    abstract protected function getFunctions(ReflectionMethod $method) : string;
 
     /**
      * Check public method in current target class.

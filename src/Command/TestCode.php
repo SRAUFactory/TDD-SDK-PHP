@@ -36,33 +36,22 @@ class TestCode extends AbstractCommand
     /**
      * @override
      *
-     * @see Tdd\Command\AbstractCommand::getOutputValues
+     * @see Tdd\Command\AbstractCommand::setClassName
      */
-    protected function getOutputValues() : array
+    protected function setClassName()
     {
-        $className = $this->target->getName();
-        $shortName = $this->target->getShortName();
-        $namespace = str_replace('\\'.$shortName, '', $className);
-        $namespace = empty($namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
-
-        $functions = '';
-        foreach ($this->target->getMethods() as $method) {
-            if ($this->isCurrentPublicMethod($method)) {
-                $functions .= $this->getFunctions($method);
-            }
-        }
-
-        return compact('className', 'namespace', 'shortName', 'functions');
+        $this->className = $this->target->getName();
+        $this->shortName = $this->target->getShortName();
+        $this->namespace = str_replace('\\'.$this->shortName, '', $this->className);
+        $this->namespace = empty($this->namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $this->namespace);
     }
 
     /**
-     * Get test functions.
+     * @override 
      *
-     * @param ReflectionMethod $method Target Method
-     *
-     * @return string Test Function Values
+     * @see Tdd\Command\AbstractCommand::getFunctions
      */
-    private function getFunctions(ReflectionMethod $method) : string
+    protected function getFunctions(ReflectionMethod $method) : string
     {
         $args = [
             'name'       => $method->name,

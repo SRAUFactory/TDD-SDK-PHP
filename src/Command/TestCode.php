@@ -45,14 +45,14 @@ class TestCode extends AbstractCommand
         $namespace = str_replace('\\'.$shortName, '', $className);
         $namespace = empty($namespace) ? '' : sprintf(self::FORMAT_NAMESPACE, $namespace);
 
-        $testFunctions = '';
+        $functions = '';
         foreach ($this->target->getMethods() as $method) {
             if ($this->isCurrentPublicMethod($method)) {
-                $testFunctions .= $this->getFunctions($method);
+                $functions .= $this->getFunctions($method);
             }
         }
 
-        return compact('className', 'namespace', 'shortName', 'testFunctions');
+        return compact('className', 'namespace', 'shortName', 'functions');
     }
 
     /**

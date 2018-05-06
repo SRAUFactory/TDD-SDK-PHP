@@ -58,7 +58,6 @@ class TestCode extends AbstractCommand
             'name'       => $method->name,
             'largeName'  => ucfirst($method->name),
             'callMethod' => self::FORMAT_CALL_METHOD.$method->name,
-            'docs'       => '',
         ];
         if ($method->isStatic()) {
             $args['callMethod'] = $this->target->getShortName().'::'.$method->name;

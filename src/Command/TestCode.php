@@ -47,7 +47,7 @@ class TestCode extends AbstractCommand
     }
 
     /**
-     * @override 
+     * @override
      *
      * @see Tdd\Command\AbstractCommand::getFunctions
      */

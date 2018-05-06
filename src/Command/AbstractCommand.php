@@ -114,7 +114,7 @@ abstract class AbstractCommand
      * Set class name and namespace name.
      *
      * @return void
-     */ 
+     */
     abstract protected function setClassName();
 
     /**

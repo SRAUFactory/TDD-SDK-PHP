@@ -39,12 +39,11 @@ class SourceCode extends AbstractCommand
         }
     }
 
-
     /**
      * @override
      *
      * @see Tdd\Command\AbstractCommand::getFunctions
-     */ 
+     */
     protected function getFunctions(ReflectionMethod $method) : string
     {
         $methodName = $this->getMethodName($method);
@@ -63,21 +62,20 @@ class SourceCode extends AbstractCommand
         $args['params'] = implode(', ', $params);
 
         return $this->bind('Function', $args);
-    } 
-
+    }
 
     /**
      * @override
      *
      * @see Tdd\Command\AbstractCommand::isCurrentPublicMethod
-     */ 
+     */
     protected function isCurrentPublicMethod(ReflectionMethod $method) : bool
     {
         return parent::isCurrentPublicMethod($method) && $this->getMethodName($method) !== $method->name;
     }
 
     /**
-     * Get method name
+     * Get method name.
      *
      * @param ReflectionMethod $method Target Method
      *

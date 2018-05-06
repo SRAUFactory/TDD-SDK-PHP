@@ -65,7 +65,7 @@ class TestCode extends AbstractCommand
         }
 
         $args += $this->getArgsAndDocs2Functions($method->getParameters());
-        $dataProvider = (count($params) > 0) ? $this->bind('TestProvider', $args) : '';
+        $dataProvider = !empty($args['params']) ? $this->bind('TestProvider', $args) : '';
         $args['docs'] = $this->setDataProvider2PhpDocs($args['docs'], $dataProvider);
 
         return $this->bind('TestFunction', $args).$dataProvider;

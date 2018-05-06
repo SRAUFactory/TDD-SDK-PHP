@@ -54,21 +54,21 @@ abstract class AbstractCommand
      *
      * @var string
      */
-    protected $className;
+    public $className;
 
     /**
      * Output for short class name.
      *
      * @var string
      */
-    protected $shortName;
+    public $shortName;
 
     /**
      * Output for namespace.
      *
      * @var string
      */
-    protected $namespace;
+    public $namespace;
 
     /**
      * Constructor.
@@ -91,21 +91,15 @@ abstract class AbstractCommand
     public function generate() : bool
     {
         $this->setClassName();
-        $values = [
-            'className' => $this->className,
-            'shortName' => $this->shortName,
-            'namespace' => $this->namespace,
-            'functions' => '',
-        ];
-
+        $functions = '';
         foreach ($this->target->getMethods() as $method) {
             if ($this->isCurrentPublicMethod($method)) {
-                $values['functions'] .= $this->getFunctions($method);
+                $functions .= $this->getFunctions($method);
             }
         }
 
         $fileName = $this->getOutputFileName($this->target, $this->output);
-        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, $values));
+        $this->output($fileName, $this->bind(static::MAIN_TEMPLATE_NAME, ((array)$this) + compact('functions')));
 
         return true;
     }

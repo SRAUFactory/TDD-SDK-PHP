@@ -44,7 +44,7 @@ class Options
             $shortOptions[] = $this->getShortOptionKey($key).$shufix;
             $longOptions[] = $key.$shufix;
         }
-        $this->options = getopt(implode('', $shortOption), $longOptions);
+        $this->options = getopt(implode('', $shortOptions), $longOptions);
     }
 
     /**

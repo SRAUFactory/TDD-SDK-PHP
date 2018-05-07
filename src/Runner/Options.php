@@ -26,14 +26,13 @@ class Options
      */
     public function __construct()
     {
-        $shortOption = '';
-        $longOptions = [];
+        $shortOptions = $longOptions = [];
         foreach ($this->getOptionKeys() as $key) {
             $shufix = $this->getOptionKeyShufix($key);
-            $shortOption .= $this->getShortOptionKey($key).$shufix;
+            $shortOptions[] = $this->getShortOptionKey($key).$shufix;
             $longOptions[] = $key.$shufix;
         }
-        $this->options = getopt($shortOption, $longOptions);
+        $this->options = getopt(implode('', $shortOption), $longOptions);
     }
 
     /**

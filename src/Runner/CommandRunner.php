@@ -40,7 +40,7 @@ class CommandRunner
 
         try {
             $result = $runner->run($options);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $runner->displayHelp($options);
         }
 
@@ -72,7 +72,7 @@ class CommandRunner
      * @param Options $options Arguments for execute
      *
      * @return bool The result to run command
-     */ 
+     */
     private function runCommand(Options $options) : bool
     {
         $command = self::SUPPORTED_CLASSES[$options->get(Options::KEY_GENERATE)];
@@ -90,12 +90,12 @@ class CommandRunner
     }
 
     /**
-     * Display help
+     * Display help.
      *
      * @param Options $options Arguments for execute
      *
      * @return bool The result to display help
-     */ 
+     */
     private function displayHelp(Options $options) : bool
     {
         // @ToDo Display options's help message

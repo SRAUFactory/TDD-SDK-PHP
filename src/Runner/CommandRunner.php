@@ -82,7 +82,7 @@ class CommandRunner
 
         $commandClass = new $command($options->get(Options::KEY_INPUT), $options->get(Options::KEY_OUTPUT));
         $logPrefix = get_class($commandClass).'::'.Options::KEY_GENERATE;
-        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options->getValues()));
+        $this->outputLog('Execute statrt '.$logPrefix.' args: '.$options);
         $result = $commandClass->{Options::KEY_GENERATE}();
         $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 

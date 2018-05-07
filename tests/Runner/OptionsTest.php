@@ -29,11 +29,11 @@ class OptionsTest extends TddTestBase
     }
 
     /**
-     * Test for getValues.
+     * Test for __toString
      */
-    public function testGetValues()
+    public function test__toString()
     {
         $this->target = new Options();
-        $this->assertSame([], $this->target->getValues());
+        $this->assertSame('[]', (string)$this->target);
     }
 }

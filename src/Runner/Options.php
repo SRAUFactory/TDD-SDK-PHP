@@ -61,13 +61,13 @@ class Options
     }
 
     /**
-     * Get all values.
+     * Convert values to string
      *
-     * @return array all values
-     */
-    public function getValues() : array
+     * @return string convertd values
+     */ 
+    public function __toString () : string
     {
-        return $this->options;
+        return json_encode($this->options);
     }
 
     /**

@@ -36,4 +36,14 @@ class OptionsTest extends TddTestBase
         $this->target = new Options();
         $this->assertSame('[]', (string)$this->target);
     }
+
+    /**
+     * Test from getHelpMessage
+     */
+    public function testGetHelpMessage()
+    {
+        $expected = file_get_contents(dirname(__FILE__).'/OptionsTest_TestGetHelpMessage_Expected.txt');
+        $this->target = new Options();
+        $this->assertSame($expected, $this->target->getHelpMessage());
+    }
 }

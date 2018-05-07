@@ -1,0 +1,4 @@
+  -g|--generate source|test	Generate source/test file.
+  -h|--help 			Prints this usage information.
+  -i|--input <path>		Import source/test class file path.
+  -o|--output <path>		Export generated file to directory.

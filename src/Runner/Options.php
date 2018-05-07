@@ -14,6 +14,18 @@ class Options
     const KEY_INPUT = 'input';
     const KEY_OUTPUT = 'output';
 
+    const HELP_MESSAGES = [
+        self::KEY_GENERATE => 'Generate source/test file.',
+        self::KEY_HELP     => 'Prints this usage information.',
+        self::KEY_INPUT    => 'Import source/test class file path.',
+        self::KEY_OUTPUT   => 'Export generated file to directory.',
+    ];
+    const HELP_VALUE_NAMES = [
+        self::KEY_GENERATE => 'source|test',
+        self::KEY_INPUT    => "<path>\t",
+        self::KEY_OUTPUT   => "<path>\t",
+    ];
+
     /**
      * Options.
      *
@@ -65,9 +77,27 @@ class Options
      *
      * @return string convertd values
      */ 
-    public function __toString () : string
+    public function __toString() : string
     {
         return json_encode($this->options);
+    }
+
+    /**
+     * Get help message
+     *
+     * @return string help message
+     */
+    public function getHelpMessage() : string
+    {
+        $helpMessages = [];
+        $format = "  -%s|--%s %s\t%s";
+        foreach ($this->getOptionKeys() as $key) {
+            $shortOption = $this->getShortOptionKey($key);
+            $optionName = self::HELP_VALUE_NAMES[$key] ?? "\t\t";
+            $helpMessages[] = sprintf($format, $shortOption, $key, $optionName, self::HELP_MESSAGES[$key]);
+        }
+
+        return implode(PHP_EOL, $helpMessages);
     }
 
     /**
@@ -101,9 +131,9 @@ class Options
      */
     protected function getOptionKeys() : array
     {
-        $reflect = new ReflectionClass($this);
-
-        return $reflect->getConstants();
+        return array_filter((new ReflectionClass($this))->getConstants(), function($key) {
+            return gettype($key) === 'string';
+        });
     }
 
     /**

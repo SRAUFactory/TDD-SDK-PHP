@@ -1,12 +1,12 @@
 <?php
 
-namespace TddTest\Command;
+namespace TddTest\Runner;
 
-use Tdd\Command\Options;
+use Tdd\Runner\Options;
 use TddTest\TddTestBase;
 
 /**
- * Test Case for Tdd\Command\Options.
+ * Test Case for Tdd\Runner\Options.
  */
 class OptionsTest extends TddTestBase
 {
@@ -29,11 +29,21 @@ class OptionsTest extends TddTestBase
     }
 
     /**
-     * Test for getValues.
+     * Test for __toString.
      */
-    public function testGetValues()
+    public function testToString()
     {
         $this->target = new Options();
-        $this->assertSame([], $this->target->getValues());
+        $this->assertSame('[]', (string) $this->target);
+    }
+
+    /**
+     * Test from getHelpMessage.
+     */
+    public function testGetHelpMessage()
+    {
+        $expected = file_get_contents(dirname(__FILE__).'/OptionsTest_TestGetHelpMessage_Expected.txt');
+        $this->target = new Options();
+        $this->assertSame($expected, $this->target->getHelpMessage());
     }
 }

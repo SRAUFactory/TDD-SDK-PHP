@@ -2,8 +2,8 @@
 
 namespace Tdd\Runner;
 
+use Exception;
 use InvalidArgumentException;
-use Tdd\Command\Options;
 use Tdd\Traits\LogTrait;
 
 /**
@@ -34,9 +34,37 @@ class CommandRunner
      */
     public static function main() : bool
     {
+        $options = new Options();
         $runner = new static();
+        $result = false;
 
-        return $runner->run(new Options());
+        try {
+            $result = $runner->run($options);
+        } catch (Exception $e) {
+            $runner->outputLog($e->getMessage().PHP_EOL);
+            $runner->displayHelp($options);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Run process.
+     *
+     * @param Options $options Arguments for execute
+     *
+     * @return bool The result to run process
+     */
+    public function run(Options $options) : bool
+    {
+        if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) {
+            throw new InvalidArgumentException('Argument is missing.');
+        }
+        if ($options->isSetOptions(Options::KEY_HELP)) {
+            return $this->displayHelp($options);
+        }
+
+        return $this->runCommand($options);
     }
 
     /**
@@ -46,25 +74,35 @@ class CommandRunner
      *
      * @return bool The result to run command
      */
-    public function run(Options $options) : bool
+    private function runCommand(Options $options) : bool
     {
-        if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) {
-            throw new InvalidArgumentException('Argument is missing.');
-        }
-
         $command = self::SUPPORTED_CLASSES[$options->get(Options::KEY_GENERATE)];
         if (empty($command)) {
             throw new InvalidArgumentException('No such command!!');
         }
 
-        $method = $options->isSetOptions(Options::KEY_HELP) ? Options::KEY_HELP : Options::KEY_GENERATE;
         $commandClass = new $command($options->get(Options::KEY_INPUT), $options->get(Options::KEY_OUTPUT));
-        $logPrefix = get_class($commandClass).'::'.$method;
-        $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options->getValues()));
-
-        $result = $commandClass->{$method}();
+        $logPrefix = get_class($commandClass).'::'.Options::KEY_GENERATE;
+        $this->outputLog('Execute statrt '.$logPrefix.' args: '.$options);
+        $result = $commandClass->{Options::KEY_GENERATE}();
         $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 
         return $result;
+    }
+
+    /**
+     * Display help.
+     *
+     * @param Options $options Arguments for execute
+     *
+     * @return bool The result to display help
+     */
+    private function displayHelp(Options $options) : bool
+    {
+        $this->outputLog('Usage: php tdd [options]'.PHP_EOL);
+        $this->outputLog('Options:'.PHP_EOL);
+        $this->outputLog($options->getHelpMessage());
+
+        return true;
     }
 }

@@ -4,8 +4,8 @@ namespace TddTest\Runner;
 
 use Exception;
 use InvalidArgumentException;
-use Tdd\Command\Options;
 use Tdd\Runner\CommandRunner;
+use Tdd\Runner\Options;
 use TddTest\TddTestBase;
 
 /**
@@ -18,8 +18,7 @@ class CommandRunnerTest extends TddTestBase
      */
     public function testMain()
     {
-        $this->setExpectException(new InvalidArgumentException('Argument is missing.'));
-        CommandRunner::main();
+        $this->assertFalse(CommandRunner::main());
     }
 
     /**
@@ -59,6 +58,9 @@ class CommandRunnerTest extends TddTestBase
                     OptionsMock::KEY_OUTPUT   => $output,
                 ]),
             ],
+            [
+                new OptionsMock([OptionsMock::KEY_HELP => false]),
+            ],
         ];
     }
 
@@ -86,7 +88,7 @@ class CommandRunnerTest extends TddTestBase
     {
         return [
             [new Options(), new InvalidArgumentException('Argument is missing.')],
-            [new OptionsMock([OptionsMock::KEY_HELP => false]), new InvalidArgumentException('No such command!!')],
+            [new OptionsMock([OptionsMock::KEY_GENERATE => 'help']), new InvalidArgumentException('No such command!!')],
         ];
     }
 

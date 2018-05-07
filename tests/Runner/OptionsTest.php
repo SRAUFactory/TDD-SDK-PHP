@@ -31,7 +31,7 @@ class OptionsTest extends TddTestBase
     /**
      * Test for __toString
      */
-    public function test__toString()
+    public function testToString()
     {
         $this->target = new Options();
         $this->assertSame('[]', (string)$this->target);

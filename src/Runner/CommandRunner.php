@@ -39,11 +39,11 @@ class CommandRunner
     }
 
     /**
-     * Run command.
+     * Run process.
      *
      * @param Options $options Arguments for execute
      *
-     * @return bool The result to run command
+     * @return bool The result to run process
      */
     public function run(Options $options) : bool
     {
@@ -51,6 +51,18 @@ class CommandRunner
             throw new InvalidArgumentException('Argument is missing.');
         }
 
+        return $this->runCommand($options);
+    }
+
+    /**
+     * Run command.
+     *
+     * @param Options $options Arguments for execute
+     *
+     * @return bool The result to run command
+     */ 
+    private function runCommand(Options $options) : bool
+    {
         $command = self::SUPPORTED_CLASSES[$options->get(Options::KEY_GENERATE)];
         if (empty($command)) {
             throw new InvalidArgumentException('No such command!!');

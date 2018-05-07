@@ -41,6 +41,7 @@ class CommandRunner
         try {
             $result = $runner->run($options);
         } catch (Exception $e) {
+            $runner->outputLog($e->getMessage().PHP_EOL);
             $runner->displayHelp($options);
         }
 

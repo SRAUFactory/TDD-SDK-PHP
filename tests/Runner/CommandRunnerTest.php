@@ -4,8 +4,8 @@ namespace TddTest\Runner;
 
 use Exception;
 use InvalidArgumentException;
-use Tdd\Command\Options;
 use Tdd\Runner\CommandRunner;
+use Tdd\Runner\Options;
 use TddTest\TddTestBase;
 
 /**

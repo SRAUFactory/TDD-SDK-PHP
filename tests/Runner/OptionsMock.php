@@ -2,7 +2,7 @@
 
 namespace TddTest\Runner;
 
-use Tdd\Command\Options;
+use Tdd\Runner\Options;
 
 /**
  * Command options mock for `TddTest\Runner\CommandRunner`.

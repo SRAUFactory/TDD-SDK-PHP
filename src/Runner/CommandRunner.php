@@ -3,7 +3,6 @@
 namespace Tdd\Runner;
 
 use InvalidArgumentException;
-use Tdd\Command\Options;
 use Tdd\Traits\LogTrait;
 
 /**

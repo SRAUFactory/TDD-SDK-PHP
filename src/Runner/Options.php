@@ -1,6 +1,6 @@
 <?php
 
-namespace Tdd\Command;
+namespace Tdd\Runner;
 
 use ReflectionClass;
 

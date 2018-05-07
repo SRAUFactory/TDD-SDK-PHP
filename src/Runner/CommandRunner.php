@@ -2,6 +2,7 @@
 
 namespace Tdd\Runner;
 
+use Exception;
 use InvalidArgumentException;
 use Tdd\Traits\LogTrait;
 
@@ -33,9 +34,17 @@ class CommandRunner
      */
     public static function main() : bool
     {
+        $options = new Options();
         $runner = new static();
+        $result = false;
 
-        return $runner->run(new Options());
+        try {
+            $result = $runner->run($options);
+        } catch(Exception $e) {
+            $runner->displayHelp($options);
+        }
+
+        return $result;
     }
 
     /**
@@ -49,6 +58,9 @@ class CommandRunner
     {
         if ($options->isSetOptions(Options::KEY_GENERATE) === $options->isSetOptions(Options::KEY_HELP)) {
             throw new InvalidArgumentException('Argument is missing.');
+        }
+        if ($options->isSetOptions(Options::KEY_HELP)) {
+            return $this->displayHelp($options);
         }
 
         return $this->runCommand($options);
@@ -77,5 +89,19 @@ class CommandRunner
         $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 
         return $result;
+    }
+
+    /**
+     * Display help
+     *
+     * @param Options $options Arguments for execute
+     *
+     * @return bool The result to display help
+     */ 
+    private function displayHelp(Options $options) : bool
+    {
+        // @ToDo Display options's help message
+
+        return true;
     }
 }

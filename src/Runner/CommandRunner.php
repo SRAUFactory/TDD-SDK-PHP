@@ -80,12 +80,10 @@ class CommandRunner
             throw new InvalidArgumentException('No such command!!');
         }
 
-        $method = $options->isSetOptions(Options::KEY_HELP) ? Options::KEY_HELP : Options::KEY_GENERATE;
         $commandClass = new $command($options->get(Options::KEY_INPUT), $options->get(Options::KEY_OUTPUT));
-        $logPrefix = get_class($commandClass).'::'.$method;
+        $logPrefix = get_class($commandClass).'::'.Options::KEY_GENERATE;
         $this->outputLog('Execute statrt '.$logPrefix.' args: '.json_encode($options->getValues()));
-
-        $result = $commandClass->{$method}();
+        $result = $commandClass->{Options::KEY_GENERATE}();
         $this->outputLog('Execute finish '.$logPrefix.' result: '.$result);
 
         return $result;

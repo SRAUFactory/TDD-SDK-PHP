@@ -73,17 +73,17 @@ class Options
     }
 
     /**
-     * Convert values to string
+     * Convert values to string.
      *
      * @return string convertd values
-     */ 
+     */
     public function __toString() : string
     {
         return json_encode($this->options);
     }
 
     /**
-     * Get help message
+     * Get help message.
      *
      * @return string help message
      */
@@ -131,7 +131,7 @@ class Options
      */
     protected function getOptionKeys() : array
     {
-        return array_filter((new ReflectionClass($this))->getConstants(), function($key) {
+        return array_filter((new ReflectionClass($this))->getConstants(), function ($key) {
             return gettype($key) === 'string';
         });
     }

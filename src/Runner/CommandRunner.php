@@ -98,7 +98,9 @@ class CommandRunner
      */
     private function displayHelp(Options $options) : bool
     {
-        // @ToDo Display options's help message
+        $this->outputLog('Usage: php tdd [options]'.PHP_EOL);
+        $this->outputLog('Options:'.PHP_EOL);
+        $this->outputLog($options->getHelpMessage());
 
         return true;
     }

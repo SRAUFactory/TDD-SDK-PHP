@@ -10,16 +10,48 @@ You can be used just by installing PHP and this library.
 ## Feature
 * Generate test code from Class-based source code
 * Generate source code from test code
-* Generate and add PHPDoc to the source code
 
 ## How to use
 ### Initialize
-```
-$ php composer.phar install
+1. Added `composer.json`
+
+To use this tool, `composer` is required.
+If `composer` is not installed, please install it.
+After `composer` is installed, add the following to `composer.json`.
+
+
+```composer.json
+    "require-dev": {
+        "SRAUFactory/TDD-SDK-PHP": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/SRAUFactory/TDD-SDK-PHP.git"
+        }
+    ]
 ```
 
-### Execution with CLI (Command Line Interface)
+
+2. Run composer install or update
 
 ```
+$ php composer.phar [install/update]
+```
+
+### Run CLI (Command Line Interface)
+
+```CLI
+Usage: php tdd [options]
+
+Options:
+
+  -g|--generate source|test  Generate source/test file.
+  -h|--help                  Prints this usage information.
+  -i|--input <path>          Import source/test `class` file path.
+  -o|--output <path>         Export generated file to directory.
+```
+
+```Example
 $ php tdd --generate test --input Tdd/Command/TestCode --output './tests/Command'
 ```

@@ -16,7 +16,7 @@ You can be used just by installing PHP and this library.
 ## How to use
 ### Initialize
 
-1. Added `composer.json`
+#### 1. Added `composer.json`
 
 To use this tool, `composer` is required.
 
@@ -38,7 +38,7 @@ After `composer` is installed, add the following to `composer.json`.
 ```
 
 
-2. Run composer install or update
+#### 2. Run composer install or update
 
 ```CLI
 $ php composer.phar [install/update]
